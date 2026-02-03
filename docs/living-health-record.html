@@ -296,17 +296,17 @@
                 <tr class="section-header"><td colspan="5">Filters</td></tr>
                 <tr>
                     <td>Engine Air Filter</td>
-                    <td>condition</td>
-                    <td class="green">clean</td>
-                    <td class="yellow">dirty</td>
-                    <td class="red">clogged</td>
+                    <td>status</td>
+                    <td class="green">OK</td>
+                    <td class="yellow">Needs Attention</td>
+                    <td class="red">Service Required</td>
                 </tr>
                 <tr>
                     <td>Cabin Air Filter</td>
-                    <td>condition</td>
-                    <td class="green">clean</td>
-                    <td class="yellow">dirty</td>
-                    <td class="red">clogged</td>
+                    <td>status</td>
+                    <td class="green">OK</td>
+                    <td class="yellow">Needs Attention</td>
+                    <td class="red">Service Required</td>
                 </tr>
 
                 <tr class="section-header"><td colspan="5">Battery</td></tr>
@@ -450,11 +450,11 @@
                     <h5>Filters</h5>
                     <div class="inspection-item">
                         <span class="label">Engine Air</span>
-                        <span class="value yellow">Dirty</span>
+                        <span class="value yellow">Needs Attention</span>
                     </div>
                     <div class="inspection-item">
                         <span class="label">Cabin Air</span>
-                        <span class="value red">Clogged</span>
+                        <span class="value red">Service Required</span>
                     </div>
                 </div>
 
@@ -583,8 +583,8 @@
   },
 
   "filters": {
-    "engineAir": { "status": "dirty" },
-    "cabinAir": { "status": "clogged" }
+    "engineAir": { "status": "needs_attention" },
+    "cabinAir": { "status": "service_required" }
   },
 
   "battery": {
