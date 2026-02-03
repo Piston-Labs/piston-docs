@@ -211,7 +211,7 @@
         <p class="subtitle">Vehicle health inspection format for Glovebox beta</p>
 
         <h2>Core Inspection Items</h2>
-        <p style="color: #94a3b8; margin-bottom: 1rem;">22 items that matter most to vehicle owners, with high shop capture rates.</p>
+        <p style="color: #94a3b8; margin-bottom: 1rem;">26 items that matter most to vehicle owners, with high shop capture rates.</p>
 
         <table class="spec-table">
             <thead>
@@ -292,6 +292,13 @@
                     <td class="yellow">Monitor</td>
                     <td class="red">Service Required</td>
                 </tr>
+                <tr>
+                    <td>Power Steering Fluid</td>
+                    <td>status</td>
+                    <td class="green">OK</td>
+                    <td class="yellow">Monitor</td>
+                    <td class="red">Service Required</td>
+                </tr>
 
                 <tr class="section-header"><td colspan="5">Filters</td></tr>
                 <tr>
@@ -361,6 +368,13 @@
                     <td class="yellow">Monitor</td>
                     <td class="red">Service Required</td>
                 </tr>
+                <tr>
+                    <td>Other (Under Hood)</td>
+                    <td>status + notes</td>
+                    <td class="green">OK</td>
+                    <td class="yellow">Monitor</td>
+                    <td class="red">Service Required</td>
+                </tr>
 
                 <tr class="section-header"><td colspan="5">Undercarriage</td></tr>
                 <tr>
@@ -387,6 +401,20 @@
                 <tr>
                     <td>Axles</td>
                     <td>status</td>
+                    <td class="green">OK</td>
+                    <td class="yellow">Monitor</td>
+                    <td class="red">Service Required</td>
+                </tr>
+                <tr>
+                    <td>Exhaust</td>
+                    <td>status</td>
+                    <td class="green">OK</td>
+                    <td class="yellow">Monitor</td>
+                    <td class="red">Service Required</td>
+                </tr>
+                <tr>
+                    <td>Other (Undercarriage)</td>
+                    <td>status + notes</td>
                     <td class="green">OK</td>
                     <td class="yellow">Monitor</td>
                     <td class="red">Service Required</td>
@@ -545,6 +573,11 @@
                         <span class="label">Leaks</span>
                         <span class="value green">OK</span>
                     </div>
+                    <div class="inspection-item">
+                        <span class="label">Other</span>
+                        <span class="value yellow">Monitor</span>
+                    </div>
+                    <p style="color: #64748b; font-size: 0.75rem; margin-top: 0.25rem;">Missing bolt on air box</p>
                 </div>
 
                 <div class="inspection-section">
@@ -564,6 +597,14 @@
                     <div class="inspection-item">
                         <span class="label">Axles</span>
                         <span class="value yellow">Monitor</span>
+                    </div>
+                    <div class="inspection-item">
+                        <span class="label">Exhaust</span>
+                        <span class="value green">OK</span>
+                    </div>
+                    <div class="inspection-item">
+                        <span class="label">Other</span>
+                        <span class="value green">OK</span>
                     </div>
                 </div>
 
@@ -668,7 +709,8 @@
     "oil": { "status": "ok" },
     "brake": { "status": "ok" },
     "coolant": { "status": "monitor" },
-    "transmission": { "status": "ok" }
+    "transmission": { "status": "ok" },
+    "powerSteering": { "status": "ok" }
   },
 
   "filters": {
@@ -686,14 +728,17 @@
     "belts": { "status": "ok" },
     "hoses": { "status": "ok" },
     "brakeHoses": { "status": "ok" },
-    "leaks": { "status": "ok" }
+    "leaks": { "status": "ok" },
+    "other": { "status": "monitor", "notes": ["missing bolt on air box"] }
   },
 
   "undercarriage": {
     "suspension": { "status": "ok" },
     "steering": { "status": "ok" },
     "driveshaft": { "status": "ok" },
-    "axles": { "status": "monitor" }
+    "axles": { "status": "monitor" },
+    "exhaust": { "status": "ok" },
+    "other": { "status": "ok", "notes": [] }
   },
 
   "visibility": {
@@ -707,7 +752,8 @@
     { "item": "Coolant", "status": "monitor" },
     { "item": "Engine Air Filter", "status": "monitor" },
     { "item": "Rear Brake Pads", "status": "monitor" },
-    { "item": "Axles", "status": "monitor" }
+    { "item": "Axles", "status": "monitor" },
+    { "item": "Under Hood Other", "status": "monitor", "notes": ["missing bolt on air box"] }
   ]
 }
         </pre>
