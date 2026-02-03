@@ -1166,8 +1166,8 @@
   },
   {
     "id": "INS-HOSE-BRAKE",
-    "category": "underHood",
-    "schemaPath": "underHood.brakeHoses.status",
+    "category": "undercarriage",
+    "schemaPath": "undercarriage.brakeHoses.status",
     "name": "Brake Hoses",
     "type": "status",
     "aliases": [

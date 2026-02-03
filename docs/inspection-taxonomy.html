@@ -99,8 +99,8 @@
   "fluids": { "oil|brake|coolant|transmission|powerSteering": { "status": string } },
   "filters": { "engineAir|cabinAir": { "status": string } },
   "battery": { "voltage": number, "ccaPercent": number, "ageMonths": number },
-  "underHood": { "belts|hoses|brakeHoses|leaks": { "status": string }, "other": { "status": string, "notes": [] } },
-  "undercarriage": { "suspension|steering|driveshaft|axles|exhaust": { "status": string }, "other": { "status": string, "notes": [] } },
+  "underHood": { "belts|hoses|leaks": { "status": string }, "other": { "status": string, "notes": [] } },
+  "undercarriage": { "suspension|steering|driveshaft|axles|exhaust|brakeHoses": { "status": string }, "other": { "status": string, "notes": [] } },
   "visibility": { "wiperBlades|lights": { "status": string } }
 }
 
@@ -1052,57 +1052,6 @@ Type: "status" | "quantitative" | "status_with_notes"
             </div>
 
             <div class="item-card status-based">
-                <h4>Brake Hoses <span class="type">STATUS</span> <span class="id">INS-HOSE-BRAKE</span></h4>
-                <div class="field">Schema: <code>underHood.brakeHoses.status</code></div>
-
-                <div class="aliases">
-                    <div class="aliases-label">Aliases</div>
-                    <div class="alias-list">
-                        <span class="alias">brake hoses</span>
-                        <span class="alias">brake lines</span>
-                        <span class="alias">flexible brake lines</span>
-                        <span class="alias">hydraulic hoses</span>
-                        <span class="alias">brake flex hose</span>
-                    </div>
-                </div>
-
-                <div class="status-mappings">
-                    <div class="status-row">
-                        <span class="status-label green">OK</span>
-                        <div class="status-phrases">
-                            <span class="phrase">good</span>
-                            <span class="phrase">ok</span>
-                            <span class="phrase">pass</span>
-                            <span class="phrase">no leaks</span>
-                            <span class="phrase">no cracks</span>
-                            <span class="phrase">firm</span>
-                        </div>
-                    </div>
-                    <div class="status-row">
-                        <span class="status-label yellow">Monitor</span>
-                        <div class="status-phrases">
-                            <span class="phrase">surface cracks</span>
-                            <span class="phrase">aging</span>
-                            <span class="phrase">fair</span>
-                            <span class="phrase">soft</span>
-                            <span class="phrase">weathered</span>
-                        </div>
-                    </div>
-                    <div class="status-row">
-                        <span class="status-label red">Service Required</span>
-                        <div class="status-phrases">
-                            <span class="phrase">leaking</span>
-                            <span class="phrase">cracked</span>
-                            <span class="phrase">swelling</span>
-                            <span class="phrase">replace</span>
-                            <span class="phrase">bulging under pressure</span>
-                            <span class="phrase">seeping</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="item-card status-based">
                 <h4>Leaks <span class="type">STATUS</span> <span class="id">INS-LEAK</span></h4>
                 <div class="field">Schema: <code>underHood.leaks.status</code></div>
 
@@ -1497,6 +1446,59 @@ Type: "status" | "quantitative" | "status_with_notes"
                             <span class="phrase">loose</span>
                             <span class="phrase">broken hanger</span>
                             <span class="phrase">exhaust smell</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item-card status-based">
+                <h4>Brake Hoses <span class="type">STATUS</span> <span class="id">INS-HOSE-BRAKE</span></h4>
+                <div class="field">Schema: <code>undercarriage.brakeHoses.status</code></div>
+
+                <div class="aliases">
+                    <div class="aliases-label">Aliases</div>
+                    <div class="alias-list">
+                        <span class="alias">brake hoses</span>
+                        <span class="alias">brake lines</span>
+                        <span class="alias">flexible brake lines</span>
+                        <span class="alias">hydraulic hoses</span>
+                        <span class="alias">brake flex hose</span>
+                        <span class="alias">brake rubber lines</span>
+                    </div>
+                </div>
+
+                <div class="status-mappings">
+                    <div class="status-row">
+                        <span class="status-label green">OK</span>
+                        <div class="status-phrases">
+                            <span class="phrase">good</span>
+                            <span class="phrase">ok</span>
+                            <span class="phrase">pass</span>
+                            <span class="phrase">no leaks</span>
+                            <span class="phrase">no cracks</span>
+                            <span class="phrase">firm</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label yellow">Monitor</span>
+                        <div class="status-phrases">
+                            <span class="phrase">surface cracks</span>
+                            <span class="phrase">aging</span>
+                            <span class="phrase">fair</span>
+                            <span class="phrase">soft</span>
+                            <span class="phrase">weathered</span>
+                            <span class="phrase">age cracks</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label red">Service Required</span>
+                        <div class="status-phrases">
+                            <span class="phrase">leaking</span>
+                            <span class="phrase">cracked</span>
+                            <span class="phrase">swelling</span>
+                            <span class="phrase">replace</span>
+                            <span class="phrase">bulging under pressure</span>
+                            <span class="phrase">seeping</span>
                         </div>
                     </div>
                 </div>

@@ -501,13 +501,6 @@
                     <td class="red">Service Required</td>
                 </tr>
                 <tr>
-                    <td>Brake Hoses</td>
-                    <td>status</td>
-                    <td class="green">OK</td>
-                    <td class="yellow">Monitor</td>
-                    <td class="red">Service Required</td>
-                </tr>
-                <tr>
                     <td>Leaks</td>
                     <td>status</td>
                     <td class="green">OK</td>
@@ -553,6 +546,13 @@
                 </tr>
                 <tr>
                     <td>Exhaust</td>
+                    <td>status</td>
+                    <td class="green">OK</td>
+                    <td class="yellow">Monitor</td>
+                    <td class="red">Service Required</td>
+                </tr>
+                <tr>
+                    <td>Brake Hoses</td>
                     <td>status</td>
                     <td class="green">OK</td>
                     <td class="yellow">Monitor</td>
@@ -866,6 +866,28 @@
                             <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
                         </div>
                     </div>
+                    <div class="item-row" onclick="toggleItem(event, 'undercarriage-steering')">
+                        <span class="item-name">Steering</span>
+                        <span class="item-value green">OK</span>
+                    </div>
+                    <div class="item-detail" id="detail-undercarriage-steering">
+                        <div class="tech-notes">
+                            <div class="tech-notes-header">Technician Notes</div>
+                            <p>Tie rod ends tight with no play. Rack boots intact. No leaks from steering rack. Steering responsive with no wandering.</p>
+                            <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
+                        </div>
+                    </div>
+                    <div class="item-row" onclick="toggleItem(event, 'undercarriage-driveshaft')">
+                        <span class="item-name">Driveshaft</span>
+                        <span class="item-value green">OK</span>
+                    </div>
+                    <div class="item-detail" id="detail-undercarriage-driveshaft">
+                        <div class="tech-notes">
+                            <div class="tech-notes-header">Technician Notes</div>
+                            <p>U-joints checked - no play or binding. Center support bearing quiet. No vibration reported by customer.</p>
+                            <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
+                        </div>
+                    </div>
                     <div class="item-row" onclick="toggleItem(event, 'undercarriage-axles')">
                         <span class="item-name">Axles</span>
                         <span class="item-value yellow">Monitor</span>
@@ -885,6 +907,28 @@
                         <div class="tech-notes">
                             <div class="tech-notes-header">Technician Notes</div>
                             <p>Exhaust system intact, all hangers secure. Surface rust on muffler but not concerning. No leaks detected.</p>
+                            <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
+                        </div>
+                    </div>
+                    <div class="item-row" onclick="toggleItem(event, 'undercarriage-brakehoses')">
+                        <span class="item-name">Brake Hoses</span>
+                        <span class="item-value green">OK</span>
+                    </div>
+                    <div class="item-detail" id="detail-undercarriage-brakehoses">
+                        <div class="tech-notes">
+                            <div class="tech-notes-header">Technician Notes</div>
+                            <p>All flexible brake lines inspected. No cracking, swelling, or leaks at wheel cylinders. Fittings secure.</p>
+                            <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
+                        </div>
+                    </div>
+                    <div class="item-row" onclick="toggleItem(event, 'undercarriage-other')">
+                        <span class="item-name">Other</span>
+                        <span class="item-value green">OK</span>
+                    </div>
+                    <div class="item-detail" id="detail-undercarriage-other">
+                        <div class="tech-notes">
+                            <div class="tech-notes-header">Technician Notes</div>
+                            <p>Undercarriage inspection complete. Splash shields intact. No impact damage or loose fasteners noted.</p>
                             <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
                         </div>
                     </div>
@@ -1026,7 +1070,6 @@
   "underHood": {
     "belts": { "status": "ok" },
     "hoses": { "status": "ok" },
-    "brakeHoses": { "status": "ok" },
     "leaks": { "status": "ok" },
     "other": { "status": "monitor", "notes": ["missing bolt on air box"] }
   },
@@ -1037,6 +1080,7 @@
     "driveshaft": { "status": "ok" },
     "axles": { "status": "monitor" },
     "exhaust": { "status": "ok" },
+    "brakeHoses": { "status": "ok" },
     "other": { "status": "ok", "notes": [] }
   },
 
