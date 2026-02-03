@@ -1,0 +1,1524 @@
+[
+  {
+    "id": "INS-BRK-PAD-F",
+    "category": "brakes",
+    "schemaPath": "brakes.frontPads",
+    "name": "Front Brake Pads",
+    "type": "quantitative",
+    "unit": "mm",
+    "aliases": [
+      "front brake pads",
+      "front pads",
+      "F brake pads",
+      "fr pads",
+      "frt pads",
+      "front disc pads",
+      "front brake pad thickness",
+      "front pad measurement",
+      "front brake pad wear",
+      "front brake linings",
+      "front friction material"
+    ],
+    "statusPhrases": {
+      "ok": [
+        "good",
+        "ok",
+        "pass",
+        "passed",
+        "green",
+        "no issues",
+        "plenty of life",
+        "like new",
+        "adequate",
+        "sufficient",
+        "within spec",
+        "meets specification",
+        "no concern",
+        "satisfactory"
+      ],
+      "monitor": [
+        "worn",
+        "getting low",
+        "fair",
+        "wearing",
+        "50% worn",
+        "half worn",
+        "will need soon",
+        "approaching minimum",
+        "watch",
+        "keep an eye on",
+        "marginal",
+        "nearing replacement",
+        "service soon"
+      ],
+      "service_required": [
+        "needs replacement",
+        "replace",
+        "worn out",
+        "at minimum",
+        "below minimum",
+        "metal to metal",
+        "metal on metal",
+        "grinding",
+        "unsafe",
+        "failed",
+        "immediate attention",
+        "requires service",
+        "condemned",
+        "dangerous"
+      ]
+    },
+    "thresholds": {
+      "ok": { "min": 5 },
+      "monitor": { "min": 3, "max": 5 },
+      "service_required": { "max": 3 }
+    },
+    "valuePatterns": [
+      "([0-9]+)\\s*mm",
+      "([0-9]+)\\s*millimeter",
+      "pad thickness[:\\s]+([0-9]+)",
+      "measured[:\\s]+([0-9]+)\\s*mm"
+    ]
+  },
+  {
+    "id": "INS-BRK-PAD-R",
+    "category": "brakes",
+    "schemaPath": "brakes.rearPads",
+    "name": "Rear Brake Pads",
+    "type": "quantitative",
+    "unit": "mm",
+    "aliases": [
+      "rear brake pads",
+      "rear pads",
+      "R brake pads",
+      "rr pads",
+      "rear disc pads",
+      "rear brake pad thickness",
+      "rear pad measurement",
+      "rear brake pad wear",
+      "rear brake linings",
+      "rear friction material",
+      "back brake pads",
+      "back pads"
+    ],
+    "statusPhrases": {
+      "ok": [
+        "good",
+        "ok",
+        "pass",
+        "passed",
+        "green",
+        "no issues",
+        "plenty of life",
+        "like new",
+        "adequate",
+        "sufficient",
+        "within spec"
+      ],
+      "monitor": [
+        "worn",
+        "getting low",
+        "fair",
+        "wearing",
+        "50% worn",
+        "half worn",
+        "will need soon",
+        "approaching minimum",
+        "watch",
+        "marginal"
+      ],
+      "service_required": [
+        "needs replacement",
+        "replace",
+        "worn out",
+        "at minimum",
+        "below minimum",
+        "metal to metal",
+        "metal on metal",
+        "grinding",
+        "unsafe",
+        "failed"
+      ]
+    },
+    "thresholds": {
+      "ok": { "min": 5 },
+      "monitor": { "min": 3, "max": 5 },
+      "service_required": { "max": 3 }
+    }
+  },
+  {
+    "id": "INS-TIRE-TREAD-LF",
+    "category": "tires",
+    "schemaPath": "tires.lf.tread32nds",
+    "name": "Left Front Tire Tread",
+    "type": "quantitative",
+    "unit": "32nds",
+    "position": "left_front",
+    "aliases": [
+      "LF tread",
+      "left front tread",
+      "driver front tire",
+      "LF tire depth",
+      "left front tire tread depth",
+      "LF tread depth",
+      "driver side front tread",
+      "D/S front tread",
+      "FL tread",
+      "front left tread"
+    ],
+    "statusPhrases": {
+      "ok": [
+        "good",
+        "ok",
+        "pass",
+        "plenty of tread",
+        "like new",
+        "adequate",
+        "sufficient",
+        "deep tread"
+      ],
+      "monitor": [
+        "half worn",
+        "50%",
+        "getting low",
+        "fair",
+        "worn",
+        "wearing",
+        "moderate wear"
+      ],
+      "service_required": [
+        "bald",
+        "needs tires",
+        "replace",
+        "worn out",
+        "at wear bars",
+        "below minimum",
+        "unsafe",
+        "no tread",
+        "smooth"
+      ]
+    },
+    "thresholds": {
+      "ok": { "min": 6 },
+      "monitor": { "min": 4, "max": 6 },
+      "service_required": { "max": 4 }
+    },
+    "valuePatterns": [
+      "([0-9]+)/32",
+      "([0-9]+)\\s*thirty-seconds",
+      "tread[:\\s]+([0-9]+)"
+    ]
+  },
+  {
+    "id": "INS-TIRE-TREAD-RF",
+    "category": "tires",
+    "schemaPath": "tires.rf.tread32nds",
+    "name": "Right Front Tire Tread",
+    "type": "quantitative",
+    "unit": "32nds",
+    "position": "right_front",
+    "aliases": [
+      "RF tread",
+      "right front tread",
+      "passenger front tire",
+      "RF tire depth",
+      "right front tire tread depth",
+      "RF tread depth",
+      "passenger side front tread",
+      "P/S front tread",
+      "FR tread",
+      "front right tread"
+    ],
+    "statusPhrases": {
+      "ok": ["good", "ok", "pass", "plenty of tread", "like new", "adequate"],
+      "monitor": ["half worn", "50%", "getting low", "fair", "worn", "wearing"],
+      "service_required": ["bald", "needs tires", "replace", "worn out", "at wear bars", "unsafe"]
+    },
+    "thresholds": {
+      "ok": { "min": 6 },
+      "monitor": { "min": 4, "max": 6 },
+      "service_required": { "max": 4 }
+    }
+  },
+  {
+    "id": "INS-TIRE-TREAD-LR",
+    "category": "tires",
+    "schemaPath": "tires.lr.tread32nds",
+    "name": "Left Rear Tire Tread",
+    "type": "quantitative",
+    "unit": "32nds",
+    "position": "left_rear",
+    "aliases": [
+      "LR tread",
+      "left rear tread",
+      "driver rear tire",
+      "LR tire depth",
+      "left rear tire tread depth",
+      "LR tread depth",
+      "driver side rear tread",
+      "D/S rear tread",
+      "RL tread",
+      "rear left tread"
+    ],
+    "statusPhrases": {
+      "ok": ["good", "ok", "pass", "plenty of tread", "like new", "adequate"],
+      "monitor": ["half worn", "50%", "getting low", "fair", "worn", "wearing"],
+      "service_required": ["bald", "needs tires", "replace", "worn out", "at wear bars", "unsafe"]
+    },
+    "thresholds": {
+      "ok": { "min": 6 },
+      "monitor": { "min": 4, "max": 6 },
+      "service_required": { "max": 4 }
+    }
+  },
+  {
+    "id": "INS-TIRE-TREAD-RR",
+    "category": "tires",
+    "schemaPath": "tires.rr.tread32nds",
+    "name": "Right Rear Tire Tread",
+    "type": "quantitative",
+    "unit": "32nds",
+    "position": "right_rear",
+    "aliases": [
+      "RR tread",
+      "right rear tread",
+      "passenger rear tire",
+      "RR tire depth",
+      "right rear tire tread depth",
+      "RR tread depth",
+      "passenger side rear tread",
+      "P/S rear tread",
+      "rear right tread"
+    ],
+    "statusPhrases": {
+      "ok": ["good", "ok", "pass", "plenty of tread", "like new", "adequate"],
+      "monitor": ["half worn", "50%", "getting low", "fair", "worn", "wearing"],
+      "service_required": ["bald", "needs tires", "replace", "worn out", "at wear bars", "unsafe"]
+    },
+    "thresholds": {
+      "ok": { "min": 6 },
+      "monitor": { "min": 4, "max": 6 },
+      "service_required": { "max": 4 }
+    }
+  },
+  {
+    "id": "INS-TIRE-PSI-LF",
+    "category": "tires",
+    "schemaPath": "tires.lf.pressurePsi",
+    "name": "Left Front Tire Pressure",
+    "type": "quantitative",
+    "unit": "psi",
+    "position": "left_front",
+    "aliases": [
+      "LF pressure",
+      "left front PSI",
+      "LF PSI",
+      "driver front pressure",
+      "left front tire pressure",
+      "FL pressure",
+      "front left PSI"
+    ],
+    "statusPhrases": {
+      "ok": ["ok", "good", "correct", "set to spec", "adjusted", "proper", "at spec"],
+      "monitor": ["slightly low", "slightly high", "adjusted", "topped off", "inflated"],
+      "service_required": ["very low", "flat", "losing air", "leak", "overinflated", "dangerously low"]
+    }
+  },
+  {
+    "id": "INS-TIRE-PSI-RF",
+    "category": "tires",
+    "schemaPath": "tires.rf.pressurePsi",
+    "name": "Right Front Tire Pressure",
+    "type": "quantitative",
+    "unit": "psi",
+    "position": "right_front",
+    "aliases": [
+      "RF pressure",
+      "right front PSI",
+      "RF PSI",
+      "passenger front pressure",
+      "right front tire pressure",
+      "FR pressure",
+      "front right PSI"
+    ],
+    "statusPhrases": {
+      "ok": ["ok", "good", "correct", "set to spec", "adjusted", "proper"],
+      "monitor": ["slightly low", "slightly high", "adjusted", "topped off"],
+      "service_required": ["very low", "flat", "losing air", "leak", "overinflated"]
+    }
+  },
+  {
+    "id": "INS-TIRE-PSI-LR",
+    "category": "tires",
+    "schemaPath": "tires.lr.pressurePsi",
+    "name": "Left Rear Tire Pressure",
+    "type": "quantitative",
+    "unit": "psi",
+    "position": "left_rear",
+    "aliases": [
+      "LR pressure",
+      "left rear PSI",
+      "LR PSI",
+      "driver rear pressure",
+      "left rear tire pressure",
+      "RL pressure",
+      "rear left PSI"
+    ],
+    "statusPhrases": {
+      "ok": ["ok", "good", "correct", "set to spec", "adjusted", "proper"],
+      "monitor": ["slightly low", "slightly high", "adjusted", "topped off"],
+      "service_required": ["very low", "flat", "losing air", "leak", "overinflated"]
+    }
+  },
+  {
+    "id": "INS-TIRE-PSI-RR",
+    "category": "tires",
+    "schemaPath": "tires.rr.pressurePsi",
+    "name": "Right Rear Tire Pressure",
+    "type": "quantitative",
+    "unit": "psi",
+    "position": "right_rear",
+    "aliases": [
+      "RR pressure",
+      "right rear PSI",
+      "RR PSI",
+      "passenger rear pressure",
+      "right rear tire pressure",
+      "rear right PSI"
+    ],
+    "statusPhrases": {
+      "ok": ["ok", "good", "correct", "set to spec", "adjusted", "proper"],
+      "monitor": ["slightly low", "slightly high", "adjusted", "topped off"],
+      "service_required": ["very low", "flat", "losing air", "leak", "overinflated"]
+    }
+  },
+  {
+    "id": "INS-TIRE-AGE-LF",
+    "category": "tires",
+    "schemaPath": "tires.lf.ageYears",
+    "name": "Left Front Tire Age",
+    "type": "quantitative",
+    "unit": "years",
+    "position": "left_front",
+    "aliases": [
+      "LF tire age",
+      "left front DOT",
+      "LF DOT date",
+      "driver front tire age",
+      "left front tire date",
+      "LF manufacture date"
+    ],
+    "statusPhrases": {
+      "ok": ["new", "recent", "good age", "young"],
+      "monitor": ["aging", "older", "getting old", "several years old"],
+      "service_required": ["old", "aged out", "dry rot", "cracking", "weathered", "expired"]
+    },
+    "thresholds": {
+      "ok": { "max": 6 },
+      "monitor": { "min": 6, "max": 8 },
+      "service_required": { "min": 8 }
+    }
+  },
+  {
+    "id": "INS-TIRE-AGE-RF",
+    "category": "tires",
+    "schemaPath": "tires.rf.ageYears",
+    "name": "Right Front Tire Age",
+    "type": "quantitative",
+    "unit": "years",
+    "position": "right_front",
+    "aliases": [
+      "RF tire age",
+      "right front DOT",
+      "RF DOT date",
+      "passenger front tire age"
+    ],
+    "statusPhrases": {
+      "ok": ["new", "recent", "good age"],
+      "monitor": ["aging", "older", "getting old"],
+      "service_required": ["old", "aged out", "dry rot", "cracking", "weathered"]
+    },
+    "thresholds": {
+      "ok": { "max": 6 },
+      "monitor": { "min": 6, "max": 8 },
+      "service_required": { "min": 8 }
+    }
+  },
+  {
+    "id": "INS-TIRE-AGE-LR",
+    "category": "tires",
+    "schemaPath": "tires.lr.ageYears",
+    "name": "Left Rear Tire Age",
+    "type": "quantitative",
+    "unit": "years",
+    "position": "left_rear",
+    "aliases": [
+      "LR tire age",
+      "left rear DOT",
+      "LR DOT date",
+      "driver rear tire age"
+    ],
+    "statusPhrases": {
+      "ok": ["new", "recent", "good age"],
+      "monitor": ["aging", "older", "getting old"],
+      "service_required": ["old", "aged out", "dry rot", "cracking", "weathered"]
+    },
+    "thresholds": {
+      "ok": { "max": 6 },
+      "monitor": { "min": 6, "max": 8 },
+      "service_required": { "min": 8 }
+    }
+  },
+  {
+    "id": "INS-TIRE-AGE-RR",
+    "category": "tires",
+    "schemaPath": "tires.rr.ageYears",
+    "name": "Right Rear Tire Age",
+    "type": "quantitative",
+    "unit": "years",
+    "position": "right_rear",
+    "aliases": [
+      "RR tire age",
+      "right rear DOT",
+      "RR DOT date",
+      "passenger rear tire age"
+    ],
+    "statusPhrases": {
+      "ok": ["new", "recent", "good age"],
+      "monitor": ["aging", "older", "getting old"],
+      "service_required": ["old", "aged out", "dry rot", "cracking", "weathered"]
+    },
+    "thresholds": {
+      "ok": { "max": 6 },
+      "monitor": { "min": 6, "max": 8 },
+      "service_required": { "min": 8 }
+    }
+  },
+  {
+    "id": "INS-FLUID-OIL",
+    "category": "fluids",
+    "schemaPath": "fluids.oil.status",
+    "name": "Engine Oil",
+    "type": "status",
+    "aliases": [
+      "engine oil",
+      "oil",
+      "motor oil",
+      "oil level",
+      "oil condition",
+      "engine oil level",
+      "engine oil condition",
+      "crankcase oil",
+      "lubricant"
+    ],
+    "statusPhrases": {
+      "ok": [
+        "full",
+        "good",
+        "ok",
+        "clean",
+        "pass",
+        "passed",
+        "green",
+        "recently changed",
+        "fresh",
+        "golden",
+        "amber",
+        "honey colored",
+        "proper level",
+        "adequate",
+        "sufficient",
+        "within range",
+        "no issues",
+        "satisfactory"
+      ],
+      "monitor": [
+        "low",
+        "dirty",
+        "dark",
+        "due soon",
+        "getting dark",
+        "fair",
+        "topped off",
+        "added oil",
+        "slightly low",
+        "darkening",
+        "approaching change interval",
+        "nearing service",
+        "brownish",
+        "discolored"
+      ],
+      "service_required": [
+        "very low",
+        "empty",
+        "black",
+        "sludge",
+        "sludgy",
+        "overdue",
+        "burnt",
+        "contaminated",
+        "milky",
+        "needs change",
+        "water in oil",
+        "coolant in oil",
+        "fuel diluted",
+        "gritty",
+        "metal particles",
+        "failed",
+        "critical",
+        "dangerous"
+      ]
+    }
+  },
+  {
+    "id": "INS-FLUID-BRAKE",
+    "category": "fluids",
+    "schemaPath": "fluids.brake.status",
+    "name": "Brake Fluid",
+    "type": "status",
+    "aliases": [
+      "brake fluid",
+      "brake fluid level",
+      "DOT 3",
+      "DOT 4",
+      "DOT 5",
+      "DOT 5.1",
+      "hydraulic fluid",
+      "brake hydraulic fluid",
+      "master cylinder fluid"
+    ],
+    "statusPhrases": {
+      "ok": [
+        "full",
+        "good",
+        "ok",
+        "clear",
+        "pass",
+        "clean",
+        "proper level",
+        "adequate",
+        "light colored",
+        "transparent",
+        "no issues"
+      ],
+      "monitor": [
+        "low",
+        "dark",
+        "discolored",
+        "due for flush",
+        "fair",
+        "amber",
+        "topped off",
+        "darkening",
+        "slightly low",
+        "aging"
+      ],
+      "service_required": [
+        "very low",
+        "contaminated",
+        "black",
+        "needs flush",
+        "moisture",
+        "water",
+        "boiling point low",
+        "failed test",
+        "copper content high",
+        "dangerous",
+        "empty"
+      ]
+    }
+  },
+  {
+    "id": "INS-FLUID-COOL",
+    "category": "fluids",
+    "schemaPath": "fluids.coolant.status",
+    "name": "Coolant",
+    "type": "status",
+    "aliases": [
+      "coolant",
+      "antifreeze",
+      "radiator fluid",
+      "coolant level",
+      "engine coolant",
+      "overflow",
+      "reservoir",
+      "coolant reservoir",
+      "expansion tank",
+      "radiator coolant"
+    ],
+    "statusPhrases": {
+      "ok": [
+        "full",
+        "good",
+        "ok",
+        "pass",
+        "proper color",
+        "clean",
+        "proper level",
+        "adequate",
+        "bright color",
+        "no issues"
+      ],
+      "monitor": [
+        "low",
+        "discolored",
+        "due for flush",
+        "fair",
+        "topped off",
+        "added coolant",
+        "slightly low",
+        "fading color",
+        "aging"
+      ],
+      "service_required": [
+        "very low",
+        "contaminated",
+        "rusty",
+        "milky",
+        "oil in coolant",
+        "needs flush",
+        "empty",
+        "leaking",
+        "brown",
+        "muddy",
+        "sludgy",
+        "head gasket"
+      ]
+    }
+  },
+  {
+    "id": "INS-FLUID-TRANS",
+    "category": "fluids",
+    "schemaPath": "fluids.transmission.status",
+    "name": "Transmission Fluid",
+    "type": "status",
+    "aliases": [
+      "transmission fluid",
+      "trans fluid",
+      "ATF",
+      "automatic transmission fluid",
+      "CVT fluid",
+      "gearbox oil",
+      "gear oil",
+      "transaxle fluid",
+      "transmission oil"
+    ],
+    "statusPhrases": {
+      "ok": [
+        "full",
+        "good",
+        "ok",
+        "clean",
+        "pass",
+        "red",
+        "pink",
+        "proper color",
+        "proper level",
+        "adequate",
+        "bright",
+        "no issues"
+      ],
+      "monitor": [
+        "low",
+        "dark",
+        "brown",
+        "due for service",
+        "fair",
+        "topped off",
+        "discolored",
+        "slightly low",
+        "darkening",
+        "aging"
+      ],
+      "service_required": [
+        "very low",
+        "burnt",
+        "black",
+        "burnt smell",
+        "contaminated",
+        "needs flush",
+        "metal particles",
+        "shavings",
+        "slipping",
+        "varnished",
+        "empty"
+      ]
+    }
+  },
+  {
+    "id": "INS-FILTER-AIR",
+    "category": "filters",
+    "schemaPath": "filters.engineAir.status",
+    "name": "Engine Air Filter",
+    "type": "status",
+    "aliases": [
+      "air filter",
+      "engine air filter",
+      "engine filter",
+      "intake filter",
+      "air cleaner",
+      "air cleaner element",
+      "air filter element",
+      "engine intake filter"
+    ],
+    "statusPhrases": {
+      "ok": [
+        "clean",
+        "good",
+        "ok",
+        "pass",
+        "new",
+        "recently replaced",
+        "white",
+        "light colored",
+        "no debris",
+        "adequate"
+      ],
+      "monitor": [
+        "dirty",
+        "dusty",
+        "fair",
+        "getting dirty",
+        "some debris",
+        "gray",
+        "darkening",
+        "light debris"
+      ],
+      "service_required": [
+        "very dirty",
+        "clogged",
+        "replace",
+        "restricted",
+        "blocked",
+        "needs replacement",
+        "black",
+        "saturated",
+        "oil soaked",
+        "torn",
+        "damaged"
+      ]
+    }
+  },
+  {
+    "id": "INS-FILTER-CABIN",
+    "category": "filters",
+    "schemaPath": "filters.cabinAir.status",
+    "name": "Cabin Air Filter",
+    "type": "status",
+    "aliases": [
+      "cabin filter",
+      "cabin air filter",
+      "AC filter",
+      "HVAC filter",
+      "interior filter",
+      "pollen filter",
+      "passenger compartment filter",
+      "in-cabin filter",
+      "micron filter"
+    ],
+    "statusPhrases": {
+      "ok": [
+        "clean",
+        "good",
+        "ok",
+        "pass",
+        "new",
+        "white",
+        "light colored",
+        "no debris",
+        "adequate"
+      ],
+      "monitor": [
+        "dirty",
+        "dusty",
+        "fair",
+        "debris",
+        "leaves",
+        "gray",
+        "some contamination"
+      ],
+      "service_required": [
+        "very dirty",
+        "clogged",
+        "replace",
+        "moldy",
+        "smells",
+        "restricted",
+        "mildew",
+        "musty",
+        "saturated",
+        "pest debris",
+        "rodent"
+      ]
+    }
+  },
+  {
+    "id": "INS-BAT-VOLT",
+    "category": "battery",
+    "schemaPath": "battery.voltage",
+    "name": "Battery Voltage",
+    "type": "quantitative",
+    "unit": "volts",
+    "aliases": [
+      "battery voltage",
+      "voltage",
+      "battery volts",
+      "resting voltage",
+      "open circuit voltage",
+      "OCV",
+      "static voltage",
+      "battery charge"
+    ],
+    "statusPhrases": {
+      "ok": [
+        "good",
+        "ok",
+        "pass",
+        "fully charged",
+        "strong",
+        "healthy",
+        "adequate"
+      ],
+      "monitor": [
+        "low charge",
+        "needs charging",
+        "fair",
+        "marginal",
+        "weak charge",
+        "slightly low"
+      ],
+      "service_required": [
+        "weak",
+        "dead",
+        "bad",
+        "replace",
+        "won't hold charge",
+        "failed",
+        "discharged",
+        "no charge"
+      ]
+    },
+    "thresholds": {
+      "ok": { "min": 12.4 },
+      "monitor": { "min": 12.0, "max": 12.4 },
+      "service_required": { "max": 12.0 }
+    },
+    "valuePatterns": [
+      "([0-9]+\\.?[0-9]*)\\s*[vV]",
+      "([0-9]+\\.?[0-9]*)\\s*volts",
+      "voltage[:\\s]+([0-9]+\\.?[0-9]*)"
+    ]
+  },
+  {
+    "id": "INS-BAT-CCA",
+    "category": "battery",
+    "schemaPath": "battery.ccaPercent",
+    "name": "Battery CCA",
+    "type": "quantitative",
+    "unit": "percent",
+    "aliases": [
+      "CCA",
+      "cold cranking amps",
+      "cranking amps",
+      "battery test",
+      "load test",
+      "battery health",
+      "battery capacity",
+      "cranking power",
+      "starting power"
+    ],
+    "statusPhrases": {
+      "ok": [
+        "good",
+        "ok",
+        "pass",
+        "strong",
+        "healthy",
+        "adequate",
+        "sufficient"
+      ],
+      "monitor": [
+        "fair",
+        "marginal",
+        "weakening",
+        "borderline",
+        "declining"
+      ],
+      "service_required": [
+        "weak",
+        "failed",
+        "replace",
+        "bad",
+        "below spec",
+        "insufficient",
+        "no start"
+      ]
+    },
+    "thresholds": {
+      "ok": { "min": 80 },
+      "monitor": { "min": 50, "max": 80 },
+      "service_required": { "max": 50 }
+    }
+  },
+  {
+    "id": "INS-BAT-AGE",
+    "category": "battery",
+    "schemaPath": "battery.ageMonths",
+    "name": "Battery Age",
+    "type": "quantitative",
+    "unit": "months",
+    "aliases": [
+      "battery age",
+      "battery date",
+      "install date",
+      "battery sticker",
+      "manufacture date",
+      "battery warranty date",
+      "date code"
+    ],
+    "statusPhrases": {
+      "ok": [
+        "new",
+        "recent",
+        "young",
+        "within warranty"
+      ],
+      "monitor": [
+        "getting old",
+        "aging",
+        "approaching end of life",
+        "nearing warranty end"
+      ],
+      "service_required": [
+        "old",
+        "past warranty",
+        "expired",
+        "end of life",
+        "original battery"
+      ]
+    },
+    "thresholds": {
+      "ok": { "max": 48 },
+      "monitor": { "min": 48, "max": 60 },
+      "service_required": { "min": 60 }
+    }
+  },
+  {
+    "id": "INS-BELT",
+    "category": "underHood",
+    "schemaPath": "underHood.belts.status",
+    "name": "Belts",
+    "type": "status",
+    "aliases": [
+      "belts",
+      "serpentine belt",
+      "drive belt",
+      "accessory belt",
+      "fan belt",
+      "V-belt",
+      "alternator belt",
+      "AC belt",
+      "power steering belt",
+      "multi-rib belt",
+      "poly-V belt"
+    ],
+    "statusPhrases": {
+      "ok": [
+        "good",
+        "ok",
+        "pass",
+        "no cracks",
+        "tight",
+        "proper tension",
+        "adequate",
+        "new",
+        "no wear"
+      ],
+      "monitor": [
+        "cracked",
+        "worn",
+        "glazed",
+        "frayed",
+        "fair",
+        "minor cracks",
+        "surface cracks",
+        "slight wear",
+        "age cracks",
+        "checking"
+      ],
+      "service_required": [
+        "needs replacement",
+        "replace",
+        "squealing",
+        "loose",
+        "chunks missing",
+        "separating",
+        "shredding",
+        "broken",
+        "slipping",
+        "failed"
+      ]
+    }
+  },
+  {
+    "id": "INS-HOSE",
+    "category": "underHood",
+    "schemaPath": "underHood.hoses.status",
+    "name": "Hoses",
+    "type": "status",
+    "aliases": [
+      "hoses",
+      "coolant hoses",
+      "radiator hoses",
+      "heater hoses",
+      "upper hose",
+      "lower hose",
+      "bypass hose",
+      "overflow hose",
+      "rubber hoses"
+    ],
+    "statusPhrases": {
+      "ok": [
+        "good",
+        "ok",
+        "pass",
+        "firm",
+        "no leaks",
+        "no cracks",
+        "adequate",
+        "pliable",
+        "new"
+      ],
+      "monitor": [
+        "soft",
+        "spongy",
+        "surface cracks",
+        "bulging",
+        "fair",
+        "aging",
+        "hardening",
+        "slight swelling"
+      ],
+      "service_required": [
+        "leaking",
+        "cracked",
+        "collapsed",
+        "split",
+        "replace",
+        "burst",
+        "brittle",
+        "rotted",
+        "deteriorated"
+      ]
+    }
+  },
+  {
+    "id": "INS-HOSE-BRAKE",
+    "category": "underHood",
+    "schemaPath": "underHood.brakeHoses.status",
+    "name": "Brake Hoses",
+    "type": "status",
+    "aliases": [
+      "brake hoses",
+      "brake lines",
+      "flexible brake lines",
+      "hydraulic hoses",
+      "brake flex hose",
+      "brake rubber lines",
+      "front brake hose",
+      "rear brake hose"
+    ],
+    "statusPhrases": {
+      "ok": [
+        "good",
+        "ok",
+        "pass",
+        "no leaks",
+        "no cracks",
+        "firm",
+        "adequate",
+        "new"
+      ],
+      "monitor": [
+        "surface cracks",
+        "aging",
+        "fair",
+        "soft",
+        "weathered",
+        "checking",
+        "age cracks"
+      ],
+      "service_required": [
+        "leaking",
+        "cracked",
+        "swelling",
+        "replace",
+        "bulging under pressure",
+        "seeping",
+        "wet",
+        "ballooning"
+      ]
+    }
+  },
+  {
+    "id": "INS-LEAK",
+    "category": "underHood",
+    "schemaPath": "underHood.leaks.status",
+    "name": "Leaks",
+    "type": "status",
+    "aliases": [
+      "leaks",
+      "fluid leaks",
+      "oil leak",
+      "coolant leak",
+      "trans leak",
+      "seepage",
+      "drips",
+      "engine leaks",
+      "undercarriage leaks",
+      "visible leaks"
+    ],
+    "statusPhrases": {
+      "ok": [
+        "no leaks",
+        "good",
+        "ok",
+        "pass",
+        "dry",
+        "none noted",
+        "none found",
+        "no visible leaks"
+      ],
+      "monitor": [
+        "seepage",
+        "minor leak",
+        "slight seep",
+        "weeping",
+        "damp",
+        "small leak",
+        "trace",
+        "slight moisture"
+      ],
+      "service_required": [
+        "leaking",
+        "major leak",
+        "dripping",
+        "active leak",
+        "puddle",
+        "heavy leak",
+        "significant",
+        "severe"
+      ]
+    }
+  },
+  {
+    "id": "INS-SUSP",
+    "category": "undercarriage",
+    "schemaPath": "undercarriage.suspension.status",
+    "name": "Suspension",
+    "type": "status",
+    "aliases": [
+      "suspension",
+      "shocks",
+      "struts",
+      "springs",
+      "control arms",
+      "ball joints",
+      "bushings",
+      "sway bar links",
+      "stabilizer links",
+      "suspension components",
+      "front suspension",
+      "rear suspension"
+    ],
+    "statusPhrases": {
+      "ok": [
+        "good",
+        "ok",
+        "pass",
+        "tight",
+        "no play",
+        "no leaks",
+        "adequate",
+        "no noise",
+        "no issues"
+      ],
+      "monitor": [
+        "worn",
+        "some play",
+        "minor wear",
+        "fair",
+        "aging",
+        "slight noise",
+        "slight play",
+        "beginning to wear"
+      ],
+      "service_required": [
+        "worn out",
+        "replace",
+        "leaking",
+        "loose",
+        "clunking",
+        "failed",
+        "excessive play",
+        "broken",
+        "torn",
+        "collapsed"
+      ]
+    }
+  },
+  {
+    "id": "INS-STEER",
+    "category": "undercarriage",
+    "schemaPath": "undercarriage.steering.status",
+    "name": "Steering",
+    "type": "status",
+    "aliases": [
+      "steering",
+      "tie rods",
+      "rack and pinion",
+      "steering rack",
+      "inner tie rod",
+      "outer tie rod",
+      "steering play",
+      "steering linkage",
+      "idler arm",
+      "pitman arm",
+      "steering gear"
+    ],
+    "statusPhrases": {
+      "ok": [
+        "good",
+        "ok",
+        "pass",
+        "tight",
+        "no play",
+        "responsive",
+        "adequate",
+        "no issues"
+      ],
+      "monitor": [
+        "some play",
+        "worn",
+        "fair",
+        "minor wear",
+        "slight looseness",
+        "slight play"
+      ],
+      "service_required": [
+        "loose",
+        "replace",
+        "excessive play",
+        "worn out",
+        "sloppy",
+        "wandering",
+        "dangerous",
+        "failed"
+      ]
+    }
+  },
+  {
+    "id": "INS-DSHAFT",
+    "category": "undercarriage",
+    "schemaPath": "undercarriage.driveshaft.status",
+    "name": "Driveshaft",
+    "type": "status",
+    "aliases": [
+      "driveshaft",
+      "drive shaft",
+      "prop shaft",
+      "propeller shaft",
+      "U-joints",
+      "universal joints",
+      "center bearing",
+      "carrier bearing",
+      "support bearing"
+    ],
+    "statusPhrases": {
+      "ok": [
+        "good",
+        "ok",
+        "pass",
+        "no play",
+        "tight",
+        "no noise",
+        "adequate"
+      ],
+      "monitor": [
+        "some play",
+        "worn",
+        "fair",
+        "slight vibration",
+        "minor wear",
+        "slight play"
+      ],
+      "service_required": [
+        "loose",
+        "replace",
+        "vibration",
+        "clunk",
+        "worn out",
+        "excessive play",
+        "failed",
+        "noisy"
+      ]
+    }
+  },
+  {
+    "id": "INS-AXLE",
+    "category": "undercarriage",
+    "schemaPath": "undercarriage.axles.status",
+    "name": "Axles",
+    "type": "status",
+    "aliases": [
+      "axles",
+      "CV axles",
+      "CV shafts",
+      "half shafts",
+      "drive axles",
+      "CV joints",
+      "CV boots",
+      "constant velocity joints",
+      "inner CV joint",
+      "outer CV joint",
+      "axle shafts"
+    ],
+    "statusPhrases": {
+      "ok": [
+        "good",
+        "ok",
+        "pass",
+        "boots intact",
+        "no play",
+        "no noise",
+        "adequate",
+        "no leaks"
+      ],
+      "monitor": [
+        "boot cracked",
+        "minor leak",
+        "fair",
+        "aging",
+        "worn boot",
+        "slight crack",
+        "small tear"
+      ],
+      "service_required": [
+        "boot torn",
+        "clicking",
+        "replace",
+        "leaking grease",
+        "noisy",
+        "worn out",
+        "popping",
+        "vibration"
+      ]
+    }
+  },
+  {
+    "id": "INS-WIPER",
+    "category": "visibility",
+    "schemaPath": "visibility.wiperBlades.status",
+    "name": "Wiper Blades",
+    "type": "status",
+    "aliases": [
+      "wipers",
+      "wiper blades",
+      "windshield wipers",
+      "front wipers",
+      "rear wiper",
+      "wiper condition",
+      "wiper inserts",
+      "wiper refills"
+    ],
+    "statusPhrases": {
+      "ok": [
+        "good",
+        "ok",
+        "pass",
+        "clean wipe",
+        "no streaks",
+        "new",
+        "adequate",
+        "clear"
+      ],
+      "monitor": [
+        "streaking",
+        "chattering",
+        "fair",
+        "worn",
+        "skipping",
+        "minor streaks",
+        "slight chatter"
+      ],
+      "service_required": [
+        "torn",
+        "replace",
+        "cracked",
+        "not clearing",
+        "missing",
+        "damaged",
+        "split",
+        "hardened"
+      ]
+    }
+  },
+  {
+    "id": "INS-LIGHTS",
+    "category": "visibility",
+    "schemaPath": "visibility.lights.status",
+    "name": "Lights",
+    "type": "status",
+    "aliases": [
+      "lights",
+      "headlights",
+      "taillights",
+      "tail lights",
+      "brake lights",
+      "turn signals",
+      "blinkers",
+      "exterior lights",
+      "running lights",
+      "marker lights",
+      "fog lights",
+      "reverse lights",
+      "backup lights",
+      "license plate light",
+      "DRL",
+      "daytime running lights"
+    ],
+    "statusPhrases": {
+      "ok": [
+        "all working",
+        "good",
+        "ok",
+        "pass",
+        "operational",
+        "functional",
+        "all operational",
+        "no issues"
+      ],
+      "monitor": [
+        "dim",
+        "foggy",
+        "cloudy",
+        "yellowed",
+        "oxidized",
+        "hazy lenses",
+        "faded",
+        "weak"
+      ],
+      "service_required": [
+        "out",
+        "burnt out",
+        "not working",
+        "inop",
+        "failed",
+        "bulb out",
+        "broken",
+        "cracked lens",
+        "inoperative"
+      ]
+    }
+  }
+]
