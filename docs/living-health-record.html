@@ -201,6 +201,152 @@
         .expanded-info.show { display: block; }
         .expanded-info ul { margin: 0.5rem 0 0.5rem 1.5rem; }
         .expanded-info li { margin: 0.25rem 0; }
+
+        /* Interactive Category List */
+        .category-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .category-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: #0f172a;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .category-row:hover {
+            background: #1e293b;
+        }
+        .category-name {
+            color: #f8fafc;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .chevron {
+            font-size: 0.7rem;
+            color: #64748b;
+            transition: transform 0.2s;
+            display: inline-block;
+        }
+        .chevron.open {
+            transform: rotate(90deg);
+        }
+        .category-status {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .category-items {
+            display: none;
+            background: #0f172a;
+            border-radius: 0 0 6px 6px;
+            margin-top: -2px;
+            padding: 0 0.5rem 0.5rem 2rem;
+        }
+        .category-items.open {
+            display: block;
+        }
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            margin: 2px 0;
+            background: #1e293b;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .item-row:hover {
+            background: #334155;
+        }
+        .item-name {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+        }
+        .item-value {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .item-detail {
+            display: none;
+            padding: 0 0.5rem;
+        }
+        .item-detail.open {
+            display: block;
+        }
+        .tech-notes {
+            background: #1e293b;
+            border-left: 3px solid #4ade80;
+            border-radius: 0 4px 4px 0;
+            padding: 1rem;
+            margin: 4px 0 8px;
+        }
+        .tech-notes.warn {
+            border-left-color: #facc15;
+        }
+        .tech-notes.critical {
+            border-left-color: #f87171;
+        }
+        .tech-notes-header {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+        }
+        .tech-notes p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        .tech-notes-meta {
+            margin-top: 0.75rem;
+            font-size: 0.8rem;
+            color: #475569;
+        }
+
+        /* Product Spec Section */
+        .product-spec {
+            background: #1e293b;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        .product-spec h4 {
+            color: #38bdf8;
+            margin-bottom: 0.75rem;
+        }
+        .product-spec h5 {
+            color: #f8fafc;
+            margin: 1rem 0 0.5rem;
+            font-size: 0.95rem;
+        }
+        .product-spec p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        .product-spec ul {
+            margin: 0.5rem 0 0.5rem 1.5rem;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        .product-spec li {
+            margin: 0.35rem 0;
+        }
+        .product-spec code {
+            background: #0f172a;
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.85rem;
+            color: #e2e8f0;
+        }
     </style>
 </head>
 <body>
@@ -438,7 +584,8 @@
             </tbody>
         </table>
 
-        <h2>Example Display</h2>
+        <h2>Interactive Display (Prototype)</h2>
+        <p style="color: #94a3b8; margin-bottom: 1rem;">Click categories to expand, click items to see technician notes. This demonstrates the progressive disclosure pattern.</p>
 
         <div class="example-card">
             <div class="example-header">
@@ -449,174 +596,326 @@
                 <div class="health-badge health-fair">Fair</div>
             </div>
 
-            <div class="inspection-grid">
-                <div class="inspection-section">
-                    <h5>Brakes</h5>
-                    <div class="inspection-item">
-                        <span class="label">Front Pads</span>
-                        <span class="value green">7mm</span>
-                    </div>
-                    <div class="inspection-item">
-                        <span class="label">Rear Pads</span>
-                        <span class="value yellow">4mm</span>
-                    </div>
+            <!-- Category Summary View (Level 1) -->
+            <div class="category-list" id="categoryList">
+                <div class="category-row" onclick="toggleCategory('brakes')">
+                    <span class="category-name"><span class="chevron" id="chevron-brakes">&#9654;</span> Brakes</span>
+                    <span class="category-status yellow">1 item to monitor</span>
                 </div>
-
-                <div class="inspection-section">
-                    <h5>Tires - Tread</h5>
-                    <div class="tire-grid">
-                        <div class="tire-item">
-                            <div class="pos">LF</div>
-                            <div class="val green">7/32"</div>
+                <div class="category-items" id="items-brakes">
+                    <div class="item-row" onclick="toggleItem(event, 'brakes-front')">
+                        <span class="item-name">Front Pads</span>
+                        <span class="item-value green">7mm</span>
+                    </div>
+                    <div class="item-detail" id="detail-brakes-front">
+                        <div class="tech-notes">
+                            <div class="tech-notes-header">Technician Notes</div>
+                            <p>Measured at 7mm. Plenty of life remaining, no uneven wear observed. Rotors in good condition.</p>
+                            <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
                         </div>
-                        <div class="tire-item">
-                            <div class="pos">RF</div>
-                            <div class="val green">6/32"</div>
-                        </div>
-                        <div class="tire-item">
-                            <div class="pos">LR</div>
-                            <div class="val yellow">5/32"</div>
-                        </div>
-                        <div class="tire-item">
-                            <div class="pos">RR</div>
-                            <div class="val yellow">5/32"</div>
+                    </div>
+                    <div class="item-row" onclick="toggleItem(event, 'brakes-rear')">
+                        <span class="item-name">Rear Pads</span>
+                        <span class="item-value yellow">4mm</span>
+                    </div>
+                    <div class="item-detail" id="detail-brakes-rear">
+                        <div class="tech-notes warn">
+                            <div class="tech-notes-header">Technician Notes</div>
+                            <p>Measured at 4mm. Approaching minimum thickness. Recommend replacing at next service or within 5,000 miles. Slight glazing noted on inboard pad.</p>
+                            <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="inspection-section">
-                    <h5>Tires - Pressure</h5>
-                    <div class="tire-grid">
-                        <div class="tire-item">
-                            <div class="pos">LF</div>
-                            <div class="val green">32 PSI</div>
-                        </div>
-                        <div class="tire-item">
-                            <div class="pos">RF</div>
-                            <div class="val green">33 PSI</div>
-                        </div>
-                        <div class="tire-item">
-                            <div class="pos">LR</div>
-                            <div class="val green">32 PSI</div>
-                        </div>
-                        <div class="tire-item">
-                            <div class="pos">RR</div>
-                            <div class="val green">32 PSI</div>
+                <div class="category-row" onclick="toggleCategory('fluids')">
+                    <span class="category-name"><span class="chevron" id="chevron-fluids">&#9654;</span> Fluids</span>
+                    <span class="category-status yellow">1 item to monitor</span>
+                </div>
+                <div class="category-items" id="items-fluids">
+                    <div class="item-row" onclick="toggleItem(event, 'fluids-oil')">
+                        <span class="item-name">Engine Oil</span>
+                        <span class="item-value green">OK</span>
+                    </div>
+                    <div class="item-detail" id="detail-fluids-oil">
+                        <div class="tech-notes">
+                            <div class="tech-notes-header">Technician Notes</div>
+                            <p>Level full, color amber/golden. Recently changed per customer - 1,200 miles on current oil.</p>
+                            <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
                         </div>
                     </div>
-                    <p style="color: #64748b; font-size: 0.75rem; margin-top: 0.5rem; text-align: center;">Recommended: 32 PSI</p>
-                </div>
-
-                <div class="inspection-section">
-                    <h5>Fluids</h5>
-                    <div class="inspection-item">
-                        <span class="label">Engine Oil</span>
-                        <span class="value green">OK</span>
+                    <div class="item-row" onclick="toggleItem(event, 'fluids-brake')">
+                        <span class="item-name">Brake Fluid</span>
+                        <span class="item-value green">OK</span>
                     </div>
-                    <div class="inspection-item">
-                        <span class="label">Brake Fluid</span>
-                        <span class="value green">OK</span>
+                    <div class="item-detail" id="detail-fluids-brake">
+                        <div class="tech-notes">
+                            <div class="tech-notes-header">Technician Notes</div>
+                            <p>Level at MAX line. Fluid clear with slight amber tint. Tested moisture content at 1.2% - within acceptable range.</p>
+                            <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
+                        </div>
                     </div>
-                    <div class="inspection-item">
-                        <span class="label">Coolant</span>
-                        <span class="value yellow">Monitor</span>
+                    <div class="item-row" onclick="toggleItem(event, 'fluids-coolant')">
+                        <span class="item-name">Coolant</span>
+                        <span class="item-value yellow">Monitor</span>
                     </div>
-                    <div class="inspection-item">
-                        <span class="label">Transmission</span>
-                        <span class="value green">OK</span>
+                    <div class="item-detail" id="detail-fluids-coolant">
+                        <div class="tech-notes warn">
+                            <div class="tech-notes-header">Technician Notes</div>
+                            <p>Level slightly below MIN line in reservoir. Topped off during service. No visible leaks found. Recommend monitoring level - if it drops again, further diagnosis needed for potential leak.</p>
+                            <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
+                        </div>
                     </div>
-                </div>
-
-                <div class="inspection-section">
-                    <h5>Filters</h5>
-                    <div class="inspection-item">
-                        <span class="label">Engine Air</span>
-                        <span class="value yellow">Monitor</span>
+                    <div class="item-row" onclick="toggleItem(event, 'fluids-trans')">
+                        <span class="item-name">Transmission</span>
+                        <span class="item-value green">OK</span>
                     </div>
-                    <div class="inspection-item">
-                        <span class="label">Cabin Air</span>
-                        <span class="value red">Service Required</span>
+                    <div class="item-detail" id="detail-fluids-trans">
+                        <div class="tech-notes">
+                            <div class="tech-notes-header">Technician Notes</div>
+                            <p>Checked via dipstick at operating temp. Level correct, fluid bright red with no burnt smell.</p>
+                            <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
+                        </div>
                     </div>
-                </div>
-
-                <div class="inspection-section">
-                    <h5>Battery</h5>
-                    <div class="inspection-item">
-                        <span class="label">Voltage</span>
-                        <span class="value green">12.6V</span>
+                    <div class="item-row" onclick="toggleItem(event, 'fluids-ps')">
+                        <span class="item-name">Power Steering</span>
+                        <span class="item-value green">OK</span>
                     </div>
-                    <div class="inspection-item">
-                        <span class="label">CCA</span>
-                        <span class="value green">92%</span>
-                    </div>
-                    <div class="inspection-item">
-                        <span class="label">Age</span>
-                        <span class="value green">36 months</span>
+                    <div class="item-detail" id="detail-fluids-ps">
+                        <div class="tech-notes">
+                            <div class="tech-notes-header">Technician Notes</div>
+                            <p>Level at full mark. Fluid clean, no contamination.</p>
+                            <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="inspection-section">
-                    <h5>Under Hood</h5>
-                    <div class="inspection-item">
-                        <span class="label">Belts</span>
-                        <span class="value green">OK</span>
-                    </div>
-                    <div class="inspection-item">
-                        <span class="label">Hoses</span>
-                        <span class="value green">OK</span>
-                    </div>
-                    <div class="inspection-item">
-                        <span class="label">Brake Hoses</span>
-                        <span class="value green">OK</span>
-                    </div>
-                    <div class="inspection-item">
-                        <span class="label">Leaks</span>
-                        <span class="value green">OK</span>
-                    </div>
-                    <div class="inspection-item">
-                        <span class="label">Other</span>
-                        <span class="value yellow">Monitor</span>
-                    </div>
-                    <p style="color: #64748b; font-size: 0.75rem; margin-top: 0.25rem;">Missing bolt on air box</p>
+                <div class="category-row" onclick="toggleCategory('filters')">
+                    <span class="category-name"><span class="chevron" id="chevron-filters">&#9654;</span> Filters</span>
+                    <span class="category-status red">1 needs service</span>
                 </div>
-
-                <div class="inspection-section">
-                    <h5>Undercarriage</h5>
-                    <div class="inspection-item">
-                        <span class="label">Suspension</span>
-                        <span class="value green">OK</span>
+                <div class="category-items" id="items-filters">
+                    <div class="item-row" onclick="toggleItem(event, 'filters-engine')">
+                        <span class="item-name">Engine Air</span>
+                        <span class="item-value yellow">Monitor</span>
                     </div>
-                    <div class="inspection-item">
-                        <span class="label">Steering</span>
-                        <span class="value green">OK</span>
+                    <div class="item-detail" id="detail-filters-engine">
+                        <div class="tech-notes warn">
+                            <div class="tech-notes-header">Technician Notes</div>
+                            <p>Filter showing moderate dirt accumulation. Still functional but approaching replacement. Recommend replacing within next 10,000 miles or at next oil change.</p>
+                            <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
+                        </div>
                     </div>
-                    <div class="inspection-item">
-                        <span class="label">Driveshaft</span>
-                        <span class="value green">OK</span>
+                    <div class="item-row" onclick="toggleItem(event, 'filters-cabin')">
+                        <span class="item-name">Cabin Air</span>
+                        <span class="item-value red">Service Required</span>
                     </div>
-                    <div class="inspection-item">
-                        <span class="label">Axles</span>
-                        <span class="value yellow">Monitor</span>
-                    </div>
-                    <div class="inspection-item">
-                        <span class="label">Exhaust</span>
-                        <span class="value green">OK</span>
-                    </div>
-                    <div class="inspection-item">
-                        <span class="label">Other</span>
-                        <span class="value green">OK</span>
+                    <div class="item-detail" id="detail-filters-cabin">
+                        <div class="tech-notes critical">
+                            <div class="tech-notes-header">Technician Notes</div>
+                            <p>Filter heavily contaminated with debris, dust, and some leaf matter. Restricting airflow - customer mentioned reduced AC performance. Strongly recommend immediate replacement.</p>
+                            <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="inspection-section">
-                    <h5>Visibility</h5>
-                    <div class="inspection-item">
-                        <span class="label">Wiper Blades</span>
-                        <span class="value green">OK</span>
+                <div class="category-row" onclick="toggleCategory('battery')">
+                    <span class="category-name"><span class="chevron" id="chevron-battery">&#9654;</span> Battery</span>
+                    <span class="category-status green">All OK</span>
+                </div>
+                <div class="category-items" id="items-battery">
+                    <div class="item-row" onclick="toggleItem(event, 'battery-voltage')">
+                        <span class="item-name">Voltage</span>
+                        <span class="item-value green">12.6V</span>
                     </div>
-                    <div class="inspection-item">
-                        <span class="label">Lights</span>
-                        <span class="value green">OK</span>
+                    <div class="item-detail" id="detail-battery-voltage">
+                        <div class="tech-notes">
+                            <div class="tech-notes-header">Technician Notes</div>
+                            <p>Resting voltage measured at 12.6V - indicates full charge. Terminals clean, no corrosion.</p>
+                            <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
+                        </div>
+                    </div>
+                    <div class="item-row" onclick="toggleItem(event, 'battery-cca')">
+                        <span class="item-name">CCA</span>
+                        <span class="item-value green">92%</span>
+                    </div>
+                    <div class="item-detail" id="detail-battery-cca">
+                        <div class="tech-notes">
+                            <div class="tech-notes-header">Technician Notes</div>
+                            <p>Load test: 552 CCA measured vs 600 CCA rated = 92% capacity. Strong cranking power, passes test.</p>
+                            <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
+                        </div>
+                    </div>
+                    <div class="item-row" onclick="toggleItem(event, 'battery-age')">
+                        <span class="item-name">Age</span>
+                        <span class="item-value green">36 months</span>
+                    </div>
+                    <div class="item-detail" id="detail-battery-age">
+                        <div class="tech-notes">
+                            <div class="tech-notes-header">Technician Notes</div>
+                            <p>Date code indicates January 2023 manufacture. 3 years old - typically 4-5 year lifespan. Good condition for age.</p>
+                            <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-row" onclick="toggleCategory('tires')">
+                    <span class="category-name"><span class="chevron" id="chevron-tires">&#9654;</span> Tires</span>
+                    <span class="category-status yellow">2 items to monitor</span>
+                </div>
+                <div class="category-items" id="items-tires">
+                    <div class="item-row" onclick="toggleItem(event, 'tires-tread')">
+                        <span class="item-name">Tread Depth</span>
+                        <span class="item-value yellow">5-7/32"</span>
+                    </div>
+                    <div class="item-detail" id="detail-tires-tread">
+                        <div class="tech-notes warn">
+                            <div class="tech-notes-header">Technician Notes</div>
+                            <p>LF: 7/32" | RF: 6/32" | LR: 5/32" | RR: 5/32"</p>
+                            <p style="margin-top: 0.5rem;">Rear tires showing more wear than fronts - normal for this FWD vehicle. Rears approaching 4/32" threshold. Recommend tire rotation and monitoring. Consider replacement in 10-15k miles.</p>
+                            <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
+                        </div>
+                    </div>
+                    <div class="item-row" onclick="toggleItem(event, 'tires-pressure')">
+                        <span class="item-name">Pressure</span>
+                        <span class="item-value green">32-33 PSI</span>
+                    </div>
+                    <div class="item-detail" id="detail-tires-pressure">
+                        <div class="tech-notes">
+                            <div class="tech-notes-header">Technician Notes</div>
+                            <p>All tires within spec. Set to placard recommendation of 32 PSI during service. TPMS functioning correctly.</p>
+                            <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
+                        </div>
+                    </div>
+                    <div class="item-row" onclick="toggleItem(event, 'tires-age')">
+                        <span class="item-name">Age</span>
+                        <span class="item-value yellow">6 years</span>
+                    </div>
+                    <div class="item-detail" id="detail-tires-age">
+                        <div class="tech-notes warn">
+                            <div class="tech-notes-header">Technician Notes</div>
+                            <p>DOT code: 2419 (Week 24, 2019) - all four tires match. At 6 years, tires are entering the age monitoring window. No visible dry rot or sidewall cracking at this time. Industry guidelines suggest annual inspection after 5 years.</p>
+                            <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-row" onclick="toggleCategory('underhood')">
+                    <span class="category-name"><span class="chevron" id="chevron-underhood">&#9654;</span> Under Hood</span>
+                    <span class="category-status yellow">1 item to monitor</span>
+                </div>
+                <div class="category-items" id="items-underhood">
+                    <div class="item-row" onclick="toggleItem(event, 'underhood-belts')">
+                        <span class="item-name">Belts</span>
+                        <span class="item-value green">OK</span>
+                    </div>
+                    <div class="item-detail" id="detail-underhood-belts">
+                        <div class="tech-notes">
+                            <div class="tech-notes-header">Technician Notes</div>
+                            <p>Serpentine belt in good condition. No cracking, fraying, or glazing. Proper tension.</p>
+                            <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
+                        </div>
+                    </div>
+                    <div class="item-row" onclick="toggleItem(event, 'underhood-hoses')">
+                        <span class="item-name">Hoses</span>
+                        <span class="item-value green">OK</span>
+                    </div>
+                    <div class="item-detail" id="detail-underhood-hoses">
+                        <div class="tech-notes">
+                            <div class="tech-notes-header">Technician Notes</div>
+                            <p>All coolant hoses firm with no soft spots. Clamps secure, no visible seepage at connections.</p>
+                            <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
+                        </div>
+                    </div>
+                    <div class="item-row" onclick="toggleItem(event, 'underhood-leaks')">
+                        <span class="item-name">Leaks</span>
+                        <span class="item-value green">OK</span>
+                    </div>
+                    <div class="item-detail" id="detail-underhood-leaks">
+                        <div class="tech-notes">
+                            <div class="tech-notes-header">Technician Notes</div>
+                            <p>No active leaks observed. Engine bay dry. Minor valve cover seepage (common for age) but not dripping - monitor only.</p>
+                            <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
+                        </div>
+                    </div>
+                    <div class="item-row" onclick="toggleItem(event, 'underhood-other')">
+                        <span class="item-name">Other</span>
+                        <span class="item-value yellow">Monitor</span>
+                    </div>
+                    <div class="item-detail" id="detail-underhood-other">
+                        <div class="tech-notes warn">
+                            <div class="tech-notes-header">Technician Notes</div>
+                            <p>Found one missing bolt on air box cover. Still secure but should be replaced. Also noted aftermarket air intake installed.</p>
+                            <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-row" onclick="toggleCategory('undercarriage')">
+                    <span class="category-name"><span class="chevron" id="chevron-undercarriage">&#9654;</span> Undercarriage</span>
+                    <span class="category-status yellow">1 item to monitor</span>
+                </div>
+                <div class="category-items" id="items-undercarriage">
+                    <div class="item-row" onclick="toggleItem(event, 'undercarriage-suspension')">
+                        <span class="item-name">Suspension</span>
+                        <span class="item-value green">OK</span>
+                    </div>
+                    <div class="item-detail" id="detail-undercarriage-suspension">
+                        <div class="tech-notes">
+                            <div class="tech-notes-header">Technician Notes</div>
+                            <p>Shocks not leaking, bushings intact. No excessive play in ball joints or tie rod ends. Control arm bushings showing normal wear for mileage.</p>
+                            <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
+                        </div>
+                    </div>
+                    <div class="item-row" onclick="toggleItem(event, 'undercarriage-axles')">
+                        <span class="item-name">Axles</span>
+                        <span class="item-value yellow">Monitor</span>
+                    </div>
+                    <div class="item-detail" id="detail-undercarriage-axles">
+                        <div class="tech-notes warn">
+                            <div class="tech-notes-header">Technician Notes</div>
+                            <p>Driver side outer CV boot showing small crack starting to form. Not yet leaking grease. Recommend monitoring - if grease appears or crack worsens, will need boot replacement or axle replacement.</p>
+                            <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
+                        </div>
+                    </div>
+                    <div class="item-row" onclick="toggleItem(event, 'undercarriage-exhaust')">
+                        <span class="item-name">Exhaust</span>
+                        <span class="item-value green">OK</span>
+                    </div>
+                    <div class="item-detail" id="detail-undercarriage-exhaust">
+                        <div class="tech-notes">
+                            <div class="tech-notes-header">Technician Notes</div>
+                            <p>Exhaust system intact, all hangers secure. Surface rust on muffler but not concerning. No leaks detected.</p>
+                            <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-row" onclick="toggleCategory('visibility')">
+                    <span class="category-name"><span class="chevron" id="chevron-visibility">&#9654;</span> Visibility</span>
+                    <span class="category-status green">All OK</span>
+                </div>
+                <div class="category-items" id="items-visibility">
+                    <div class="item-row" onclick="toggleItem(event, 'visibility-wipers')">
+                        <span class="item-name">Wiper Blades</span>
+                        <span class="item-value green">OK</span>
+                    </div>
+                    <div class="item-detail" id="detail-visibility-wipers">
+                        <div class="tech-notes">
+                            <div class="tech-notes-header">Technician Notes</div>
+                            <p>Both front wipers clearing windshield cleanly. No streaking or chattering. Rubber in good condition.</p>
+                            <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
+                        </div>
+                    </div>
+                    <div class="item-row" onclick="toggleItem(event, 'visibility-lights')">
+                        <span class="item-name">Lights</span>
+                        <span class="item-value green">OK</span>
+                    </div>
+                    <div class="item-detail" id="detail-visibility-lights">
+                        <div class="tech-notes">
+                            <div class="tech-notes-header">Technician Notes</div>
+                            <p>All exterior lights functional: headlights (low/high), taillights, brake lights, turn signals, reverse lights, license plate light. No bulbs out.</p>
+                            <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -758,6 +1057,115 @@
 }
         </pre>
 
+        <h2>Product Specification for Implementation</h2>
+        <p style="color: #94a3b8; margin-bottom: 1rem;">Feature requirements and UX principles for the engineering team.</p>
+
+        <div class="product-spec">
+            <h4>1. Progressive Disclosure Pattern</h4>
+            <p><strong style="color: #f8fafc;">The Core Idea:</strong> Users should feel confident about their vehicle's health at a glance, without being overwhelmed by technical details. Details are available on-demand for those who want them.</p>
+
+            <h5>Level 1: Category Summary (Default View)</h5>
+            <p>When the user opens their vehicle health record, they see a list of categories (Brakes, Fluids, Tires, etc.) with a high-level status indicator:</p>
+            <ul>
+                <li><code class="green">All OK</code> - Everything in this category is green</li>
+                <li><code class="yellow">X items to monitor</code> - Some items need attention soon</li>
+                <li><code class="red">X needs service</code> - At least one item requires action</li>
+            </ul>
+            <p>This lets users instantly see "do I need to worry about anything?" without processing 26 individual items.</p>
+
+            <h5>Level 2: Item List (Category Expanded)</h5>
+            <p>Tapping a category expands it to show all items within that category. Each item shows:</p>
+            <ul>
+                <li>Item name (e.g., "Engine Oil", "Front Pads")</li>
+                <li>Status value (e.g., "OK", "Monitor", "7mm", "12.6V")</li>
+                <li>Color-coded status (green/yellow/red)</li>
+            </ul>
+            <p>Users can now see which specific item needs attention, if any.</p>
+
+            <h5>Level 3: Technician Notes (Item Expanded)</h5>
+            <p>Tapping an item reveals the raw technician notes from the inspection. This includes:</p>
+            <ul>
+                <li>What the technician actually observed/measured</li>
+                <li>Any context or recommendations they provided</li>
+                <li>Who performed the inspection and where</li>
+            </ul>
+            <p>This is the "show me exactly what they found" layer for users who want full transparency.</p>
+        </div>
+
+        <div class="product-spec">
+            <h4>2. Why This Matters (User Psychology)</h4>
+
+            <h5>Confidence Without Overload</h5>
+            <p>Most users don't want to read 26 inspection items. They want to know: "Is my car okay?" The category summary answers that question in 2 seconds. Power users can dig deeper.</p>
+
+            <h5>Actionable, Not Alarming</h5>
+            <p>Yellow items should feel like "something to keep an eye on" - not scary. Red items are "you should handle this soon." The language should be specific enough to act on, without being alarmist.</p>
+
+            <h5>Trust Through Transparency</h5>
+            <p>Showing the actual technician notes builds trust. Users can see the exact language the shop used, verify measurements, and understand the context behind each status. This differentiates us from black-box "your car needs X" apps.</p>
+        </div>
+
+        <div class="product-spec">
+            <h4>3. Implementation Requirements</h4>
+
+            <h5>Data Model Extensions</h5>
+            <p>Each item in the schema needs to support an optional <code>techNotes</code> field:</p>
+            <ul>
+                <li><code>techNotes.raw</code> - The original text from the shop's inspection report</li>
+                <li><code>techNotes.inspectedBy</code> - Technician name (if available)</li>
+                <li><code>techNotes.shopName</code> - Shop that performed the inspection</li>
+            </ul>
+
+            <h5>Category Aggregation Logic</h5>
+            <p>The category status badge should use this priority:</p>
+            <ul>
+                <li>If ANY item is <code>service_required</code> → Show "X needs service" (red)</li>
+                <li>Else if ANY item is <code>monitor</code> → Show "X items to monitor" (yellow)</li>
+                <li>Else → Show "All OK" (green)</li>
+            </ul>
+
+            <h5>Animation & Affordance</h5>
+            <ul>
+                <li>Chevron should rotate 90° when category expands (indicates "this is expandable")</li>
+                <li>Items should slide in smoothly (150-200ms ease)</li>
+                <li>Tap targets should be large enough for mobile (min 44px height)</li>
+                <li>Consider subtle hover/press states to indicate interactivity</li>
+            </ul>
+
+            <h5>Empty State Handling</h5>
+            <p>If an item has no technician notes (status only, no details), show a placeholder:</p>
+            <ul>
+                <li>"No additional notes from this inspection"</li>
+                <li>Still show the inspector/shop if available</li>
+            </ul>
+        </div>
+
+        <div class="product-spec">
+            <h4>4. Future Considerations</h4>
+
+            <h5>History View</h5>
+            <p>Eventually, users should be able to see how an item changed over time. "Rear brakes went from 7mm → 5mm → 4mm over 3 inspections." This requires storing historical snapshots.</p>
+
+            <h5>Comparison to Industry Standards</h5>
+            <p>Show where the user's measurement falls on a spectrum. The tire age bar in this doc is an example - showing 6 years on a 0-10 year scale with color zones.</p>
+
+            <h5>Push Notifications</h5>
+            <p>When a new inspection comes in, notify users if status changed (especially if something went from green → yellow, or yellow → red).</p>
+
+            <h5>Quick Actions</h5>
+            <p>On items that need attention, offer a "Schedule Service" CTA that pre-fills the issue into a service request to the shop that performed the inspection.</p>
+        </div>
+
+        <div class="product-spec">
+            <h4>5. Accessibility Notes</h4>
+            <ul>
+                <li>Don't rely on color alone - always include text status ("OK", "Monitor", "Service Required")</li>
+                <li>Expandable sections need proper <code>aria-expanded</code> attributes</li>
+                <li>Screen readers should announce the category name AND status together</li>
+                <li>Ensure sufficient color contrast (the yellow on dark background may need tweaking)</li>
+            </ul>
+        </div>
+
         <p style="color: #64748b; margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #334155; font-size: 0.85rem;">
             Living Health Record Spec v1.0 - Piston Labs / Glovebox Beta<br>
             Created: February 2026
@@ -768,6 +1176,19 @@
         function toggleInfo() {
             const info = document.getElementById('tireInfo');
             info.classList.toggle('show');
+        }
+
+        function toggleCategory(category) {
+            const items = document.getElementById('items-' + category);
+            const chevron = document.getElementById('chevron-' + category);
+            items.classList.toggle('open');
+            chevron.classList.toggle('open');
+        }
+
+        function toggleItem(event, item) {
+            event.stopPropagation(); // Prevent category toggle
+            const detail = document.getElementById('detail-' + item);
+            detail.classList.toggle('open');
         }
     </script>
 </body>
