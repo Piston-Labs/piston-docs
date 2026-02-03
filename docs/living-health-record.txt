@@ -294,28 +294,121 @@ DATA SCHEMA
 }
 
 
+TIRE AGE EDUCATION
+==================
+Tire age is tracked via the DOT code on the sidewall. The last 4 digits indicate
+week and year of manufacture. Example: "2419" = Week 24 of 2019.
+
+Why Tire Age Matters:
+- Tires degrade over time due to environmental factors, even when not in use
+- Rubber compounds break down, leading to dry rot and cracking
+- Industry guidelines (NHTSA, tire manufacturers):
+  - Inspect annually after 5 years of service
+  - 6-10 years is typical service life range
+  - Actual condition depends on wear, storage, and climate
+
+Display Approach:
+- Show age in years with DOT code reference
+- Visual timeline showing where tire falls on 0-10 year spectrum
+- Educational "Learn more" content explaining why age matters
+- Always defer to shop for actual condition assessment
+
+
 DISPLAY PRINCIPLES
 ==================
 
 1. PROGRESSIVE DISCLOSURE
-   - Level 1: Category summary (Brakes: "1 item to monitor")
-   - Level 2: Item list with status (Front Pads: 7mm, Rear Pads: 4mm)
-   - Level 3: Full technician notes (what they actually wrote)
+   The Core Idea: Users should feel confident about their vehicle's health at a glance,
+   without being overwhelmed by technical details. Details are available on-demand.
+
+   Level 1: Category Summary (Default View)
+   - User sees list of categories (Brakes, Fluids, Tires, etc.)
+   - Each category shows high-level status:
+     - "All OK" (green) - Everything in this category is green
+     - "X items to monitor" (yellow) - Some items need attention soon
+     - "X needs service" (red) - At least one item requires action
+   - Answers "do I need to worry about anything?" in 2 seconds
+
+   Level 2: Item List (Category Expanded)
+   - Tap category to see all items within it
+   - Each item shows: name, status value, color
+   - Example: "Front Pads: 7mm (green)", "Rear Pads: 4mm (yellow)"
+
+   Level 3: Technician Notes (Item Expanded)
+   - Tap item to see raw technician notes
+   - Shows exactly what technician observed/measured
+   - Includes inspector name and shop
+   - "Show me exactly what they found" layer
 
 2. STATUS COLORS
    - Green = OK, no action needed
    - Yellow = Monitor, may need attention soon
    - Red = Service Required, needs action
+   - Based on industry-standard DVI (Digital Vehicle Inspection) colors
 
 3. NO DIRECT RECOMMENDATIONS
    - We state facts and cite industry sources
    - Actual service recommendations come from the shop
    - Example: "6 years old. Industry guidelines suggest inspection after 5 years."
+   - Builds trust by being informative without being prescriptive
 
 4. TECHNICIAN NOTES
    - Show the raw notes from the inspection
    - Include inspector name and shop
    - Builds trust through transparency
+   - Differentiates us from black-box "your car needs X" apps
+
+
+USER PSYCHOLOGY
+===============
+
+Confidence Without Overload
+- Most users don't want to read 29 inspection items
+- They want to know: "Is my car okay?"
+- Category summary answers that question in 2 seconds
+- Power users can dig deeper into details
+
+Actionable, Not Alarming
+- Yellow items should feel like "something to keep an eye on" - not scary
+- Red items are "you should handle this soon"
+- Language should be specific enough to act on, without being alarmist
+- Avoid fear-based messaging
+
+Trust Through Transparency
+- Showing actual technician notes builds trust
+- Users can see exact language the shop used
+- Can verify measurements and understand context
+- Differentiates from apps that just say "your car needs X" with no explanation
+
+
+IMPLEMENTATION REQUIREMENTS
+===========================
+
+Data Model Extensions
+- Each item needs optional techNotes field:
+  - techNotes.raw - Original text from shop's inspection report
+  - techNotes.inspectedBy - Technician name (if available)
+  - techNotes.shopName - Shop that performed the inspection
+
+Category Aggregation Logic
+- Category status badge priority:
+  1. If ANY item is "service_required" → Show "X needs service" (red)
+  2. Else if ANY item is "monitor" → Show "X items to monitor" (yellow)
+  3. Else → Show "All OK" (green)
+
+Empty State Handling
+- If item has no technician notes, show placeholder:
+  - "No additional notes from this inspection"
+  - Still show inspector/shop if available
+
+
+ACCESSIBILITY REQUIREMENTS
+==========================
+- Don't rely on color alone - always include text status ("OK", "Monitor", "Service Required")
+- Expandable sections need proper aria-expanded attributes
+- Screen readers should announce category name AND status together
+- Ensure sufficient color contrast (yellow on dark backgrounds needs attention)
+- Tap targets should be large enough for mobile (minimum 44px height)
 
 
 DESIGN DECISION: HANDLING MISSING DATA
@@ -347,11 +440,30 @@ DECISION NEEDED: Which approach for beta?
 FUTURE CONSIDERATIONS
 =====================
 
-1. History View - Show how items changed over multiple inspections
-2. Comparison Bars - Visual spectrum showing where measurement falls
-3. Push Notifications - Alert when status changes (green → yellow)
-4. Quick Actions - "Schedule Service" button that pre-fills the issue
-5. Shop Integration - Link back to shop for follow-up
+1. History View
+   - Users should see how an item changed over time
+   - Example: "Rear brakes went from 7mm → 5mm → 4mm over 3 inspections"
+   - Requires storing historical snapshots per VIN
+
+2. Comparison to Industry Standards
+   - Show where user's measurement falls on a visual spectrum
+   - Example: Tire age bar showing 6 years on a 0-10 year scale with color zones
+   - Provides context without being prescriptive
+
+3. Push Notifications
+   - Alert when new inspection comes in
+   - Especially notify if status changed (green → yellow, or yellow → red)
+   - Keep user informed without requiring them to check
+
+4. Quick Actions
+   - On items needing attention, offer "Schedule Service" button
+   - Pre-fills the issue into a service request
+   - Routes to the shop that performed the inspection
+
+5. Shop Integration
+   - Link back to shop for follow-up questions
+   - Easy re-booking for recommended services
+   - Maintain shop-customer relationship
 
 
 ---

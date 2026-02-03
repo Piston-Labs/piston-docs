@@ -24,6 +24,50 @@ STATUS LEVELS
 - Service Required (Red): Needs action, should be addressed
 
 
+TWO ITEM TYPES
+--------------
+QUANTITATIVE - Extract numeric values (mm, 32nds, volts, PSI). Status derived from thresholds.
+  Example: "Front pads at 4mm" → Extract 4, compare to threshold (3-5mm = monitor)
+
+STATUS-BASED - Map descriptive language to OK / Monitor / Service Required.
+  Example: "Oil looks dark" → Match "dark" to monitor status
+
+
+SCHEMA OVERVIEW
+---------------
+{
+  "brakes": {
+    "frontPads": { "mm": number, "status": string },
+    "rearPads": { "mm": number, "status": string },
+    "frontRotors": { "mm": number, "status": string },
+    "rearRotors": { "mm": number, "status": string }
+  },
+  "tires": {
+    "lf|rf|lr|rr": {
+      "tread32nds": number,
+      "pressurePsi": number,
+      "dotCode": string,
+      "ageYears": number
+    }
+  },
+  "fluids": { "oil|brake|coolant|transmission|powerSteering": { "status": string } },
+  "filters": { "engineAir|cabinAir": { "status": string } },
+  "battery": { "voltage": number, "ccaPercent": number, "ageMonths": number },
+  "underHood": {
+    "belts|hoses|leaks|radiator": { "status": string },
+    "other": { "status": string, "notes": [] }
+  },
+  "undercarriage": {
+    "suspension|steering|driveshaft|axles|exhaust|brakeHoses": { "status": string },
+    "other": { "status": string, "notes": [] }
+  },
+  "visibility": { "wiperBlades|lights": { "status": string } }
+}
+
+Status values: "ok" | "monitor" | "service_required"
+Type: "status" | "quantitative" | "status_with_notes"
+
+
 CRITICAL SEVERITY DISTINCTIONS
 ==============================
 
@@ -587,6 +631,36 @@ CONDITIONAL/TEMPORAL PHRASES
 "ok for now" → Monitor (implies future concern)
 "good until next service" → OK with note
 "will need soon" → Monitor
+
+
+JSON EXPORT FORMAT
+==================
+For vector embedding generation, export entries in this format:
+
+[
+  {
+    "id": "INS-BRK-PAD-F",
+    "category": "brakes",
+    "schemaPath": "brakes.frontPads",
+    "name": "Front Brake Pads",
+    "type": "quantitative",
+    "unit": "mm",
+    "aliases": ["front pads", "front brake pads", "F brake pads", ...],
+    "statusPhrases": {
+      "ok": ["good", "ok", "pass", "plenty of life", ...],
+      "monitor": ["worn", "getting low", "50% worn", ...],
+      "service_required": ["needs replacement", "replace", "worn out", ...]
+    },
+    "thresholds": {
+      "ok": { "min": 5 },
+      "monitor": { "min": 3, "max": 5 },
+      "service_required": { "max": 3 }
+    }
+  },
+  ...
+]
+
+Full JSON taxonomy available at: /docs/inspection-taxonomy.json
 
 
 ---
