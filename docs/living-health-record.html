@@ -211,7 +211,7 @@
         <p class="subtitle">Vehicle health inspection format for Glovebox beta</p>
 
         <h2>Core Inspection Items</h2>
-        <p style="color: #94a3b8; margin-bottom: 1rem;">14 items that matter most to vehicle owners, with high shop capture rates.</p>
+        <p style="color: #94a3b8; margin-bottom: 1rem;">21 items that matter most to vehicle owners, with high shop capture rates.</p>
 
         <table class="spec-table">
             <thead>
@@ -332,21 +332,7 @@
                     <td class="red">&gt;60 mo</td>
                 </tr>
 
-                <tr class="section-header"><td colspan="5">Safety &amp; Visibility</td></tr>
-                <tr>
-                    <td>Wiper Blades</td>
-                    <td>status</td>
-                    <td class="green">OK</td>
-                    <td class="yellow">Monitor</td>
-                    <td class="red">Service Required</td>
-                </tr>
-                <tr>
-                    <td>Lights</td>
-                    <td>status</td>
-                    <td class="green">OK</td>
-                    <td class="yellow">Monitor</td>
-                    <td class="red">Service Required</td>
-                </tr>
+                <tr class="section-header"><td colspan="5">Under Hood</td></tr>
                 <tr>
                     <td>Belts</td>
                     <td>status</td>
@@ -356,6 +342,59 @@
                 </tr>
                 <tr>
                     <td>Hoses</td>
+                    <td>status</td>
+                    <td class="green">OK</td>
+                    <td class="yellow">Monitor</td>
+                    <td class="red">Service Required</td>
+                </tr>
+                <tr>
+                    <td>Leaks</td>
+                    <td>status</td>
+                    <td class="green">OK</td>
+                    <td class="yellow">Monitor</td>
+                    <td class="red">Service Required</td>
+                </tr>
+
+                <tr class="section-header"><td colspan="5">Undercarriage</td></tr>
+                <tr>
+                    <td>Suspension</td>
+                    <td>status</td>
+                    <td class="green">OK</td>
+                    <td class="yellow">Monitor</td>
+                    <td class="red">Service Required</td>
+                </tr>
+                <tr>
+                    <td>Steering</td>
+                    <td>status</td>
+                    <td class="green">OK</td>
+                    <td class="yellow">Monitor</td>
+                    <td class="red">Service Required</td>
+                </tr>
+                <tr>
+                    <td>Driveshaft</td>
+                    <td>status</td>
+                    <td class="green">OK</td>
+                    <td class="yellow">Monitor</td>
+                    <td class="red">Service Required</td>
+                </tr>
+                <tr>
+                    <td>Axles</td>
+                    <td>status</td>
+                    <td class="green">OK</td>
+                    <td class="yellow">Monitor</td>
+                    <td class="red">Service Required</td>
+                </tr>
+
+                <tr class="section-header"><td colspan="5">Visibility</td></tr>
+                <tr>
+                    <td>Wiper Blades</td>
+                    <td>status</td>
+                    <td class="green">OK</td>
+                    <td class="yellow">Monitor</td>
+                    <td class="red">Service Required</td>
+                </tr>
+                <tr>
+                    <td>Lights</td>
                     <td>status</td>
                     <td class="green">OK</td>
                     <td class="yellow">Monitor</td>
@@ -482,21 +521,49 @@
                 </div>
 
                 <div class="inspection-section">
-                    <h5>Safety</h5>
-                    <div class="inspection-item">
-                        <span class="label">Wiper Blades</span>
-                        <span class="value green">Good</span>
-                    </div>
-                    <div class="inspection-item">
-                        <span class="label">Lights</span>
-                        <span class="value green">OK</span>
-                    </div>
+                    <h5>Under Hood</h5>
                     <div class="inspection-item">
                         <span class="label">Belts</span>
                         <span class="value green">OK</span>
                     </div>
                     <div class="inspection-item">
                         <span class="label">Hoses</span>
+                        <span class="value green">OK</span>
+                    </div>
+                    <div class="inspection-item">
+                        <span class="label">Leaks</span>
+                        <span class="value green">OK</span>
+                    </div>
+                </div>
+
+                <div class="inspection-section">
+                    <h5>Undercarriage</h5>
+                    <div class="inspection-item">
+                        <span class="label">Suspension</span>
+                        <span class="value green">OK</span>
+                    </div>
+                    <div class="inspection-item">
+                        <span class="label">Steering</span>
+                        <span class="value green">OK</span>
+                    </div>
+                    <div class="inspection-item">
+                        <span class="label">Driveshaft</span>
+                        <span class="value green">OK</span>
+                    </div>
+                    <div class="inspection-item">
+                        <span class="label">Axles</span>
+                        <span class="value yellow">Monitor</span>
+                    </div>
+                </div>
+
+                <div class="inspection-section">
+                    <h5>Visibility</h5>
+                    <div class="inspection-item">
+                        <span class="label">Wiper Blades</span>
+                        <span class="value green">OK</span>
+                    </div>
+                    <div class="inspection-item">
+                        <span class="label">Lights</span>
                         <span class="value green">OK</span>
                     </div>
                 </div>
@@ -604,19 +671,31 @@
     "ageMonths": 36
   },
 
-  "safety": {
-    "wiperBlades": { "status": "good" },
-    "lights": { "status": "ok" },
+  "underHood": {
     "belts": { "status": "ok" },
-    "hoses": { "status": "ok" }
+    "hoses": { "status": "ok" },
+    "leaks": { "status": "ok" }
+  },
+
+  "undercarriage": {
+    "suspension": { "status": "ok" },
+    "steering": { "status": "ok" },
+    "driveshaft": { "status": "ok" },
+    "axles": { "status": "monitor" }
+  },
+
+  "visibility": {
+    "wiperBlades": { "status": "ok" },
+    "lights": { "status": "ok" }
   },
 
   "overallHealth": "fair",
   "attentionItems": [
-    { "item": "Cabin Air Filter", "status": "replace" },
+    { "item": "Cabin Air Filter", "status": "service_required" },
     { "item": "Coolant", "status": "monitor" },
     { "item": "Engine Air Filter", "status": "monitor" },
-    { "item": "Rear Brake Pads", "status": "monitor" }
+    { "item": "Rear Brake Pads", "status": "monitor" },
+    { "item": "Axles", "status": "monitor" }
   ]
 }
         </pre>
