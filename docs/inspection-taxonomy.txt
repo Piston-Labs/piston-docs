@@ -1,0 +1,595 @@
+INSPECTION TAXONOMY
+===================
+Semantic mapping for parsing shop inspection language into Living Health Record schema.
+
+PURPOSE
+-------
+This document maps the subjective, variable language technicians use in inspection reports
+to our standardized schema. Used for vector RAG semantic matching to automatically
+classify inspection findings.
+
+
+HOW IT WORKS
+------------
+1. Shop sends inspection report (free text, PDF, or structured data)
+2. Vector RAG matches phrases to taxonomy entries
+3. System maps to schema path and determines status (ok/monitor/service_required)
+4. Data populates the Living Health Record
+
+
+STATUS LEVELS
+-------------
+- OK (Green): No action needed, within acceptable range
+- Monitor (Yellow): May need attention soon, keep an eye on it
+- Service Required (Red): Needs action, should be addressed
+
+
+CRITICAL SEVERITY DISTINCTIONS
+==============================
+
+LEAKS: Seep vs Leak
+-------------------
+Severity spectrum: Seep → Weep → Leak → Active Leak
+
+- Seep/Seepage = moisture, staining, oily film - NOT actively moving
+  → STATUS: Monitor
+
+- Weep/Weeping = slow fluid migration, damp, sweating
+  → STATUS: Monitor
+
+- Leak/Drip = active dripping, drops forming
+  → STATUS: Service Required
+
+- Active/Major Leak = running, puddle, pooling, rapid loss
+  → STATUS: Service Required
+
+Key rule: If it's not actively dripping, it's monitor. Once fluid is moving/dripping, it's service required.
+
+
+BELTS: Chirp vs Squeal
+----------------------
+- Chirp/Chirping = minor noise, often cold start or moisture related
+  → STATUS: Monitor
+
+- Squeal/Squealing = significant slipping, tension issue, constant noise
+  → STATUS: Service Required
+
+
+ROTORS: Scoring Severity
+------------------------
+- Light scoring, minor grooves, surface scoring
+  → STATUS: Monitor (can often be resurfaced)
+
+- Deeply grooved, warped, pulsating, below spec
+  → STATUS: Service Required (replace)
+
+
+================================================================================
+TAXONOMY ENTRIES
+================================================================================
+
+
+BRAKES
+======
+
+INS-BRK-PAD-F: Front Brake Pads
+-------------------------------
+Schema: brakes.frontPads
+Type: Quantitative (mm)
+Thresholds: >5mm = OK, 3-5mm = Monitor, <3mm = Service Required
+
+Aliases:
+- front brake pads, front pads, F brake pads, fr pads, frt pads
+- front disc pads, front brake pad thickness, front pad measurement
+- front brake linings, front friction material
+
+Status Phrases:
+OK: good, ok, pass, plenty of life, like new, adequate, within spec, satisfactory
+Monitor: worn, getting low, fair, 50% worn, will need soon, approaching minimum, marginal
+Service Required: needs replacement, replace, worn out, at minimum, metal to metal,
+                  grinding, scraping, unsafe, condemned, spongy pedal, pedal to floor
+
+
+INS-BRK-PAD-R: Rear Brake Pads
+------------------------------
+Schema: brakes.rearPads
+Type: Quantitative (mm)
+Thresholds: >5mm = OK, 3-5mm = Monitor, <3mm = Service Required
+
+Aliases:
+- rear brake pads, rear pads, R brake pads, rr pads, back brake pads
+- rear disc pads, rear brake linings, rear friction material
+
+Status Phrases:
+OK: good, ok, pass, plenty of life, like new, adequate, within spec
+Monitor: worn, getting low, fair, 50% worn, will need soon, approaching minimum
+Service Required: needs replacement, replace, worn out, at minimum, metal to metal, grinding
+
+
+INS-BRK-ROTOR-F: Front Brake Rotors
+-----------------------------------
+Schema: brakes.frontRotors
+Type: Quantitative (mm)
+
+Aliases:
+- front rotors, front brake rotors, front discs, front brake discs
+- F rotors, fr rotors, front rotor thickness
+
+Status Phrases:
+OK: good, smooth, within spec, no scoring, no grooves, resurfaced
+Monitor: scored, scoring, light scoring, grooved, light grooves, surface rust, lip forming
+Service Required: deeply grooved, warped, pulsating, vibration when braking, below spec,
+                  cracked, replace rotors, cannot resurface
+
+
+INS-BRK-ROTOR-R: Rear Brake Rotors
+----------------------------------
+Schema: brakes.rearRotors
+Type: Quantitative (mm)
+
+Aliases:
+- rear rotors, rear brake rotors, rear discs, rear brake discs
+- R rotors, rr rotors, back rotors
+
+Status Phrases:
+OK: good, smooth, within spec, no scoring, no grooves, resurfaced
+Monitor: scored, scoring, light scoring, grooved, light grooves, surface rust, lip forming
+Service Required: deeply grooved, warped, pulsating, below spec, cracked, replace rotors
+
+
+TIRES
+=====
+
+INS-TIRE-TREAD-[LF/RF/LR/RR]: Tire Tread Depth
+----------------------------------------------
+Schema: tires.[position].tread32nds
+Type: Quantitative (32nds inch)
+Thresholds: >6/32 = OK, 4-6/32 = Monitor, <4/32 = Service Required
+
+Aliases (position-specific):
+- LF/RF/LR/RR tread, left/right front/rear tread
+- driver/passenger front/rear tire, tread depth
+
+Status Phrases:
+OK: good, plenty of tread, like new, adequate, deep tread, no damage
+Monitor: half worn, 50%, getting low, worn, slight cupping, minor feathering, curb rash
+Service Required: bald, needs tires, replace, worn out, at wear bars, unsafe,
+                  bulge, bubble, sidewall damage, cord showing, tread separation
+
+
+INS-TIRE-PSI-[LF/RF/LR/RR]: Tire Pressure
+-----------------------------------------
+Schema: tires.[position].pressurePsi
+Type: Quantitative (PSI)
+
+Aliases (position-specific):
+- LF/RF/LR/RR pressure, left/right front/rear PSI
+
+Status Phrases:
+OK: ok, good, correct, set to spec, proper, TPMS ok
+Monitor: slightly low, slightly high, adjusted, topped off, needed air
+Service Required: very low, flat, losing air, leak, overinflated, TPMS light on,
+                  slow leak, puncture, nail in tire
+
+
+INS-TIRE-AGE-[LF/RF/LR/RR]: Tire Age
+------------------------------------
+Schema: tires.[position].ageYears
+Type: Quantitative (years)
+Thresholds: <6 yrs = OK, 6-8 yrs = Monitor, >8 yrs = Service Required
+
+Aliases:
+- tire age, DOT date, manufacture date
+
+Status Phrases:
+OK: new, recent, good age, young
+Monitor: aging, older, getting old, several years old
+Service Required: old, aged out, dry rot, cracking, weathered, expired
+
+
+FLUIDS
+======
+
+INS-FLUID-OIL: Engine Oil
+-------------------------
+Schema: fluids.oil.status
+Type: Status
+
+Aliases:
+- engine oil, oil, motor oil, oil level, oil condition, crankcase oil
+
+Status Phrases:
+OK: full, good, clean, fresh, golden, amber, proper level, recently changed
+Monitor: low, dirty, dark, due soon, topped off, darkening, brownish
+Service Required: very low, empty, black, sludge, burnt, contaminated, milky,
+                  water in oil, metal particles
+
+
+INS-FLUID-BRAKE: Brake Fluid
+----------------------------
+Schema: fluids.brake.status
+Type: Status
+
+Aliases:
+- brake fluid, DOT 3, DOT 4, hydraulic fluid, master cylinder fluid
+
+Status Phrases:
+OK: full, good, clear, clean, proper level, light colored
+Monitor: low, dark, discolored, due for flush, amber, topped off
+Service Required: very low, contaminated, black, needs flush, moisture, water
+
+
+INS-FLUID-COOL: Coolant
+-----------------------
+Schema: fluids.coolant.status
+Type: Status
+
+Aliases:
+- coolant, antifreeze, radiator fluid, coolant reservoir, expansion tank
+
+Status Phrases:
+OK: full, good, proper color, clean, bright color
+Monitor: low, discolored, due for flush, topped off, fading color
+Service Required: very low, contaminated, rusty, milky, oil in coolant, empty, leaking
+
+
+INS-FLUID-TRANS: Transmission Fluid
+-----------------------------------
+Schema: fluids.transmission.status
+Type: Status
+
+Aliases:
+- transmission fluid, trans fluid, ATF, CVT fluid, gear oil
+
+Status Phrases:
+OK: full, good, clean, red, pink, proper color
+Monitor: low, dark, brown, due for service, topped off
+Service Required: very low, burnt, black, burnt smell, metal particles, slipping
+
+
+INS-FLUID-PS: Power Steering Fluid
+----------------------------------
+Schema: fluids.powerSteering.status
+Type: Status
+
+Aliases:
+- power steering fluid, PS fluid, steering fluid
+
+Status Phrases:
+OK: full, good, clean, proper level
+Monitor: low, dark, discolored, topped off
+Service Required: very low, empty, contaminated, foamy, noisy pump, whining
+
+
+FILTERS
+=======
+
+INS-FILTER-AIR: Engine Air Filter
+---------------------------------
+Schema: filters.engineAir.status
+Type: Status
+
+Aliases:
+- air filter, engine air filter, intake filter, air cleaner
+
+Status Phrases:
+OK: clean, good, new, white, light colored, no debris
+Monitor: dirty, dusty, fair, some debris, gray, darkening
+Service Required: very dirty, clogged, replace, restricted, blocked, black, torn
+
+
+INS-FILTER-CABIN: Cabin Air Filter
+----------------------------------
+Schema: filters.cabinAir.status
+Type: Status
+
+Aliases:
+- cabin filter, cabin air filter, AC filter, HVAC filter, pollen filter
+
+Status Phrases:
+OK: clean, good, new, white, no debris
+Monitor: dirty, dusty, debris, leaves, gray
+Service Required: very dirty, clogged, replace, moldy, smells, mildew, rodent
+
+
+BATTERY
+=======
+
+INS-BAT-VOLT: Battery Voltage
+-----------------------------
+Schema: battery.voltage
+Type: Quantitative (volts)
+Thresholds: >12.4V = OK, 12.0-12.4V = Monitor, <12.0V = Service Required
+
+Aliases:
+- battery voltage, voltage, battery volts, resting voltage, OCV
+
+Status Phrases:
+OK: good, fully charged, strong, healthy, terminals clean, no corrosion
+Monitor: low charge, needs charging, marginal, slight corrosion, slow crank
+Service Required: weak, dead, bad, won't hold charge, heavy corrosion, swollen,
+                  bulging case, clicking, won't start, no start
+
+
+INS-BAT-CCA: Battery CCA
+------------------------
+Schema: battery.ccaPercent
+Type: Quantitative (percent)
+Thresholds: >80% = OK, 50-80% = Monitor, <50% = Service Required
+
+Aliases:
+- CCA, cold cranking amps, battery test, load test, battery health
+
+Status Phrases:
+OK: good, pass, strong, healthy
+Monitor: fair, marginal, weakening, borderline
+Service Required: weak, failed, replace, below spec, no start
+
+
+INS-BAT-AGE: Battery Age
+------------------------
+Schema: battery.ageMonths
+Type: Quantitative (months)
+Thresholds: <48mo = OK, 48-60mo = Monitor, >60mo = Service Required
+
+Aliases:
+- battery age, battery date, install date, date code
+
+Status Phrases:
+OK: new, recent, young, within warranty
+Monitor: getting old, aging, approaching end of life
+Service Required: old, past warranty, expired, end of life
+
+
+UNDER HOOD
+==========
+
+INS-BELT: Belts
+---------------
+Schema: underHood.belts.status
+Type: Status
+
+Aliases:
+- belts, serpentine belt, drive belt, accessory belt, fan belt, V-belt
+
+Status Phrases:
+OK: good, no cracks, tight, proper tension, no wear, quiet
+Monitor: cracked, worn, glazed, frayed, minor cracks, chirp, chirping, cold start squeak
+Service Required: squeal, squealing, loose, chunks missing, missing ribs, separating,
+                  delaminating, slipping, broken
+
+
+INS-HOSE: Hoses
+---------------
+Schema: underHood.hoses.status
+Type: Status
+
+Aliases:
+- hoses, coolant hoses, radiator hoses, heater hoses, upper hose, lower hose
+
+Status Phrases:
+OK: good, firm, no leaks, no cracks, pliable
+Monitor: soft, spongy, surface cracks, bulging, aging, hardening
+Service Required: leaking, cracked, collapsed, split, burst, brittle, rotted
+
+
+INS-LEAK: Leaks
+---------------
+Schema: underHood.leaks.status
+Type: Status
+
+SEVERITY SPECTRUM: Seep → Weep → Leak → Active Leak
+
+Aliases:
+- leaks, fluid leaks, oil leak, coolant leak, trans leak, valve cover leak,
+  rear main seal, front main seal, oil pan leak, gasket leak
+
+Status Phrases:
+OK: no leaks, dry, bone dry, no moisture, clean, no evidence of leaks
+Monitor: seep, seepage, weep, weeping, damp, moisture, staining, oil stain,
+         residue, oily film, sweating, not dripping, no active drip
+Service Required: leak, leaking, active leak, drip, dripping, drops, running,
+                  major leak, puddle, pooling, wet, soaked, rapid fluid loss
+
+
+INS-RADIATOR: Radiator/Cooling System
+-------------------------------------
+Schema: underHood.radiator.status
+Type: Status
+
+Aliases:
+- radiator, cooling system, water pump, thermostat, cooling fan, radiator fan,
+  fan clutch, heater core, coolant temp sensor
+
+Status Phrases:
+OK: good, no leaks, fins clear, cap holds pressure, fan operational, pump quiet
+Monitor: minor damage, bent fins, debris, weep hole damp, slight play, fan slow
+Service Required: leaking, cracked, pump leaking, pump noisy, bearing failed,
+                  stuck open, stuck closed, fan motor bad, runs hot, coolant loss
+
+
+INS-UH-OTHER: Under Hood Other
+------------------------------
+Schema: underHood.other
+Type: Status + Notes
+
+Aliases:
+- under hood other, engine bay other, miscellaneous
+
+Status Phrases:
+OK: good, no issues, nothing noted, all good
+Monitor: note, found, observed, minor issue, attention needed
+Service Required: needs attention, repair needed, safety concern
+
+
+UNDERCARRIAGE
+=============
+
+INS-SUSP: Suspension
+--------------------
+Schema: undercarriage.suspension.status
+Type: Status
+
+Aliases:
+- suspension, shocks, struts, springs, control arms, ball joints, bushings,
+  sway bar links, stabilizer links
+
+Status Phrases:
+OK: good, tight, no play, no leaks, no noise, rides smooth
+Monitor: worn, some play, minor wear, creak, slight squeak, slight bounce, slight lean
+Service Required: worn out, leaking, loose, clunk, clunking, bang, knock, bottoming out,
+                  bouncy, excessive body roll, nose dive, unsafe
+
+
+INS-STEER: Steering
+-------------------
+Schema: undercarriage.steering.status
+Type: Status
+
+Aliases:
+- steering, tie rods, rack and pinion, steering rack, steering linkage
+
+Status Phrases:
+OK: good, tight, no play, responsive, tracks straight, no pull
+Monitor: some play, worn, slight looseness, slight pull, minor drift, slightly stiff
+Service Required: loose, excessive play, sloppy, wandering, pulls hard, hard to turn,
+                  binds, shakes, shimmy, death wobble
+
+
+INS-DSHAFT: Driveshaft
+----------------------
+Schema: undercarriage.driveshaft.status
+Type: Status
+
+Aliases:
+- driveshaft, drive shaft, prop shaft, U-joints, center bearing
+
+Status Phrases:
+OK: good, no play, tight, no noise
+Monitor: some play, worn, slight vibration
+Service Required: loose, vibration, clunk, worn out, noisy
+
+
+INS-AXLE: Axles
+---------------
+Schema: undercarriage.axles.status
+Type: Status
+
+Aliases:
+- axles, CV axles, CV shafts, half shafts, CV joints, CV boots
+
+Status Phrases:
+OK: good, boots intact, no play, no noise
+Monitor: boot cracked, minor leak, slight crack, small tear
+Service Required: boot torn, clicking, leaking grease, noisy, popping
+
+
+INS-EXHAUST: Exhaust
+--------------------
+Schema: undercarriage.exhaust.status
+Type: Status
+
+SEVERITY: Tick = Monitor, Loud/Roar = Service Required. Smell in cabin = IMMEDIATE.
+
+Aliases:
+- exhaust, exhaust system, muffler, catalytic converter, tailpipe, flex pipe
+
+Status Phrases:
+OK: good, no leaks, quiet, secure, no rust, no smell
+Monitor: minor rust, surface rust, tick, slight tick, exhaust tick
+Service Required: leaking, loud, roar, drone, hole, rusted through, hanging,
+                  exhaust smell in cabin, fumes, CO risk, health hazard
+
+
+INS-HOSE-BRAKE: Brake Hoses
+---------------------------
+Schema: undercarriage.brakeHoses.status
+Type: Status
+
+Aliases:
+- brake hoses, brake lines, flexible brake lines, brake flex hose
+
+Status Phrases:
+OK: good, no leaks, no cracks, firm
+Monitor: surface cracks, aging, soft, weathered
+Service Required: leaking, cracked, swelling, bulging under pressure, seeping
+
+
+INS-UC-OTHER: Undercarriage Other
+---------------------------------
+Schema: undercarriage.other
+Type: Status + Notes
+
+Aliases:
+- undercarriage other, underbody other, chassis other
+
+Common notes: undertray damage, splash shield, frame rust, impact damage
+
+
+VISIBILITY
+==========
+
+INS-WIPER: Wiper Blades
+-----------------------
+Schema: visibility.wiperBlades.status
+Type: Status
+
+Aliases:
+- wipers, wiper blades, windshield wipers, front wipers, rear wiper
+
+Status Phrases:
+OK: good, clean wipe, no streaks, new
+Monitor: streaking, chattering, worn, skipping, slight chatter
+Service Required: torn, replace, cracked, not clearing, missing, hardened
+
+
+INS-LIGHTS: Lights
+------------------
+Schema: visibility.lights.status
+Type: Status
+
+Aliases:
+- lights, headlights, taillights, brake lights, turn signals, fog lights,
+  reverse lights, license plate light, DRL
+
+Status Phrases:
+OK: all working, good, operational, functional, bright, clear lenses
+Monitor: dim, foggy, cloudy, yellowed, oxidized, intermittent, flickering
+Service Required: out, burnt out, not working, inop, dead, broken, water inside
+
+
+================================================================================
+PARSING NOTES
+================================================================================
+
+NEGATION HANDLING
+-----------------
+"No leaks" → OK
+"Leaks" → Service Required
+Context matters. The phrase "no" before a negative condition indicates OK status.
+
+
+ACTION VS CONDITION
+-------------------
+"Topped off" - Action was taken, implies it was low → Monitor
+"Replaced" - Action taken, current status is now OK
+"Adjusted" - May indicate it was out of spec → context dependent
+
+
+COMPOUND STATEMENTS
+-------------------
+"Brakes and tires good" - Single note covering multiple items
+Requires sentence-level parsing to split into multiple schema entries.
+
+
+CONDITIONAL/TEMPORAL PHRASES
+----------------------------
+"ok for now" → Monitor (implies future concern)
+"good until next service" → OK with note
+"will need soon" → Monitor
+
+
+---
+Inspection Taxonomy v1.0
+Piston Labs / Glovebox Beta
+February 2026

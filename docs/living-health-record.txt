@@ -1,0 +1,360 @@
+LIVING HEALTH RECORD SPECIFICATION
+===================================
+Vehicle health inspection format for Glovebox beta
+
+PURPOSE
+-------
+A standardized format for capturing and displaying vehicle inspection data from shops.
+Designed for consumer understanding with progressive disclosure (summary → details → tech notes).
+
+
+CORE INSPECTION ITEMS (29 total)
+================================
+
+BRAKES
+------
+1. Front Brake Pads
+   - Measurement: mm thickness
+   - Green: >5mm
+   - Yellow: 3-5mm
+   - Red: <3mm
+
+2. Rear Brake Pads
+   - Measurement: mm thickness
+   - Green: >5mm
+   - Yellow: 3-5mm
+   - Red: <3mm
+
+3. Front Rotors
+   - Measurement: status (can include mm thickness)
+   - Green: Smooth, within spec
+   - Yellow: Scored, light grooves
+   - Red: Warped, deeply grooved, below minimum
+
+4. Rear Rotors
+   - Measurement: status (can include mm thickness)
+   - Green: Smooth, within spec
+   - Yellow: Scored, light grooves
+   - Red: Warped, deeply grooved, below minimum
+
+
+TIRES
+-----
+5-8. Tire Tread (LF, RF, LR, RR)
+   - Measurement: 32nds inch
+   - Green: >6/32"
+   - Yellow: 4-6/32"
+   - Red: <4/32"
+
+9-12. Tire Pressure (LF, RF, LR, RR)
+   - Measurement: PSI
+   - Green: At spec
+   - Yellow: +/- 5 PSI
+   - Red: >10 PSI off
+
+13-16. Tire Age (LF, RF, LR, RR)
+   - Measurement: years (from DOT code)
+   - Green: <6 years
+   - Yellow: 6-8 years
+   - Red: >8 years
+
+
+FLUIDS
+------
+17. Engine Oil
+   - Measurement: status
+   - Green: OK (full, clean, proper color)
+   - Yellow: Monitor (low, dark, due soon)
+   - Red: Service Required (very low, black, sludge, contaminated)
+
+18. Brake Fluid
+   - Measurement: status
+   - Green: OK (full, clear)
+   - Yellow: Monitor (low, dark, due for flush)
+   - Red: Service Required (very low, contaminated, moisture)
+
+19. Coolant
+   - Measurement: status
+   - Green: OK (full, proper color)
+   - Yellow: Monitor (low, discolored)
+   - Red: Service Required (very low, rusty, milky, contaminated)
+
+20. Transmission Fluid
+   - Measurement: status
+   - Green: OK (full, red/pink, clean)
+   - Yellow: Monitor (low, dark, brown)
+   - Red: Service Required (very low, burnt, black, metal particles)
+
+21. Power Steering Fluid
+   - Measurement: status
+   - Green: OK (full, clean)
+   - Yellow: Monitor (low, dark)
+   - Red: Service Required (very low, contaminated, foamy)
+
+
+FILTERS
+-------
+22. Engine Air Filter
+   - Measurement: status
+   - Green: OK (clean, white/light)
+   - Yellow: Monitor (dirty, dusty, gray)
+   - Red: Service Required (very dirty, clogged, restricted)
+
+23. Cabin Air Filter
+   - Measurement: status
+   - Green: OK (clean)
+   - Yellow: Monitor (dirty, debris)
+   - Red: Service Required (very dirty, clogged, moldy)
+
+
+BATTERY
+-------
+24. Battery Voltage
+   - Measurement: volts
+   - Green: >12.4V
+   - Yellow: 12.0-12.4V
+   - Red: <12.0V
+
+25. Battery CCA (Cold Cranking Amps)
+   - Measurement: % of rated capacity
+   - Green: >80%
+   - Yellow: 50-80%
+   - Red: <50%
+
+26. Battery Age
+   - Measurement: months
+   - Green: <48 months
+   - Yellow: 48-60 months
+   - Red: >60 months
+
+
+UNDER HOOD
+----------
+27. Belts
+   - Measurement: status
+   - Green: OK (no cracks, proper tension)
+   - Yellow: Monitor (cracked, worn, glazed, chirping)
+   - Red: Service Required (squealing, chunks missing, slipping)
+
+28. Hoses
+   - Measurement: status
+   - Green: OK (firm, no leaks)
+   - Yellow: Monitor (soft, surface cracks, bulging)
+   - Red: Service Required (leaking, cracked, collapsed)
+
+29. Leaks
+   - Measurement: status
+   - Green: OK (dry, no leaks)
+   - Yellow: Monitor (seep, weep, moisture, staining - NOT dripping)
+   - Red: Service Required (leak, drip, active leak, puddle)
+
+30. Radiator/Cooling System
+   - Measurement: status
+   - Green: OK (no leaks, fins clear, fan works)
+   - Yellow: Monitor (minor damage, bent fins, weep hole damp)
+   - Red: Service Required (leaking, cracked, fan inop, overheating)
+
+31. Under Hood Other
+   - Measurement: status + notes
+   - Captures miscellaneous findings (missing bolts, broken clips, aftermarket parts, etc.)
+
+
+UNDERCARRIAGE
+-------------
+32. Suspension
+   - Measurement: status
+   - Green: OK (tight, no play, no leaks)
+   - Yellow: Monitor (worn, some play, creak)
+   - Red: Service Required (clunking, excessive play, bottoming out)
+
+33. Steering
+   - Measurement: status
+   - Green: OK (tight, responsive, no play)
+   - Yellow: Monitor (some play, slight pull)
+   - Red: Service Required (loose, wandering, pulls hard, shimmy)
+
+34. Driveshaft
+   - Measurement: status
+   - Green: OK (no play, tight)
+   - Yellow: Monitor (some play, slight vibration)
+   - Red: Service Required (loose, clunk, vibration)
+
+35. Axles
+   - Measurement: status
+   - Green: OK (boots intact, no play)
+   - Yellow: Monitor (boot cracked, minor leak)
+   - Red: Service Required (boot torn, clicking, leaking grease)
+
+36. Exhaust
+   - Measurement: status
+   - Green: OK (no leaks, quiet, secure)
+   - Yellow: Monitor (minor rust, tick)
+   - Red: Service Required (loud, hole, hanging, fumes in cabin)
+
+37. Brake Hoses
+   - Measurement: status
+   - Green: OK (firm, no leaks)
+   - Yellow: Monitor (surface cracks, aging)
+   - Red: Service Required (leaking, swelling, cracked)
+
+38. Undercarriage Other
+   - Measurement: status + notes
+   - Captures miscellaneous findings (splash shields, frame rust, impact damage, etc.)
+
+
+VISIBILITY
+----------
+39. Wiper Blades
+   - Measurement: status
+   - Green: OK (clean wipe, no streaks)
+   - Yellow: Monitor (streaking, chattering)
+   - Red: Service Required (torn, cracked, not clearing)
+
+40. Lights
+   - Measurement: status
+   - Green: OK (all working)
+   - Yellow: Monitor (dim, foggy lenses, intermittent)
+   - Red: Service Required (out, burnt out, not working)
+
+
+DATA SCHEMA
+===========
+
+{
+  "vin": "1HGCV1F34KA012345",
+  "lastInspectionDate": "2026-01-15",
+  "odometerAtInspection": 47823,
+  "inspectingShop": "Main Street Auto",
+
+  "brakes": {
+    "frontPads": { "mm": 7, "status": "ok" },
+    "rearPads": { "mm": 4, "status": "monitor" },
+    "frontRotors": { "mm": 28, "minSpec": 25, "status": "ok" },
+    "rearRotors": { "mm": 10, "minSpec": 9, "status": "monitor", "notes": "light scoring" }
+  },
+
+  "tires": {
+    "lf": { "tread32nds": 7, "pressurePsi": 32, "dotCode": "2419", "ageYears": 6 },
+    "rf": { "tread32nds": 6, "pressurePsi": 33, "dotCode": "2419", "ageYears": 6 },
+    "lr": { "tread32nds": 5, "pressurePsi": 32, "dotCode": "2419", "ageYears": 6 },
+    "rr": { "tread32nds": 5, "pressurePsi": 32, "dotCode": "2419", "ageYears": 6 },
+    "recommendedPsi": 32
+  },
+
+  "fluids": {
+    "oil": { "status": "ok" },
+    "brake": { "status": "ok" },
+    "coolant": { "status": "monitor" },
+    "transmission": { "status": "ok" },
+    "powerSteering": { "status": "ok" }
+  },
+
+  "filters": {
+    "engineAir": { "status": "monitor" },
+    "cabinAir": { "status": "service_required" }
+  },
+
+  "battery": {
+    "voltage": 12.6,
+    "ccaPercent": 92,
+    "ageMonths": 36
+  },
+
+  "underHood": {
+    "belts": { "status": "ok" },
+    "hoses": { "status": "ok" },
+    "leaks": { "status": "ok" },
+    "radiator": { "status": "ok" },
+    "other": { "status": "monitor", "notes": ["missing bolt on air box"] }
+  },
+
+  "undercarriage": {
+    "suspension": { "status": "ok" },
+    "steering": { "status": "ok" },
+    "driveshaft": { "status": "ok" },
+    "axles": { "status": "monitor" },
+    "exhaust": { "status": "ok" },
+    "brakeHoses": { "status": "ok" },
+    "other": { "status": "ok", "notes": [] }
+  },
+
+  "visibility": {
+    "wiperBlades": { "status": "ok" },
+    "lights": { "status": "ok" }
+  },
+
+  "overallHealth": "fair",
+  "attentionItems": [
+    { "item": "Cabin Air Filter", "status": "service_required" },
+    { "item": "Coolant", "status": "monitor" },
+    { "item": "Rear Rotors", "status": "monitor", "notes": "light scoring" },
+    { "item": "Rear Brake Pads", "status": "monitor" },
+    { "item": "Axles", "status": "monitor" }
+  ]
+}
+
+
+DISPLAY PRINCIPLES
+==================
+
+1. PROGRESSIVE DISCLOSURE
+   - Level 1: Category summary (Brakes: "1 item to monitor")
+   - Level 2: Item list with status (Front Pads: 7mm, Rear Pads: 4mm)
+   - Level 3: Full technician notes (what they actually wrote)
+
+2. STATUS COLORS
+   - Green = OK, no action needed
+   - Yellow = Monitor, may need attention soon
+   - Red = Service Required, needs action
+
+3. NO DIRECT RECOMMENDATIONS
+   - We state facts and cite industry sources
+   - Actual service recommendations come from the shop
+   - Example: "6 years old. Industry guidelines suggest inspection after 5 years."
+
+4. TECHNICIAN NOTES
+   - Show the raw notes from the inspection
+   - Include inspector name and shop
+   - Builds trust through transparency
+
+
+DESIGN DECISION: HANDLING MISSING DATA
+======================================
+
+When we only have partial inspection data (e.g., brakes and tires but not fluids):
+
+OPTION A: Only Show What We Have
+- Only display categories with data
+- Pros: Clean, focused, builds confidence in what IS shown
+- Cons: User doesn't know what COULD be shown, may wonder "did they check my battery?"
+
+OPTION B: Show Everything with "Not Inspected"
+- Always show all categories, mark empty ones as "Not inspected"
+- Pros: Transparent about gaps, shows full inspection capability
+- Cons: Looks incomplete, may undermine confidence
+
+OPTION C: Hybrid (Recommended)
+- Show all categories
+- Auto-expand categories WITH data
+- Collapse categories without data, show "Not inspected" in gray
+- User can tap empty categories to see what COULD be there
+- Pros: Focus on what we have while showing scope
+- Cons: Slightly more complex
+
+DECISION NEEDED: Which approach for beta?
+
+
+FUTURE CONSIDERATIONS
+=====================
+
+1. History View - Show how items changed over multiple inspections
+2. Comparison Bars - Visual spectrum showing where measurement falls
+3. Push Notifications - Alert when status changes (green → yellow)
+4. Quick Actions - "Schedule Service" button that pre-fills the issue
+5. Shop Integration - Link back to shop for follow-up
+
+
+---
+Living Health Record Spec v1.0
+Piston Labs / Glovebox Beta
+February 2026
