@@ -211,7 +211,7 @@
         <p class="subtitle">Vehicle health inspection format for Glovebox beta</p>
 
         <h2>Core Inspection Items</h2>
-        <p style="color: #94a3b8; margin-bottom: 1rem;">21 items that matter most to vehicle owners, with high shop capture rates.</p>
+        <p style="color: #94a3b8; margin-bottom: 1rem;">22 items that matter most to vehicle owners, with high shop capture rates.</p>
 
         <table class="spec-table">
             <thead>
@@ -342,6 +342,13 @@
                 </tr>
                 <tr>
                     <td>Hoses</td>
+                    <td>status</td>
+                    <td class="green">OK</td>
+                    <td class="yellow">Monitor</td>
+                    <td class="red">Service Required</td>
+                </tr>
+                <tr>
+                    <td>Brake Hoses</td>
                     <td>status</td>
                     <td class="green">OK</td>
                     <td class="yellow">Monitor</td>
@@ -531,6 +538,10 @@
                         <span class="value green">OK</span>
                     </div>
                     <div class="inspection-item">
+                        <span class="label">Brake Hoses</span>
+                        <span class="value green">OK</span>
+                    </div>
+                    <div class="inspection-item">
                         <span class="label">Leaks</span>
                         <span class="value green">OK</span>
                     </div>
@@ -674,6 +685,7 @@
   "underHood": {
     "belts": { "status": "ok" },
     "hoses": { "status": "ok" },
+    "brakeHoses": { "status": "ok" },
     "leaks": { "status": "ok" }
   },
 
