@@ -746,6 +746,58 @@
     }
   },
   {
+    "id": "INS-FLUID-PS",
+    "category": "fluids",
+    "schemaPath": "fluids.powerSteering.status",
+    "name": "Power Steering Fluid",
+    "type": "status",
+    "aliases": [
+      "power steering fluid",
+      "power steering",
+      "PS fluid",
+      "steering fluid",
+      "power steering level",
+      "PS level",
+      "hydraulic steering fluid",
+      "power assist fluid"
+    ],
+    "statusPhrases": {
+      "ok": [
+        "full",
+        "good",
+        "ok",
+        "pass",
+        "clean",
+        "proper level",
+        "adequate",
+        "no issues",
+        "clear"
+      ],
+      "monitor": [
+        "low",
+        "dark",
+        "discolored",
+        "fair",
+        "topped off",
+        "slightly low",
+        "darkening",
+        "aging"
+      ],
+      "service_required": [
+        "very low",
+        "empty",
+        "contaminated",
+        "burnt",
+        "foamy",
+        "aerated",
+        "leaking",
+        "noisy pump",
+        "whining",
+        "failed"
+      ]
+    }
+  },
+  {
     "id": "INS-FILTER-AIR",
     "category": "filters",
     "schemaPath": "filters.engineAir.status",
@@ -1212,6 +1264,65 @@
     }
   },
   {
+    "id": "INS-UH-OTHER",
+    "category": "underHood",
+    "schemaPath": "underHood.other",
+    "name": "Under Hood Other",
+    "type": "status_with_notes",
+    "aliases": [
+      "under hood other",
+      "engine bay other",
+      "engine compartment other",
+      "miscellaneous under hood",
+      "other under hood findings",
+      "engine bay notes",
+      "additional findings"
+    ],
+    "statusPhrases": {
+      "ok": [
+        "good",
+        "ok",
+        "pass",
+        "no issues",
+        "nothing noted",
+        "all good",
+        "satisfactory"
+      ],
+      "monitor": [
+        "note",
+        "found",
+        "observed",
+        "noticed",
+        "minor issue",
+        "attention needed",
+        "recommend addressing"
+      ],
+      "service_required": [
+        "needs attention",
+        "repair needed",
+        "service required",
+        "immediate attention",
+        "critical",
+        "safety concern"
+      ]
+    },
+    "notePatterns": [
+      "missing bolt",
+      "missing hardware",
+      "broken clip",
+      "cracked plastic",
+      "broken mount",
+      "loose cover",
+      "damaged shroud",
+      "missing cap",
+      "aftermarket part",
+      "incorrect part",
+      "rodent damage",
+      "corrosion",
+      "rust"
+    ]
+  },
+  {
     "id": "INS-SUSP",
     "category": "undercarriage",
     "schemaPath": "undercarriage.suspension.status",
@@ -1414,6 +1525,121 @@
         "vibration"
       ]
     }
+  },
+  {
+    "id": "INS-EXHAUST",
+    "category": "undercarriage",
+    "schemaPath": "undercarriage.exhaust.status",
+    "name": "Exhaust",
+    "type": "status",
+    "aliases": [
+      "exhaust",
+      "exhaust system",
+      "exhaust pipe",
+      "muffler",
+      "catalytic converter",
+      "cat",
+      "resonator",
+      "tailpipe",
+      "exhaust manifold",
+      "flex pipe",
+      "exhaust hangers",
+      "exhaust clamps"
+    ],
+    "statusPhrases": {
+      "ok": [
+        "good",
+        "ok",
+        "pass",
+        "no leaks",
+        "quiet",
+        "secure",
+        "adequate",
+        "no rust",
+        "solid"
+      ],
+      "monitor": [
+        "minor rust",
+        "surface rust",
+        "fair",
+        "aging",
+        "slight discoloration",
+        "small hole",
+        "minor leak"
+      ],
+      "service_required": [
+        "leaking",
+        "loud",
+        "hole",
+        "rusted through",
+        "hanging",
+        "loose",
+        "replace",
+        "rotted",
+        "broken hanger",
+        "exhaust smell",
+        "carbon monoxide",
+        "failed"
+      ]
+    }
+  },
+  {
+    "id": "INS-UC-OTHER",
+    "category": "undercarriage",
+    "schemaPath": "undercarriage.other",
+    "name": "Undercarriage Other",
+    "type": "status_with_notes",
+    "aliases": [
+      "undercarriage other",
+      "underbody other",
+      "chassis other",
+      "miscellaneous undercarriage",
+      "other undercarriage findings",
+      "undercarriage notes",
+      "additional undercarriage"
+    ],
+    "statusPhrases": {
+      "ok": [
+        "good",
+        "ok",
+        "pass",
+        "no issues",
+        "nothing noted",
+        "all good",
+        "satisfactory"
+      ],
+      "monitor": [
+        "note",
+        "found",
+        "observed",
+        "noticed",
+        "minor issue",
+        "attention needed",
+        "recommend addressing"
+      ],
+      "service_required": [
+        "needs attention",
+        "repair needed",
+        "service required",
+        "immediate attention",
+        "critical",
+        "safety concern"
+      ]
+    },
+    "notePatterns": [
+      "undertray damage",
+      "splash shield",
+      "skid plate",
+      "rusty hardware",
+      "missing shield",
+      "dragging",
+      "loose fastener",
+      "frame rust",
+      "subframe corrosion",
+      "body mount",
+      "impact damage",
+      "road debris damage"
+    ]
   },
   {
     "id": "INS-WIPER",
