@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inspection Taxonomy - Piston Labs</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        h1 { color: #38bdf8; margin-bottom: 0.5rem; font-size: 2rem; }
+        h2 { color: #f8fafc; margin: 2rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #334155; }
+        h3 { color: #38bdf8; margin: 1.5rem 0 0.75rem; font-size: 1.1rem; }
+        .subtitle { color: #94a3b8; margin-bottom: 2rem; }
+        a { color: #38bdf8; }
+        code { background: #1e293b; padding: 0.2rem 0.4rem; border-radius: 4px; font-size: 0.85rem; }
+        pre { background: #1e293b; padding: 1rem; border-radius: 8px; overflow-x: auto; font-size: 0.8rem; margin: 1rem 0; }
+
+        .item-card {
+            background: #1e293b;
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-left: 3px solid #38bdf8;
+        }
+        .item-card h4 { color: #f8fafc; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
+        .item-card .id { color: #64748b; font-size: 0.8rem; font-weight: normal; }
+        .item-card .field { color: #94a3b8; font-size: 0.85rem; margin-bottom: 0.75rem; }
+
+        .aliases { margin: 0.75rem 0; }
+        .aliases-label { color: #94a3b8; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 0.25rem; }
+        .alias-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .alias { background: #334155; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem; color: #cbd5e1; }
+
+        .status-mappings { margin-top: 1rem; }
+        .status-row { display: grid; grid-template-columns: 120px 1fr; gap: 0.5rem; margin: 0.5rem 0; align-items: start; }
+        .status-label { font-weight: 600; font-size: 0.85rem; padding: 0.25rem 0; }
+        .status-label.green { color: #4ade80; }
+        .status-label.yellow { color: #facc15; }
+        .status-label.red { color: #f87171; }
+        .status-phrases { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+        .phrase { background: #0f172a; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem; color: #94a3b8; }
+
+        .category-section { margin: 2rem 0; }
+        .category-header {
+            background: #334155;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            color: #f8fafc;
+        }
+
+        .info-box {
+            background: #1e293b;
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-left: 3px solid #38bdf8;
+        }
+        .info-box h4 { color: #38bdf8; margin-bottom: 0.5rem; }
+        .info-box p { color: #94a3b8; font-size: 0.9rem; }
+
+        .quantitative { border-left-color: #a78bfa; }
+        .quantitative h4 .type { background: #a78bfa20; color: #a78bfa; padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.7rem; }
+
+        .status-based { border-left-color: #38bdf8; }
+        .status-based h4 .type { background: #38bdf820; color: #38bdf8; padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.7rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p style="margin-bottom: 1rem;"><a href="/">&larr; Back to Docs</a></p>
+
+        <h1>Inspection Taxonomy</h1>
+        <p class="subtitle">Vector RAG mapping from shop language to Living Health Record schema</p>
+
+        <div class="info-box">
+            <h4>Purpose</h4>
+            <p>This taxonomy enables high-confidence mapping from varied shop inspection language to our standardized 22-item Living Health Record. Each item includes aliases (what shops call it) and status phrase mappings (how shops describe conditions).</p>
+        </div>
+
+        <div class="info-box">
+            <h4>Two Item Types</h4>
+            <p><strong style="color: #a78bfa;">Quantitative</strong> — Extract numeric values (mm, 32nds, volts, PSI). Status derived from thresholds.<br>
+            <strong style="color: #38bdf8;">Status-Based</strong> — Map descriptive language to OK / Monitor / Service Required.</p>
+        </div>
+
+        <h2>Schema Overview</h2>
+        <pre>
+{
+  "brakes": { "frontPads": { "mm": number, "status": string }, "rearPads": { ... } },
+  "tires": { "lf|rf|lr|rr": { "tread32nds": number, "pressurePsi": number, "dotCode": string, "ageYears": number } },
+  "fluids": { "oil|brake|coolant|transmission": { "status": string } },
+  "filters": { "engineAir|cabinAir": { "status": string } },
+  "battery": { "voltage": number, "ccaPercent": number, "ageMonths": number },
+  "underHood": { "belts|hoses|brakeHoses|leaks": { "status": string } },
+  "undercarriage": { "suspension|steering|driveshaft|axles": { "status": string } },
+  "visibility": { "wiperBlades|lights": { "status": string } }
+}
+
+Status values: "ok" | "monitor" | "service_required"
+        </pre>
+
+        <!-- BRAKES -->
+        <div class="category-section">
+            <div class="category-header">BRAKES</div>
+
+            <div class="item-card quantitative">
+                <h4>Front Brake Pads <span class="type">QUANTITATIVE</span> <span class="id">INS-BRK-PAD-F</span></h4>
+                <div class="field">Schema: <code>brakes.frontPads.mm</code></div>
+
+                <div class="aliases">
+                    <div class="aliases-label">Aliases</div>
+                    <div class="alias-list">
+                        <span class="alias">front pads</span>
+                        <span class="alias">front brake pads</span>
+                        <span class="alias">F brake pads</span>
+                        <span class="alias">front disc pads</span>
+                        <span class="alias">front pad thickness</span>
+                        <span class="alias">frt pads</span>
+                        <span class="alias">fr pads</span>
+                    </div>
+                </div>
+
+                <div class="status-mappings">
+                    <div class="status-row">
+                        <span class="status-label green">OK (&gt;5mm)</span>
+                        <div class="status-phrases">
+                            <span class="phrase">good</span>
+                            <span class="phrase">ok</span>
+                            <span class="phrase">pass</span>
+                            <span class="phrase">6mm+</span>
+                            <span class="phrase">plenty of life</span>
+                            <span class="phrase">no issues</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label yellow">Monitor (3-5mm)</span>
+                        <div class="status-phrases">
+                            <span class="phrase">worn</span>
+                            <span class="phrase">getting low</span>
+                            <span class="phrase">50% worn</span>
+                            <span class="phrase">fair</span>
+                            <span class="phrase">will need soon</span>
+                            <span class="phrase">3-5mm</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label red">Service Required (&lt;3mm)</span>
+                        <div class="status-phrases">
+                            <span class="phrase">needs replacement</span>
+                            <span class="phrase">replace</span>
+                            <span class="phrase">worn out</span>
+                            <span class="phrase">at minimum</span>
+                            <span class="phrase">metal on metal</span>
+                            <span class="phrase">&lt;3mm</span>
+                            <span class="phrase">unsafe</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item-card quantitative">
+                <h4>Rear Brake Pads <span class="type">QUANTITATIVE</span> <span class="id">INS-BRK-PAD-R</span></h4>
+                <div class="field">Schema: <code>brakes.rearPads.mm</code></div>
+
+                <div class="aliases">
+                    <div class="aliases-label">Aliases</div>
+                    <div class="alias-list">
+                        <span class="alias">rear pads</span>
+                        <span class="alias">rear brake pads</span>
+                        <span class="alias">R brake pads</span>
+                        <span class="alias">rear disc pads</span>
+                        <span class="alias">rear pad thickness</span>
+                        <span class="alias">rr pads</span>
+                    </div>
+                </div>
+
+                <div class="status-mappings">
+                    <div class="status-row">
+                        <span class="status-label green">OK (&gt;5mm)</span>
+                        <div class="status-phrases">
+                            <span class="phrase">good</span>
+                            <span class="phrase">ok</span>
+                            <span class="phrase">pass</span>
+                            <span class="phrase">6mm+</span>
+                            <span class="phrase">plenty of life</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label yellow">Monitor (3-5mm)</span>
+                        <div class="status-phrases">
+                            <span class="phrase">worn</span>
+                            <span class="phrase">getting low</span>
+                            <span class="phrase">50% worn</span>
+                            <span class="phrase">fair</span>
+                            <span class="phrase">will need soon</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label red">Service Required (&lt;3mm)</span>
+                        <div class="status-phrases">
+                            <span class="phrase">needs replacement</span>
+                            <span class="phrase">replace</span>
+                            <span class="phrase">worn out</span>
+                            <span class="phrase">at minimum</span>
+                            <span class="phrase">metal on metal</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TIRES -->
+        <div class="category-section">
+            <div class="category-header">TIRES</div>
+
+            <div class="item-card quantitative">
+                <h4>Tire Tread Depth <span class="type">QUANTITATIVE</span> <span class="id">INS-TIRE-TREAD-*</span></h4>
+                <div class="field">Schema: <code>tires.[lf|rf|lr|rr].tread32nds</code></div>
+
+                <div class="aliases">
+                    <div class="aliases-label">Aliases</div>
+                    <div class="alias-list">
+                        <span class="alias">tread depth</span>
+                        <span class="alias">tire tread</span>
+                        <span class="alias">tread</span>
+                        <span class="alias">tire depth</span>
+                        <span class="alias">tread wear</span>
+                        <span class="alias">LF tread</span>
+                        <span class="alias">RF tread</span>
+                        <span class="alias">LR tread</span>
+                        <span class="alias">RR tread</span>
+                        <span class="alias">left front tire</span>
+                        <span class="alias">right front tire</span>
+                        <span class="alias">left rear tire</span>
+                        <span class="alias">right rear tire</span>
+                    </div>
+                </div>
+
+                <div class="status-mappings">
+                    <div class="status-row">
+                        <span class="status-label green">OK (&gt;6/32")</span>
+                        <div class="status-phrases">
+                            <span class="phrase">good</span>
+                            <span class="phrase">ok</span>
+                            <span class="phrase">plenty of tread</span>
+                            <span class="phrase">7/32+</span>
+                            <span class="phrase">like new</span>
+                            <span class="phrase">pass</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label yellow">Monitor (4-6/32")</span>
+                        <div class="status-phrases">
+                            <span class="phrase">half worn</span>
+                            <span class="phrase">50%</span>
+                            <span class="phrase">getting low</span>
+                            <span class="phrase">fair</span>
+                            <span class="phrase">worn</span>
+                            <span class="phrase">5/32</span>
+                            <span class="phrase">4/32</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label red">Service Required (&lt;4/32")</span>
+                        <div class="status-phrases">
+                            <span class="phrase">bald</span>
+                            <span class="phrase">needs tires</span>
+                            <span class="phrase">replace</span>
+                            <span class="phrase">worn out</span>
+                            <span class="phrase">at wear bars</span>
+                            <span class="phrase">2/32</span>
+                            <span class="phrase">3/32</span>
+                            <span class="phrase">unsafe</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item-card quantitative">
+                <h4>Tire Pressure <span class="type">QUANTITATIVE</span> <span class="id">INS-TIRE-PSI-*</span></h4>
+                <div class="field">Schema: <code>tires.[lf|rf|lr|rr].pressurePsi</code></div>
+
+                <div class="aliases">
+                    <div class="aliases-label">Aliases</div>
+                    <div class="alias-list">
+                        <span class="alias">tire pressure</span>
+                        <span class="alias">PSI</span>
+                        <span class="alias">air pressure</span>
+                        <span class="alias">inflation</span>
+                        <span class="alias">LF PSI</span>
+                        <span class="alias">RF PSI</span>
+                        <span class="alias">LR PSI</span>
+                        <span class="alias">RR PSI</span>
+                    </div>
+                </div>
+
+                <div class="status-mappings">
+                    <div class="status-row">
+                        <span class="status-label green">OK (at spec)</span>
+                        <div class="status-phrases">
+                            <span class="phrase">ok</span>
+                            <span class="phrase">good</span>
+                            <span class="phrase">correct</span>
+                            <span class="phrase">set to spec</span>
+                            <span class="phrase">adjusted</span>
+                            <span class="phrase">32 PSI</span>
+                            <span class="phrase">35 PSI</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label yellow">Monitor (±5 PSI)</span>
+                        <div class="status-phrases">
+                            <span class="phrase">slightly low</span>
+                            <span class="phrase">slightly high</span>
+                            <span class="phrase">adjusted</span>
+                            <span class="phrase">topped off</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label red">Service Required (&gt;10 off)</span>
+                        <div class="status-phrases">
+                            <span class="phrase">very low</span>
+                            <span class="phrase">flat</span>
+                            <span class="phrase">losing air</span>
+                            <span class="phrase">leak</span>
+                            <span class="phrase">overinflated</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item-card quantitative">
+                <h4>Tire Age <span class="type">QUANTITATIVE</span> <span class="id">INS-TIRE-AGE-*</span></h4>
+                <div class="field">Schema: <code>tires.[lf|rf|lr|rr].dotCode</code> → <code>ageYears</code></div>
+
+                <div class="aliases">
+                    <div class="aliases-label">Aliases</div>
+                    <div class="alias-list">
+                        <span class="alias">tire age</span>
+                        <span class="alias">DOT date</span>
+                        <span class="alias">tire date code</span>
+                        <span class="alias">manufacture date</span>
+                        <span class="alias">tire DOT</span>
+                        <span class="alias">week/year code</span>
+                    </div>
+                </div>
+
+                <div class="status-mappings">
+                    <div class="status-row">
+                        <span class="status-label green">OK (&lt;6 yrs)</span>
+                        <div class="status-phrases">
+                            <span class="phrase">new</span>
+                            <span class="phrase">recent</span>
+                            <span class="phrase">2022+</span>
+                            <span class="phrase">2023</span>
+                            <span class="phrase">2024</span>
+                            <span class="phrase">good age</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label yellow">Monitor (6-8 yrs)</span>
+                        <div class="status-phrases">
+                            <span class="phrase">aging</span>
+                            <span class="phrase">older</span>
+                            <span class="phrase">2018</span>
+                            <span class="phrase">2019</span>
+                            <span class="phrase">2020</span>
+                            <span class="phrase">getting old</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label red">Service Required (&gt;8 yrs)</span>
+                        <div class="status-phrases">
+                            <span class="phrase">old</span>
+                            <span class="phrase">aged out</span>
+                            <span class="phrase">dry rot</span>
+                            <span class="phrase">cracking</span>
+                            <span class="phrase">weathered</span>
+                            <span class="phrase">2016 or older</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FLUIDS -->
+        <div class="category-section">
+            <div class="category-header">FLUIDS</div>
+
+            <div class="item-card status-based">
+                <h4>Engine Oil <span class="type">STATUS</span> <span class="id">INS-FLUID-OIL</span></h4>
+                <div class="field">Schema: <code>fluids.oil.status</code></div>
+
+                <div class="aliases">
+                    <div class="aliases-label">Aliases</div>
+                    <div class="alias-list">
+                        <span class="alias">oil</span>
+                        <span class="alias">engine oil</span>
+                        <span class="alias">motor oil</span>
+                        <span class="alias">oil level</span>
+                        <span class="alias">oil condition</span>
+                    </div>
+                </div>
+
+                <div class="status-mappings">
+                    <div class="status-row">
+                        <span class="status-label green">OK</span>
+                        <div class="status-phrases">
+                            <span class="phrase">full</span>
+                            <span class="phrase">good</span>
+                            <span class="phrase">ok</span>
+                            <span class="phrase">clean</span>
+                            <span class="phrase">pass</span>
+                            <span class="phrase">recently changed</span>
+                            <span class="phrase">golden</span>
+                            <span class="phrase">amber</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label yellow">Monitor</span>
+                        <div class="status-phrases">
+                            <span class="phrase">low</span>
+                            <span class="phrase">dirty</span>
+                            <span class="phrase">dark</span>
+                            <span class="phrase">due soon</span>
+                            <span class="phrase">getting dark</span>
+                            <span class="phrase">fair</span>
+                            <span class="phrase">topped off</span>
+                            <span class="phrase">added oil</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label red">Service Required</span>
+                        <div class="status-phrases">
+                            <span class="phrase">very low</span>
+                            <span class="phrase">empty</span>
+                            <span class="phrase">black</span>
+                            <span class="phrase">sludge</span>
+                            <span class="phrase">overdue</span>
+                            <span class="phrase">burnt</span>
+                            <span class="phrase">contaminated</span>
+                            <span class="phrase">milky</span>
+                            <span class="phrase">needs change</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item-card status-based">
+                <h4>Brake Fluid <span class="type">STATUS</span> <span class="id">INS-FLUID-BRAKE</span></h4>
+                <div class="field">Schema: <code>fluids.brake.status</code></div>
+
+                <div class="aliases">
+                    <div class="aliases-label">Aliases</div>
+                    <div class="alias-list">
+                        <span class="alias">brake fluid</span>
+                        <span class="alias">brake fluid level</span>
+                        <span class="alias">DOT 3</span>
+                        <span class="alias">DOT 4</span>
+                        <span class="alias">hydraulic fluid</span>
+                    </div>
+                </div>
+
+                <div class="status-mappings">
+                    <div class="status-row">
+                        <span class="status-label green">OK</span>
+                        <div class="status-phrases">
+                            <span class="phrase">full</span>
+                            <span class="phrase">good</span>
+                            <span class="phrase">ok</span>
+                            <span class="phrase">clear</span>
+                            <span class="phrase">pass</span>
+                            <span class="phrase">clean</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label yellow">Monitor</span>
+                        <div class="status-phrases">
+                            <span class="phrase">low</span>
+                            <span class="phrase">dark</span>
+                            <span class="phrase">discolored</span>
+                            <span class="phrase">due for flush</span>
+                            <span class="phrase">fair</span>
+                            <span class="phrase">amber</span>
+                            <span class="phrase">topped off</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label red">Service Required</span>
+                        <div class="status-phrases">
+                            <span class="phrase">very low</span>
+                            <span class="phrase">contaminated</span>
+                            <span class="phrase">black</span>
+                            <span class="phrase">needs flush</span>
+                            <span class="phrase">moisture</span>
+                            <span class="phrase">water</span>
+                            <span class="phrase">boiling point low</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item-card status-based">
+                <h4>Coolant <span class="type">STATUS</span> <span class="id">INS-FLUID-COOL</span></h4>
+                <div class="field">Schema: <code>fluids.coolant.status</code></div>
+
+                <div class="aliases">
+                    <div class="aliases-label">Aliases</div>
+                    <div class="alias-list">
+                        <span class="alias">coolant</span>
+                        <span class="alias">antifreeze</span>
+                        <span class="alias">radiator fluid</span>
+                        <span class="alias">coolant level</span>
+                        <span class="alias">overflow</span>
+                        <span class="alias">reservoir</span>
+                    </div>
+                </div>
+
+                <div class="status-mappings">
+                    <div class="status-row">
+                        <span class="status-label green">OK</span>
+                        <div class="status-phrases">
+                            <span class="phrase">full</span>
+                            <span class="phrase">good</span>
+                            <span class="phrase">ok</span>
+                            <span class="phrase">pass</span>
+                            <span class="phrase">proper color</span>
+                            <span class="phrase">clean</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label yellow">Monitor</span>
+                        <div class="status-phrases">
+                            <span class="phrase">low</span>
+                            <span class="phrase">discolored</span>
+                            <span class="phrase">due for flush</span>
+                            <span class="phrase">fair</span>
+                            <span class="phrase">topped off</span>
+                            <span class="phrase">added coolant</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label red">Service Required</span>
+                        <div class="status-phrases">
+                            <span class="phrase">very low</span>
+                            <span class="phrase">contaminated</span>
+                            <span class="phrase">rusty</span>
+                            <span class="phrase">milky</span>
+                            <span class="phrase">oil in coolant</span>
+                            <span class="phrase">needs flush</span>
+                            <span class="phrase">empty</span>
+                            <span class="phrase">leaking</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item-card status-based">
+                <h4>Transmission Fluid <span class="type">STATUS</span> <span class="id">INS-FLUID-TRANS</span></h4>
+                <div class="field">Schema: <code>fluids.transmission.status</code></div>
+
+                <div class="aliases">
+                    <div class="aliases-label">Aliases</div>
+                    <div class="alias-list">
+                        <span class="alias">trans fluid</span>
+                        <span class="alias">transmission fluid</span>
+                        <span class="alias">ATF</span>
+                        <span class="alias">automatic transmission fluid</span>
+                        <span class="alias">CVT fluid</span>
+                        <span class="alias">gearbox oil</span>
+                    </div>
+                </div>
+
+                <div class="status-mappings">
+                    <div class="status-row">
+                        <span class="status-label green">OK</span>
+                        <div class="status-phrases">
+                            <span class="phrase">full</span>
+                            <span class="phrase">good</span>
+                            <span class="phrase">ok</span>
+                            <span class="phrase">clean</span>
+                            <span class="phrase">pass</span>
+                            <span class="phrase">red</span>
+                            <span class="phrase">pink</span>
+                            <span class="phrase">proper color</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label yellow">Monitor</span>
+                        <div class="status-phrases">
+                            <span class="phrase">low</span>
+                            <span class="phrase">dark</span>
+                            <span class="phrase">brown</span>
+                            <span class="phrase">due for service</span>
+                            <span class="phrase">fair</span>
+                            <span class="phrase">topped off</span>
+                            <span class="phrase">discolored</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label red">Service Required</span>
+                        <div class="status-phrases">
+                            <span class="phrase">very low</span>
+                            <span class="phrase">burnt</span>
+                            <span class="phrase">black</span>
+                            <span class="phrase">burnt smell</span>
+                            <span class="phrase">contaminated</span>
+                            <span class="phrase">needs flush</span>
+                            <span class="phrase">metal particles</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FILTERS -->
+        <div class="category-section">
+            <div class="category-header">FILTERS</div>
+
+            <div class="item-card status-based">
+                <h4>Engine Air Filter <span class="type">STATUS</span> <span class="id">INS-FILTER-AIR</span></h4>
+                <div class="field">Schema: <code>filters.engineAir.status</code></div>
+
+                <div class="aliases">
+                    <div class="aliases-label">Aliases</div>
+                    <div class="alias-list">
+                        <span class="alias">air filter</span>
+                        <span class="alias">engine air filter</span>
+                        <span class="alias">engine filter</span>
+                        <span class="alias">intake filter</span>
+                        <span class="alias">air cleaner</span>
+                    </div>
+                </div>
+
+                <div class="status-mappings">
+                    <div class="status-row">
+                        <span class="status-label green">OK</span>
+                        <div class="status-phrases">
+                            <span class="phrase">clean</span>
+                            <span class="phrase">good</span>
+                            <span class="phrase">ok</span>
+                            <span class="phrase">pass</span>
+                            <span class="phrase">new</span>
+                            <span class="phrase">recently replaced</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label yellow">Monitor</span>
+                        <div class="status-phrases">
+                            <span class="phrase">dirty</span>
+                            <span class="phrase">dusty</span>
+                            <span class="phrase">fair</span>
+                            <span class="phrase">getting dirty</span>
+                            <span class="phrase">some debris</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label red">Service Required</span>
+                        <div class="status-phrases">
+                            <span class="phrase">very dirty</span>
+                            <span class="phrase">clogged</span>
+                            <span class="phrase">replace</span>
+                            <span class="phrase">restricted</span>
+                            <span class="phrase">blocked</span>
+                            <span class="phrase">needs replacement</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item-card status-based">
+                <h4>Cabin Air Filter <span class="type">STATUS</span> <span class="id">INS-FILTER-CABIN</span></h4>
+                <div class="field">Schema: <code>filters.cabinAir.status</code></div>
+
+                <div class="aliases">
+                    <div class="aliases-label">Aliases</div>
+                    <div class="alias-list">
+                        <span class="alias">cabin filter</span>
+                        <span class="alias">cabin air filter</span>
+                        <span class="alias">AC filter</span>
+                        <span class="alias">HVAC filter</span>
+                        <span class="alias">interior filter</span>
+                        <span class="alias">pollen filter</span>
+                    </div>
+                </div>
+
+                <div class="status-mappings">
+                    <div class="status-row">
+                        <span class="status-label green">OK</span>
+                        <div class="status-phrases">
+                            <span class="phrase">clean</span>
+                            <span class="phrase">good</span>
+                            <span class="phrase">ok</span>
+                            <span class="phrase">pass</span>
+                            <span class="phrase">new</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label yellow">Monitor</span>
+                        <div class="status-phrases">
+                            <span class="phrase">dirty</span>
+                            <span class="phrase">dusty</span>
+                            <span class="phrase">fair</span>
+                            <span class="phrase">debris</span>
+                            <span class="phrase">leaves</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label red">Service Required</span>
+                        <div class="status-phrases">
+                            <span class="phrase">very dirty</span>
+                            <span class="phrase">clogged</span>
+                            <span class="phrase">replace</span>
+                            <span class="phrase">moldy</span>
+                            <span class="phrase">smells</span>
+                            <span class="phrase">restricted</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BATTERY -->
+        <div class="category-section">
+            <div class="category-header">BATTERY</div>
+
+            <div class="item-card quantitative">
+                <h4>Battery Voltage <span class="type">QUANTITATIVE</span> <span class="id">INS-BAT-VOLT</span></h4>
+                <div class="field">Schema: <code>battery.voltage</code></div>
+
+                <div class="aliases">
+                    <div class="aliases-label">Aliases</div>
+                    <div class="alias-list">
+                        <span class="alias">battery voltage</span>
+                        <span class="alias">voltage</span>
+                        <span class="alias">battery volts</span>
+                        <span class="alias">resting voltage</span>
+                        <span class="alias">open circuit voltage</span>
+                    </div>
+                </div>
+
+                <div class="status-mappings">
+                    <div class="status-row">
+                        <span class="status-label green">OK (&gt;12.4V)</span>
+                        <div class="status-phrases">
+                            <span class="phrase">good</span>
+                            <span class="phrase">ok</span>
+                            <span class="phrase">pass</span>
+                            <span class="phrase">fully charged</span>
+                            <span class="phrase">12.6V</span>
+                            <span class="phrase">12.7V</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label yellow">Monitor (12.0-12.4V)</span>
+                        <div class="status-phrases">
+                            <span class="phrase">low charge</span>
+                            <span class="phrase">needs charging</span>
+                            <span class="phrase">fair</span>
+                            <span class="phrase">12.2V</span>
+                            <span class="phrase">12.0V</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label red">Service Required (&lt;12.0V)</span>
+                        <div class="status-phrases">
+                            <span class="phrase">weak</span>
+                            <span class="phrase">dead</span>
+                            <span class="phrase">bad</span>
+                            <span class="phrase">replace</span>
+                            <span class="phrase">won't hold charge</span>
+                            <span class="phrase">11V</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item-card quantitative">
+                <h4>Battery CCA <span class="type">QUANTITATIVE</span> <span class="id">INS-BAT-CCA</span></h4>
+                <div class="field">Schema: <code>battery.ccaPercent</code></div>
+
+                <div class="aliases">
+                    <div class="aliases-label">Aliases</div>
+                    <div class="alias-list">
+                        <span class="alias">CCA</span>
+                        <span class="alias">cold cranking amps</span>
+                        <span class="alias">cranking amps</span>
+                        <span class="alias">battery test</span>
+                        <span class="alias">load test</span>
+                        <span class="alias">battery health</span>
+                    </div>
+                </div>
+
+                <div class="status-mappings">
+                    <div class="status-row">
+                        <span class="status-label green">OK (&gt;80%)</span>
+                        <div class="status-phrases">
+                            <span class="phrase">good</span>
+                            <span class="phrase">ok</span>
+                            <span class="phrase">pass</span>
+                            <span class="phrase">strong</span>
+                            <span class="phrase">healthy</span>
+                            <span class="phrase">90%+</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label yellow">Monitor (50-80%)</span>
+                        <div class="status-phrases">
+                            <span class="phrase">fair</span>
+                            <span class="phrase">marginal</span>
+                            <span class="phrase">weakening</span>
+                            <span class="phrase">60%</span>
+                            <span class="phrase">70%</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label red">Service Required (&lt;50%)</span>
+                        <div class="status-phrases">
+                            <span class="phrase">weak</span>
+                            <span class="phrase">failed</span>
+                            <span class="phrase">replace</span>
+                            <span class="phrase">bad</span>
+                            <span class="phrase">below spec</span>
+                            <span class="phrase">40%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item-card quantitative">
+                <h4>Battery Age <span class="type">QUANTITATIVE</span> <span class="id">INS-BAT-AGE</span></h4>
+                <div class="field">Schema: <code>battery.ageMonths</code></div>
+
+                <div class="aliases">
+                    <div class="aliases-label">Aliases</div>
+                    <div class="alias-list">
+                        <span class="alias">battery age</span>
+                        <span class="alias">battery date</span>
+                        <span class="alias">install date</span>
+                        <span class="alias">battery sticker</span>
+                        <span class="alias">years old</span>
+                    </div>
+                </div>
+
+                <div class="status-mappings">
+                    <div class="status-row">
+                        <span class="status-label green">OK (&lt;48 mo)</span>
+                        <div class="status-phrases">
+                            <span class="phrase">new</span>
+                            <span class="phrase">recent</span>
+                            <span class="phrase">1 year old</span>
+                            <span class="phrase">2 years old</span>
+                            <span class="phrase">3 years old</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label yellow">Monitor (48-60 mo)</span>
+                        <div class="status-phrases">
+                            <span class="phrase">4 years old</span>
+                            <span class="phrase">getting old</span>
+                            <span class="phrase">aging</span>
+                            <span class="phrase">5 years old</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label red">Service Required (&gt;60 mo)</span>
+                        <div class="status-phrases">
+                            <span class="phrase">old</span>
+                            <span class="phrase">6+ years</span>
+                            <span class="phrase">original battery</span>
+                            <span class="phrase">past warranty</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- UNDER HOOD -->
+        <div class="category-section">
+            <div class="category-header">UNDER HOOD</div>
+
+            <div class="item-card status-based">
+                <h4>Belts <span class="type">STATUS</span> <span class="id">INS-BELT</span></h4>
+                <div class="field">Schema: <code>underHood.belts.status</code></div>
+
+                <div class="aliases">
+                    <div class="aliases-label">Aliases</div>
+                    <div class="alias-list">
+                        <span class="alias">belts</span>
+                        <span class="alias">serpentine belt</span>
+                        <span class="alias">drive belt</span>
+                        <span class="alias">accessory belt</span>
+                        <span class="alias">fan belt</span>
+                        <span class="alias">V-belt</span>
+                        <span class="alias">alternator belt</span>
+                    </div>
+                </div>
+
+                <div class="status-mappings">
+                    <div class="status-row">
+                        <span class="status-label green">OK</span>
+                        <div class="status-phrases">
+                            <span class="phrase">good</span>
+                            <span class="phrase">ok</span>
+                            <span class="phrase">pass</span>
+                            <span class="phrase">no cracks</span>
+                            <span class="phrase">tight</span>
+                            <span class="phrase">proper tension</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label yellow">Monitor</span>
+                        <div class="status-phrases">
+                            <span class="phrase">cracked</span>
+                            <span class="phrase">worn</span>
+                            <span class="phrase">glazed</span>
+                            <span class="phrase">frayed</span>
+                            <span class="phrase">fair</span>
+                            <span class="phrase">minor cracks</span>
+                            <span class="phrase">surface cracks</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label red">Service Required</span>
+                        <div class="status-phrases">
+                            <span class="phrase">needs replacement</span>
+                            <span class="phrase">replace</span>
+                            <span class="phrase">squealing</span>
+                            <span class="phrase">loose</span>
+                            <span class="phrase">chunks missing</span>
+                            <span class="phrase">separating</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item-card status-based">
+                <h4>Hoses <span class="type">STATUS</span> <span class="id">INS-HOSE</span></h4>
+                <div class="field">Schema: <code>underHood.hoses.status</code></div>
+
+                <div class="aliases">
+                    <div class="aliases-label">Aliases</div>
+                    <div class="alias-list">
+                        <span class="alias">hoses</span>
+                        <span class="alias">coolant hoses</span>
+                        <span class="alias">radiator hoses</span>
+                        <span class="alias">heater hoses</span>
+                        <span class="alias">upper hose</span>
+                        <span class="alias">lower hose</span>
+                    </div>
+                </div>
+
+                <div class="status-mappings">
+                    <div class="status-row">
+                        <span class="status-label green">OK</span>
+                        <div class="status-phrases">
+                            <span class="phrase">good</span>
+                            <span class="phrase">ok</span>
+                            <span class="phrase">pass</span>
+                            <span class="phrase">firm</span>
+                            <span class="phrase">no leaks</span>
+                            <span class="phrase">no cracks</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label yellow">Monitor</span>
+                        <div class="status-phrases">
+                            <span class="phrase">soft</span>
+                            <span class="phrase">spongy</span>
+                            <span class="phrase">surface cracks</span>
+                            <span class="phrase">bulging</span>
+                            <span class="phrase">fair</span>
+                            <span class="phrase">aging</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label red">Service Required</span>
+                        <div class="status-phrases">
+                            <span class="phrase">leaking</span>
+                            <span class="phrase">cracked</span>
+                            <span class="phrase">collapsed</span>
+                            <span class="phrase">split</span>
+                            <span class="phrase">replace</span>
+                            <span class="phrase">burst</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item-card status-based">
+                <h4>Brake Hoses <span class="type">STATUS</span> <span class="id">INS-HOSE-BRAKE</span></h4>
+                <div class="field">Schema: <code>underHood.brakeHoses.status</code></div>
+
+                <div class="aliases">
+                    <div class="aliases-label">Aliases</div>
+                    <div class="alias-list">
+                        <span class="alias">brake hoses</span>
+                        <span class="alias">brake lines</span>
+                        <span class="alias">flexible brake lines</span>
+                        <span class="alias">hydraulic hoses</span>
+                        <span class="alias">brake flex hose</span>
+                    </div>
+                </div>
+
+                <div class="status-mappings">
+                    <div class="status-row">
+                        <span class="status-label green">OK</span>
+                        <div class="status-phrases">
+                            <span class="phrase">good</span>
+                            <span class="phrase">ok</span>
+                            <span class="phrase">pass</span>
+                            <span class="phrase">no leaks</span>
+                            <span class="phrase">no cracks</span>
+                            <span class="phrase">firm</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label yellow">Monitor</span>
+                        <div class="status-phrases">
+                            <span class="phrase">surface cracks</span>
+                            <span class="phrase">aging</span>
+                            <span class="phrase">fair</span>
+                            <span class="phrase">soft</span>
+                            <span class="phrase">weathered</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label red">Service Required</span>
+                        <div class="status-phrases">
+                            <span class="phrase">leaking</span>
+                            <span class="phrase">cracked</span>
+                            <span class="phrase">swelling</span>
+                            <span class="phrase">replace</span>
+                            <span class="phrase">bulging under pressure</span>
+                            <span class="phrase">seeping</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item-card status-based">
+                <h4>Leaks <span class="type">STATUS</span> <span class="id">INS-LEAK</span></h4>
+                <div class="field">Schema: <code>underHood.leaks.status</code></div>
+
+                <div class="aliases">
+                    <div class="aliases-label">Aliases</div>
+                    <div class="alias-list">
+                        <span class="alias">leaks</span>
+                        <span class="alias">fluid leaks</span>
+                        <span class="alias">oil leak</span>
+                        <span class="alias">coolant leak</span>
+                        <span class="alias">trans leak</span>
+                        <span class="alias">seepage</span>
+                        <span class="alias">drips</span>
+                    </div>
+                </div>
+
+                <div class="status-mappings">
+                    <div class="status-row">
+                        <span class="status-label green">OK</span>
+                        <div class="status-phrases">
+                            <span class="phrase">no leaks</span>
+                            <span class="phrase">good</span>
+                            <span class="phrase">ok</span>
+                            <span class="phrase">pass</span>
+                            <span class="phrase">dry</span>
+                            <span class="phrase">none noted</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label yellow">Monitor</span>
+                        <div class="status-phrases">
+                            <span class="phrase">seepage</span>
+                            <span class="phrase">minor leak</span>
+                            <span class="phrase">slight seep</span>
+                            <span class="phrase">weeping</span>
+                            <span class="phrase">damp</span>
+                            <span class="phrase">small leak</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label red">Service Required</span>
+                        <div class="status-phrases">
+                            <span class="phrase">leaking</span>
+                            <span class="phrase">major leak</span>
+                            <span class="phrase">dripping</span>
+                            <span class="phrase">active leak</span>
+                            <span class="phrase">puddle</span>
+                            <span class="phrase">heavy leak</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- UNDERCARRIAGE -->
+        <div class="category-section">
+            <div class="category-header">UNDERCARRIAGE</div>
+
+            <div class="item-card status-based">
+                <h4>Suspension <span class="type">STATUS</span> <span class="id">INS-SUSP</span></h4>
+                <div class="field">Schema: <code>undercarriage.suspension.status</code></div>
+
+                <div class="aliases">
+                    <div class="aliases-label">Aliases</div>
+                    <div class="alias-list">
+                        <span class="alias">suspension</span>
+                        <span class="alias">shocks</span>
+                        <span class="alias">struts</span>
+                        <span class="alias">springs</span>
+                        <span class="alias">control arms</span>
+                        <span class="alias">ball joints</span>
+                        <span class="alias">bushings</span>
+                        <span class="alias">sway bar links</span>
+                    </div>
+                </div>
+
+                <div class="status-mappings">
+                    <div class="status-row">
+                        <span class="status-label green">OK</span>
+                        <div class="status-phrases">
+                            <span class="phrase">good</span>
+                            <span class="phrase">ok</span>
+                            <span class="phrase">pass</span>
+                            <span class="phrase">tight</span>
+                            <span class="phrase">no play</span>
+                            <span class="phrase">no leaks</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label yellow">Monitor</span>
+                        <div class="status-phrases">
+                            <span class="phrase">worn</span>
+                            <span class="phrase">some play</span>
+                            <span class="phrase">minor wear</span>
+                            <span class="phrase">fair</span>
+                            <span class="phrase">aging</span>
+                            <span class="phrase">slight noise</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label red">Service Required</span>
+                        <div class="status-phrases">
+                            <span class="phrase">worn out</span>
+                            <span class="phrase">replace</span>
+                            <span class="phrase">leaking</span>
+                            <span class="phrase">loose</span>
+                            <span class="phrase">clunking</span>
+                            <span class="phrase">failed</span>
+                            <span class="phrase">excessive play</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item-card status-based">
+                <h4>Steering <span class="type">STATUS</span> <span class="id">INS-STEER</span></h4>
+                <div class="field">Schema: <code>undercarriage.steering.status</code></div>
+
+                <div class="aliases">
+                    <div class="aliases-label">Aliases</div>
+                    <div class="alias-list">
+                        <span class="alias">steering</span>
+                        <span class="alias">tie rods</span>
+                        <span class="alias">rack and pinion</span>
+                        <span class="alias">steering rack</span>
+                        <span class="alias">inner tie rod</span>
+                        <span class="alias">outer tie rod</span>
+                        <span class="alias">steering play</span>
+                    </div>
+                </div>
+
+                <div class="status-mappings">
+                    <div class="status-row">
+                        <span class="status-label green">OK</span>
+                        <div class="status-phrases">
+                            <span class="phrase">good</span>
+                            <span class="phrase">ok</span>
+                            <span class="phrase">pass</span>
+                            <span class="phrase">tight</span>
+                            <span class="phrase">no play</span>
+                            <span class="phrase">responsive</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label yellow">Monitor</span>
+                        <div class="status-phrases">
+                            <span class="phrase">some play</span>
+                            <span class="phrase">worn</span>
+                            <span class="phrase">fair</span>
+                            <span class="phrase">minor wear</span>
+                            <span class="phrase">slight looseness</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label red">Service Required</span>
+                        <div class="status-phrases">
+                            <span class="phrase">loose</span>
+                            <span class="phrase">replace</span>
+                            <span class="phrase">excessive play</span>
+                            <span class="phrase">worn out</span>
+                            <span class="phrase">sloppy</span>
+                            <span class="phrase">wandering</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item-card status-based">
+                <h4>Driveshaft <span class="type">STATUS</span> <span class="id">INS-DSHAFT</span></h4>
+                <div class="field">Schema: <code>undercarriage.driveshaft.status</code></div>
+
+                <div class="aliases">
+                    <div class="aliases-label">Aliases</div>
+                    <div class="alias-list">
+                        <span class="alias">driveshaft</span>
+                        <span class="alias">drive shaft</span>
+                        <span class="alias">prop shaft</span>
+                        <span class="alias">U-joints</span>
+                        <span class="alias">universal joints</span>
+                        <span class="alias">center bearing</span>
+                        <span class="alias">carrier bearing</span>
+                    </div>
+                </div>
+
+                <div class="status-mappings">
+                    <div class="status-row">
+                        <span class="status-label green">OK</span>
+                        <div class="status-phrases">
+                            <span class="phrase">good</span>
+                            <span class="phrase">ok</span>
+                            <span class="phrase">pass</span>
+                            <span class="phrase">no play</span>
+                            <span class="phrase">tight</span>
+                            <span class="phrase">no noise</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label yellow">Monitor</span>
+                        <div class="status-phrases">
+                            <span class="phrase">some play</span>
+                            <span class="phrase">worn</span>
+                            <span class="phrase">fair</span>
+                            <span class="phrase">slight vibration</span>
+                            <span class="phrase">minor wear</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label red">Service Required</span>
+                        <div class="status-phrases">
+                            <span class="phrase">loose</span>
+                            <span class="phrase">replace</span>
+                            <span class="phrase">vibration</span>
+                            <span class="phrase">clunk</span>
+                            <span class="phrase">worn out</span>
+                            <span class="phrase">excessive play</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item-card status-based">
+                <h4>Axles <span class="type">STATUS</span> <span class="id">INS-AXLE</span></h4>
+                <div class="field">Schema: <code>undercarriage.axles.status</code></div>
+
+                <div class="aliases">
+                    <div class="aliases-label">Aliases</div>
+                    <div class="alias-list">
+                        <span class="alias">axles</span>
+                        <span class="alias">CV axles</span>
+                        <span class="alias">CV shafts</span>
+                        <span class="alias">half shafts</span>
+                        <span class="alias">drive axles</span>
+                        <span class="alias">CV joints</span>
+                        <span class="alias">CV boots</span>
+                    </div>
+                </div>
+
+                <div class="status-mappings">
+                    <div class="status-row">
+                        <span class="status-label green">OK</span>
+                        <div class="status-phrases">
+                            <span class="phrase">good</span>
+                            <span class="phrase">ok</span>
+                            <span class="phrase">pass</span>
+                            <span class="phrase">boots intact</span>
+                            <span class="phrase">no play</span>
+                            <span class="phrase">no noise</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label yellow">Monitor</span>
+                        <div class="status-phrases">
+                            <span class="phrase">boot cracked</span>
+                            <span class="phrase">minor leak</span>
+                            <span class="phrase">fair</span>
+                            <span class="phrase">aging</span>
+                            <span class="phrase">worn boot</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label red">Service Required</span>
+                        <div class="status-phrases">
+                            <span class="phrase">boot torn</span>
+                            <span class="phrase">clicking</span>
+                            <span class="phrase">replace</span>
+                            <span class="phrase">leaking grease</span>
+                            <span class="phrase">noisy</span>
+                            <span class="phrase">worn out</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VISIBILITY -->
+        <div class="category-section">
+            <div class="category-header">VISIBILITY</div>
+
+            <div class="item-card status-based">
+                <h4>Wiper Blades <span class="type">STATUS</span> <span class="id">INS-WIPER</span></h4>
+                <div class="field">Schema: <code>visibility.wiperBlades.status</code></div>
+
+                <div class="aliases">
+                    <div class="aliases-label">Aliases</div>
+                    <div class="alias-list">
+                        <span class="alias">wipers</span>
+                        <span class="alias">wiper blades</span>
+                        <span class="alias">windshield wipers</span>
+                        <span class="alias">front wipers</span>
+                        <span class="alias">rear wiper</span>
+                        <span class="alias">wiper condition</span>
+                    </div>
+                </div>
+
+                <div class="status-mappings">
+                    <div class="status-row">
+                        <span class="status-label green">OK</span>
+                        <div class="status-phrases">
+                            <span class="phrase">good</span>
+                            <span class="phrase">ok</span>
+                            <span class="phrase">pass</span>
+                            <span class="phrase">clean wipe</span>
+                            <span class="phrase">no streaks</span>
+                            <span class="phrase">new</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label yellow">Monitor</span>
+                        <div class="status-phrases">
+                            <span class="phrase">streaking</span>
+                            <span class="phrase">chattering</span>
+                            <span class="phrase">fair</span>
+                            <span class="phrase">worn</span>
+                            <span class="phrase">skipping</span>
+                            <span class="phrase">minor streaks</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label red">Service Required</span>
+                        <div class="status-phrases">
+                            <span class="phrase">torn</span>
+                            <span class="phrase">replace</span>
+                            <span class="phrase">cracked</span>
+                            <span class="phrase">not clearing</span>
+                            <span class="phrase">missing</span>
+                            <span class="phrase">damaged</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item-card status-based">
+                <h4>Lights <span class="type">STATUS</span> <span class="id">INS-LIGHTS</span></h4>
+                <div class="field">Schema: <code>visibility.lights.status</code></div>
+
+                <div class="aliases">
+                    <div class="aliases-label">Aliases</div>
+                    <div class="alias-list">
+                        <span class="alias">lights</span>
+                        <span class="alias">headlights</span>
+                        <span class="alias">taillights</span>
+                        <span class="alias">brake lights</span>
+                        <span class="alias">turn signals</span>
+                        <span class="alias">blinkers</span>
+                        <span class="alias">exterior lights</span>
+                        <span class="alias">running lights</span>
+                        <span class="alias">marker lights</span>
+                    </div>
+                </div>
+
+                <div class="status-mappings">
+                    <div class="status-row">
+                        <span class="status-label green">OK</span>
+                        <div class="status-phrases">
+                            <span class="phrase">all working</span>
+                            <span class="phrase">good</span>
+                            <span class="phrase">ok</span>
+                            <span class="phrase">pass</span>
+                            <span class="phrase">operational</span>
+                            <span class="phrase">functional</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label yellow">Monitor</span>
+                        <div class="status-phrases">
+                            <span class="phrase">dim</span>
+                            <span class="phrase">foggy</span>
+                            <span class="phrase">cloudy</span>
+                            <span class="phrase">yellowed</span>
+                            <span class="phrase">oxidized</span>
+                            <span class="phrase">hazy lenses</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label red">Service Required</span>
+                        <div class="status-phrases">
+                            <span class="phrase">out</span>
+                            <span class="phrase">burnt out</span>
+                            <span class="phrase">not working</span>
+                            <span class="phrase">inop</span>
+                            <span class="phrase">failed</span>
+                            <span class="phrase">bulb out</span>
+                            <span class="phrase">broken</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>JSON Export Format</h2>
+        <p style="color: #94a3b8; margin-bottom: 1rem;">For vector embedding generation, export in this format:</p>
+        <pre>
+[
+  {
+    "id": "INS-BRK-PAD-F",
+    "category": "brakes",
+    "field": "frontPads",
+    "name": "Front Brake Pads",
+    "type": "quantitative",
+    "unit": "mm",
+    "aliases": ["front pads", "front brake pads", "F brake pads", ...],
+    "statusMappings": {
+      "ok": ["good", "ok", "pass", "6mm+", ...],
+      "monitor": ["worn", "getting low", "50% worn", ...],
+      "service_required": ["needs replacement", "replace", "worn out", ...]
+    },
+    "thresholds": { "ok": ">5", "monitor": "3-5", "service_required": "<3" }
+  },
+  ...
+]
+        </pre>
+
+        <p style="color: #64748b; margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #334155; font-size: 0.85rem;">
+            Inspection Taxonomy v1.0 - Piston Labs / Glovebox Beta<br>
+            For use with Living Health Record schema<br>
+            Created: February 2026
+        </p>
+    </div>
+</body>
+</html>
