@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Saas Car, Inc. / Piston Labs</title>
+  <link rel="stylesheet" href="/assets/style.css">
+  <style>
+    .one-pager { max-width: 700px; margin: 0 auto; padding: 1rem; }
+    .hero { text-align: center; margin-bottom: 2rem; }
+    .hero h1 { font-size: 2.2rem; margin-bottom: 0.5rem; }
+    .hero .tagline { font-size: 1.3rem; color: #666; margin-bottom: 1rem; }
+    .stat-row { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin: 1.5rem 0; }
+    .stat { text-align: center; }
+    .stat .num { font-size: 2rem; font-weight: bold; color: #2563eb; }
+    .stat .label { font-size: 0.85rem; color: #666; }
+    .section { margin: 1.5rem 0; padding: 1rem; background: #f8f9fa; border-radius: 8px; }
+    [data-theme="dark"] .section { background: #1e293b; }
+    .section h3 { margin-top: 0; font-size: 1rem; color: #2563eb; }
+    .products { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin: 1rem 0; }
+    .product { background: white; border: 1px solid #e5e7eb; border-radius: 6px; padding: 0.75rem; text-align: center; }
+    [data-theme="dark"] .product { background: #0f172a; border-color: #334155; }
+    .product strong { display: block; margin-bottom: 0.25rem; }
+    .product .price { color: #2563eb; font-weight: 600; }
+    .cta { text-align: center; margin: 2rem 0; }
+    .cta-btn { display: inline-block; background: #2563eb; color: white; padding: 0.75rem 2rem; border-radius: 6px; text-decoration: none; font-weight: 600; }
+    .cta-btn:hover { background: #1d4ed8; }
+    .founder { display: flex; align-items: center; gap: 1rem; margin-top: 1rem; }
+    .founder-info { font-size: 0.9rem; }
+    .header-minimal { padding: 1rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb; }
+    [data-theme="dark"] .header-minimal { border-color: #334155; }
+    .header-minimal .logo { font-weight: 700; font-size: 1.1rem; color: inherit; text-decoration: none; }
+  </style>
+  <script>
+    (function() {
+      const saved = localStorage.getItem('theme');
+      if (saved) {
+        document.documentElement.setAttribute('data-theme', saved);
+      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+</head>
+<body>
+  <header class="header-minimal">
+    <a href="/" class="logo">Piston Labs</a>
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode" style="background: none; border: none; cursor: pointer; padding: 0.5rem;">
+      <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+      <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+    </button>
+  </header>
+
+  <article class="one-pager">
+
+    <div class="hero">
+      <h1>Saas Car, Inc. / Piston Labs</h1>
+      <p class="tagline">Connected vehicle platform for shops, drivers, and fleets</p>
+      <p><strong>One device. Three products. Three revenue streams.</strong></p>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat">
+        <div class="num">$130B</div>
+        <div class="label">Aftermarket Industry</div>
+      </div>
+      <div class="stat">
+        <div class="num">60%</div>
+        <div class="label">Customers Never Return</div>
+      </div>
+      <div class="stat">
+        <div class="num">250K+</div>
+        <div class="label">US Independent Shops</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Three Problems, One Platform</h3>
+      <p><strong>Shops</strong> lose 60% of customers after the first visit. Existing reminder systems are calendar-based - "it's been 6 months" - which feels like spam and gets ignored. No one is sending reminders based on how you actually drive.</p>
+      <p><strong>Drivers</strong> have zero visibility into their vehicle's health. When's your next oil change due? How many miles on those brakes? Nobody knows until something breaks or a dashboard light comes on. Maintenance is reactive - "your car needs service NOW" - leaving no time to plan, budget, or shop around. And your service records? Scattered across a dozen shops, stuffed in the glovebox. You already paid for the service. Why is accessing your own history this hard?</p>
+      <p><strong>Fleets</strong> can track location, but can't connect it to service history. When does each vehicle actually need maintenance? How do you plan downtime across a fleet? Location alone doesn't answer these questions.</p>
+    </div>
+
+    <div class="section">
+      <h3>The Secret: VIN-Linked Intelligence</h3>
+      <p>Our OBD-II device tracks real mileage and links everything to the <strong>VIN</strong> - the universal key. Service history follows the vehicle, not the shop.</p>
+      <ul style="margin: 0.5rem 0; padding-left: 1.2rem;">
+        <li><strong>Shops</strong> get customers back automatically. We notify drivers based on actual usage and point them to their preferred shop for scheduling.</li>
+        <li><strong>Drivers</strong> get proactive maintenance planning - know what's coming before it's urgent. "You have 500 miles until your next service." Plus a free app to organize your records: upload photos or documents, and our AI builds your complete history. When shops connect to our platform, records flow automatically - no work required. No glovebox. No Carfax. No surprises.</li>
+        <li><strong>Fleets</strong> get intelligent service planning - maintenance schedules based on actual usage, not guesswork.</li>
+      </ul>
+      <p><em>Privacy-first: Consumer location data isn't stored by default (opt-in available). Fleet data is stored securely with strict access controls.</em></p>
+    </div>
+
+    <div class="products">
+      <div class="product">
+        <strong>Shop Dashboard</strong>
+        <div>Automated retention</div>
+        <div class="price">$0-100/mo</div>
+      </div>
+      <div class="product">
+        <strong>Consumer App</strong>
+        <div>Records + proactive alerts</div>
+        <div class="price">$15/mo</div>
+      </div>
+      <div class="product">
+        <strong>Fleet Dashboard</strong>
+        <div>Service planning + tracking</div>
+        <div class="price">$25/vehicle/mo</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Traction</h3>
+      <p><strong>9 devices deployed</strong> &bull; 30 more on order &bull; 3 beta shops committed &bull; WorldPac & SSF distribution partnerships in discussion</p>
+    </div>
+
+    <div class="section">
+      <h3>The Team</h3>
+      <div class="founder">
+        <div class="founder-info">
+          <strong>Tyler Porras, CEO & Co-founder</strong> - Owner of Era Automotive. Achieves 80% retention through manual work. Piston automates it.<br>
+          <strong>Ryan Morris, CTO & Co-founder</strong><br>
+          <strong>+ 4 team members</strong> - CSO/Design, DevOps, Sales, Marketing
+        </div>
+      </div>
+    </div>
+
+    <div class="section" style="text-align: center;">
+      <h3>The Ask</h3>
+      <p style="font-size: 1.2rem; margin: 0.5rem 0;"><strong>$500K</strong> on YC Post-Money SAFE @ <strong>$5M cap</strong></p>
+      <p style="margin: 0; color: #666;">12-month runway &bull; Target: 1,000 devices, 100 shops, 25 fleets, $200K ARR</p>
+    </div>
+
+    <div class="cta">
+      <a href="mailto:tyler@pistonlabs.co" class="cta-btn">Let's Talk</a>
+    </div>
+
+  </article>
+
+  <script>
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+  </script>
+</body>
+</html>

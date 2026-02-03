@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Infrastructure Cost Analysis - Piston Labs</title>
+  <link rel="stylesheet" href="/assets/style.css">
+  <script>
+    (function() {
+      const saved = localStorage.getItem('theme');
+      if (saved) {
+        document.documentElement.setAttribute('data-theme', saved);
+      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="/" class="site-logo">Piston Labs</a>
+      <nav class="site-nav">
+        <a href="/">Docs</a>
+        <a href="/review.html?doc=infrastructure-costs">Review</a>
+        <a href="https://pistonlabs.co" target="_blank">Website</a>
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+          <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <div class="breadcrumb"><a href="/">Docs</a>
+        <a href="/review.html?doc=infrastructure-costs">Review</a> / Infrastructure Cost Analysis</div>
+    <article class="doc-content">
+<h1 id="piston-labs-infrastructure-cost-analysis">Piston Labs
+Infrastructure Cost Analysis</h1>
+<p><strong>Last Updated:</strong> 2026-01-04 <strong>Purpose:</strong>
+Investment planning, unit economics, margin analysis</p>
+<hr />
+<h2 id="executive-summary">Executive Summary</h2>
+<h3 id="consumer-pricing-b2c">Consumer Pricing (B2C)</h3>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Price</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Device Sale Price</strong></td>
+<td><strong>$150</strong></td>
+</tr>
+<tr>
+<td><strong>Monthly Subscription</strong></td>
+<td><strong>$15/mo</strong></td>
+</tr>
+<tr>
+<td>Hardware Cost (to Piston)</td>
+<td>$110</td>
+</tr>
+<tr>
+<td>Hardware Margin</td>
+<td>$40 (27%)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fleet-pricing-b2b">Fleet Pricing (B2B)</h3>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Price</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Device Sale Price</strong></td>
+<td><strong>$135</strong></td>
+</tr>
+<tr>
+<td><strong>Monthly Subscription</strong></td>
+<td><strong>$25/mo</strong></td>
+</tr>
+<tr>
+<td>Hardware Margin</td>
+<td>$25 (19%)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="shop-dashboard-pricing-b2b-saas---freemium">Shop Dashboard
+Pricing (B2B SaaS - Freemium)</h3>
+<table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>Price</th>
+<th>Features</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Free</strong></td>
+<td>$0/mo</td>
+<td>Record uploading, Lite CRM customer list, Service request
+notifications</td>
+</tr>
+<tr>
+<td><strong>Pro</strong></td>
+<td>$100/mo</td>
+<td>Calendar scheduler, In-app messaging</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Free Tier Includes:</strong></p>
+<ul>
+<li>Upload and store repair orders/service records</li>
+<li>Basic customer list (lite CRM)</li>
+<li>Receive service request notifications from consumers</li>
+</ul>
+<p><strong>Pro Tier Adds:</strong></p>
+<ul>
+<li>Calendar/appointment scheduler</li>
+<li>In-app messaging with customers</li>
+</ul>
+<h3 id="unit-economics">Unit Economics</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Variable Cost per Device</strong></td>
+<td>$2.26/month</td>
+</tr>
+<tr>
+<td><strong>Annual Variable Cost per Device</strong></td>
+<td>$27.12/year</td>
+</tr>
+<tr>
+<td><strong>Consumer Subscription Gross Margin</strong></td>
+<td>84.9%</td>
+</tr>
+<tr>
+<td><strong>Fleet Subscription Gross Margin</strong></td>
+<td>90.9%</td>
+</tr>
+</tbody>
+</table>
+<h3 id="year-1-revenue-per-device">Year 1 Revenue per Device</h3>
+<table>
+<thead>
+<tr>
+<th>Channel</th>
+<th>Device Sale</th>
+<th>Subscription (12 mo)</th>
+<th>Total Year 1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Consumer</strong></td>
+<td>$150</td>
+<td>$180</td>
+<td><strong>$330</strong></td>
+</tr>
+<tr>
+<td><strong>Fleet</strong></td>
+<td>$135</td>
+<td>$300</td>
+<td><strong>$435</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Cost Composition:</strong> ~97% cellular (Soracom plan01s),
+~3% infrastructure (Cloudflare/Supabase/Vercel)</p>
+<hr />
+<h2 id="current-infrastructure-stack">Current Infrastructure Stack</h2>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Provider</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cellular Gateway</td>
+<td>Soracom Beam</td>
+<td>TCP→HTTPS protocol conversion</td>
+</tr>
+<tr>
+<td>Telemetry Ingestion</td>
+<td>Cloudflare Workers</td>
+<td>HTTPS receiver, real-time processing</td>
+</tr>
+<tr>
+<td>Time-Series Analytics</td>
+<td>Cloudflare Analytics Engine</td>
+<td>Trip data, odometer, fuel</td>
+</tr>
+<tr>
+<td>State Management</td>
+<td>Cloudflare Durable Objects</td>
+<td>Device/vehicle state, trips</td>
+</tr>
+<tr>
+<td>Archival Storage</td>
+<td>Cloudflare R2</td>
+<td>Raw telemetry NDJSON</td>
+</tr>
+<tr>
+<td>Database</td>
+<td>Supabase (Postgres)</td>
+<td>Users, vehicles, service records</td>
+</tr>
+<tr>
+<td>Authentication</td>
+<td>Supabase Auth</td>
+<td>Consumer &amp; shop login</td>
+</tr>
+<tr>
+<td>Web Hosting</td>
+<td>Vercel</td>
+<td>Next.js consumer &amp; shop apps</td>
+</tr>
+<tr>
+<td>Push Notifications</td>
+<td>OneSignal</td>
+<td>Service reminders</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="cost-breakdown-by-service">Cost Breakdown by Service</h2>
+<h3 id="cloudflare-telemetry-backend">Cloudflare (Telemetry
+Backend)</h3>
+<p><strong>Plan:</strong> Workers Paid ($5/month base)</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Pricing</th>
+<th>1K Devices</th>
+<th>10K Devices</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Workers Invocations</td>
+<td>$0.30/million</td>
+<td>~$1.32</td>
+<td>~$13.20</td>
+</tr>
+<tr>
+<td>Analytics Engine</td>
+<td>$0.25/million data points</td>
+<td>~$1.10</td>
+<td>~$11.00</td>
+</tr>
+<tr>
+<td>Durable Objects Requests</td>
+<td>$0.15/million</td>
+<td>~$2.16</td>
+<td>~$21.60</td>
+</tr>
+<tr>
+<td>Durable Objects Duration</td>
+<td>$12.50/million GB-s</td>
+<td>~$3.24</td>
+<td>~$32.40</td>
+</tr>
+<tr>
+<td>R2 Storage</td>
+<td>$0.015/GB/month</td>
+<td>~$0.05</td>
+<td>~$0.50</td>
+</tr>
+<tr>
+<td>R2 Operations</td>
+<td>$0.36/million Class A</td>
+<td>~$0.12</td>
+<td>~$1.20</td>
+</tr>
+<tr>
+<td><strong>Base Fee</strong></td>
+<td></td>
+<td>$5.00</td>
+<td>$5.00</td>
+</tr>
+<tr>
+<td><strong>Subtotal</strong></td>
+<td></td>
+<td><strong>~$13</strong></td>
+<td><strong>~$85</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Assumptions (v5 config):</strong></p>
+<ul>
+<li>1 hour driving/day (average consumer)</li>
+<li>v5 config: 10-second transmission when moving, 1-hour when
+parked</li>
+<li>383 transmissions/device/day average</li>
+<li>11.5M transmissions/month (1K devices)</li>
+</ul>
+<h3 id="supabase-database--auth">Supabase (Database &amp; Auth)</h3>
+<p><strong>Plan:</strong> Pro ($25/month)</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Included</th>
+<th>Overage</th>
+<th>1K Devices</th>
+<th>10K Devices</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Database</td>
+<td>8GB</td>
+<td>$0.125/GB</td>
+<td>~500MB</td>
+<td>~5GB</td>
+</tr>
+<tr>
+<td>Auth MAUs</td>
+<td>100K</td>
+<td>$0.00325/MAU</td>
+<td>~1,050</td>
+<td>~10,500</td>
+</tr>
+<tr>
+<td>Storage</td>
+<td>100GB</td>
+<td>$0.021/GB</td>
+<td>~5GB</td>
+<td>~50GB</td>
+</tr>
+<tr>
+<td>Bandwidth</td>
+<td>250GB</td>
+<td>$0.09/GB</td>
+<td>~20GB</td>
+<td>~200GB</td>
+</tr>
+<tr>
+<td>Edge Functions</td>
+<td>2M</td>
+<td>$2/million</td>
+<td>~15K</td>
+<td>~150K</td>
+</tr>
+<tr>
+<td><strong>Base Fee</strong></td>
+<td></td>
+<td></td>
+<td>$25.00</td>
+<td>$25.00</td>
+</tr>
+<tr>
+<td><strong>Subtotal</strong></td>
+<td></td>
+<td></td>
+<td><strong>~$25</strong></td>
+<td><strong>~$50-75</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Usage Patterns:</strong></p>
+<ul>
+<li>~315K DB reads/month (1K devices)</li>
+<li>~21K DB writes/month</li>
+<li>Realtime: 1 channel (vehicle status updates)</li>
+</ul>
+<h3 id="vercel-web-hosting">Vercel (Web Hosting)</h3>
+<p><strong>Plan:</strong> Pro ($20/month)</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Included</th>
+<th>1K Devices</th>
+<th>10K Devices</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bandwidth</td>
+<td>1TB</td>
+<td>~50GB</td>
+<td>~500GB</td>
+</tr>
+<tr>
+<td>Serverless Invocations</td>
+<td>1M</td>
+<td>~200K</td>
+<td>~2M</td>
+</tr>
+<tr>
+<td>Edge Middleware</td>
+<td>1M</td>
+<td>~300K</td>
+<td>~3M</td>
+</tr>
+<tr>
+<td><strong>Base Fee</strong></td>
+<td></td>
+<td>$20.00</td>
+<td>$20.00</td>
+</tr>
+<tr>
+<td><strong>Subtotal</strong></td>
+<td></td>
+<td><strong>~$20</strong></td>
+<td><strong>~$50-100</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="soracom-cellular-gateway">Soracom (Cellular Gateway)</h3>
+<p><strong>Plan:</strong> plan01s (Global) with Beam</p>
+<p>Soracom provides cellular connectivity for Teltonika devices via SIM
+and protocol conversion (TCP→HTTPS) via Beam. See <a
+href="./SORACOM-COST-ANALYSIS.md">SORACOM-COST-ANALYSIS.md</a> for
+detailed packet size analysis and usage scenarios.</p>
+<p><strong>Why Soracom Beam is Required:</strong> The FMM00A device only
+supports TCP/UDP (no native HTTP/HTTPS). Cloudflare Workers only accept
+HTTP/HTTPS. Soracom Beam provides the TCP→HTTPS bridge with a generous
+free tier.</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Pricing</th>
+<th>1K Devices</th>
+<th>10K Devices</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Base Fee (per SIM)</td>
+<td><span
+class="math inline">0.06/<em>d</em><em>a</em><em>y</em>( </span>1.80/mo)</td>
+<td>$1,800</td>
+<td>$18,000</td>
+</tr>
+<tr>
+<td>Data (pay-as-you-go)</td>
+<td>$0.08/MB</td>
+<td>~$387</td>
+<td>~$3,870</td>
+</tr>
+<tr>
+<td>Beam Requests</td>
+<td>$0.09/10K (first 100K free)</td>
+<td>~$10</td>
+<td>~$100</td>
+</tr>
+<tr>
+<td><strong>Subtotal</strong></td>
+<td></td>
+<td><strong>~$2,197</strong></td>
+<td><strong>~$21,970</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Per-Device Cost by Usage Pattern:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Usage Pattern</th>
+<th>SIM Base</th>
+<th>Data</th>
+<th>Beam</th>
+<th>Total/Device</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Average consumer (1 hr/day)</td>
+<td>$1.80</td>
+<td>$0.39</td>
+<td>$0.01</td>
+<td><strong>$2.20</strong></td>
+</tr>
+<tr>
+<td>Heavy driver (3 hrs/day)</td>
+<td>$1.80</td>
+<td>$1.14</td>
+<td>$0.03</td>
+<td><strong>$2.97</strong></td>
+</tr>
+<tr>
+<td>Commercial fleet (8 hrs/day)</td>
+<td>$1.80</td>
+<td>$3.05</td>
+<td>$0.08</td>
+<td><strong>$4.93</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>v5 Config Data Usage (Codec 8 Extended):</strong></p>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>Transmission Rate</th>
+<th>Packet Size</th>
+<th>Records</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Moving (ignition ON)</td>
+<td>Every 10 seconds</td>
+<td>~440 bytes</td>
+<td>5 batched</td>
+</tr>
+<tr>
+<td>Parked (ignition OFF)</td>
+<td>Every 1 hour</td>
+<td>~120 bytes</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Average Consumer (1 hr driving/day):</strong></p>
+<ul>
+<li>Moving: 360 transmissions × 440 bytes = 158 KB/day</li>
+<li>Parked: 23 transmissions × 120 bytes = 2.8 KB/day</li>
+<li><strong>Monthly total: 4.83 MB/device</strong></li>
+<li><strong>Monthly requests: 11,490/device</strong></li>
+</ul>
+<p><strong>Beam Pricing Detail:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>First 100,000 requests/month</td>
+<td>FREE</td>
+</tr>
+<tr>
+<td>100,001+ requests</td>
+<td>$0.09 per 10,000 requests</td>
+</tr>
+</tbody>
+</table>
+<p><em>Volume discounts available from Soracom at 1,000+ devices.
+Contact for enterprise pricing.</em></p>
+<hr />
+<h3 id="onesignal-push-notifications">OneSignal (Push
+Notifications)</h3>
+<p><strong>Plan:</strong> Free tier (up to 10K subscribers)</p>
+<table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>Subscribers</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Free</td>
+<td>0-10K</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>Growth</td>
+<td>10K-100K</td>
+<td>$9/month</td>
+</tr>
+<tr>
+<td>Professional</td>
+<td>100K+</td>
+<td>Custom</td>
+</tr>
+</tbody>
+</table>
+<h3 id="repair-order-parsing-ai-pipeline">Repair Order Parsing (AI
+Pipeline)</h3>
+<p><strong>Pipeline:</strong> Google Document AI OCR → ChatGPT →
+Structured JSON <strong>Purpose:</strong> Extract line items from repair
+order PDFs/photos (parts, labor hours, costs, mileage)
+<strong>Recommendation (Ryan):</strong> gpt-4o-mini offers best
+resolution for the price</p>
+<table>
+<thead>
+<tr>
+<th>Model Name</th>
+<th>Google Doc AI OCR ($/1K pages)</th>
+<th>Input ($/1M tkn)</th>
+<th>Output ($/1M tkn)</th>
+<th>Cost/100K Docs ($)</th>
+<th>Cost/1M Docs ($)</th>
+<th>Cost/Doc ($)</th>
+<th>Avg Input Tkns</th>
+<th>Avg Output Tkns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>gpt-4o-mini (Standard)</td>
+<td>1.5</td>
+<td>0.15</td>
+<td>0.6</td>
+<td>322.5</td>
+<td>3,225</td>
+<td>0.003</td>
+<td>3,500</td>
+<td>2,000</td>
+</tr>
+<tr>
+<td>gpt-4o-mini (Batch)</td>
+<td>1.5</td>
+<td>0.075</td>
+<td>0.3</td>
+<td>236.25</td>
+<td>2,362.5</td>
+<td>0.002</td>
+<td>3,500</td>
+<td>2,000</td>
+</tr>
+<tr>
+<td>gpt-4.1-mini (Standard)</td>
+<td>1.5</td>
+<td>0.4</td>
+<td>1.6</td>
+<td>610</td>
+<td>6,100</td>
+<td>0.005</td>
+<td>3,500</td>
+<td>2,000</td>
+</tr>
+<tr>
+<td>gpt-4.1-nano (Standard)</td>
+<td>1.5</td>
+<td>0.1</td>
+<td>0.4</td>
+<td>265</td>
+<td>2,650</td>
+<td>0.002</td>
+<td>3,500</td>
+<td>2,000</td>
+</tr>
+<tr>
+<td>gpt-5-mini (Standard)</td>
+<td>1.5</td>
+<td>0.25</td>
+<td>2</td>
+<td>1,390</td>
+<td>13,900</td>
+<td>0.005</td>
+<td>1,600</td>
+<td>6,000</td>
+</tr>
+<tr>
+<td>gpt-5-nano (Standard)</td>
+<td>1.5</td>
+<td>0.05</td>
+<td>0.4</td>
+<td>398</td>
+<td>3,980</td>
+<td>0.002</td>
+<td>1,600</td>
+<td>6,000</td>
+</tr>
+<tr>
+<td>gpt-5-mini (Flex)</td>
+<td>1.5</td>
+<td>0.125</td>
+<td>1</td>
+<td>770</td>
+<td>7,700</td>
+<td>0.003</td>
+<td>1,600</td>
+<td>6,000</td>
+</tr>
+<tr>
+<td>gpt-5-nano (Flex)</td>
+<td>1.5</td>
+<td>0.025</td>
+<td>0.2</td>
+<td>274</td>
+<td>2,740</td>
+<td>0.002</td>
+<td>1,600</td>
+<td>6,000</td>
+</tr>
+<tr>
+<td>gpt-4.1-mini (Batch)</td>
+<td>1.5</td>
+<td>0.2</td>
+<td>0.8</td>
+<td>380</td>
+<td>3,800</td>
+<td>0.003</td>
+<td>3,500</td>
+<td>2,000</td>
+</tr>
+<tr>
+<td>gpt-4.1-nano (Batch)</td>
+<td>1.5</td>
+<td>0.05</td>
+<td>0.2</td>
+<td>207.5</td>
+<td>2,075</td>
+<td>0.002</td>
+<td>3,500</td>
+<td>2,000</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key Takeaways:</strong></p>
+<ul>
+<li><strong>Best quality/price:</strong> gpt-4o-mini (Standard) @
+$0.003/doc — Ryan's pick for resolution</li>
+<li><strong>Cheapest at scale:</strong> gpt-4.1-nano (Batch) @
+$0.002/doc — 38% cheaper but may sacrifice extraction accuracy</li>
+<li><strong>At 100K docs/year:</strong> ~$322 with recommended
+model</li>
+<li><strong>At 1M docs/year:</strong> ~$3,225 with recommended
+model</li>
+</ul>
+<p><strong>Scaling Estimates (1K devices):</strong></p>
+<ul>
+<li>Avg repair orders/vehicle/year: ~4-6</li>
+<li>1K devices × 5 orders = 5,000 docs/year</li>
+<li>Cost: ~$15/year for AI parsing</li>
+</ul>
+<hr />
+<h2 id="total-infrastructure-costs">Total Infrastructure Costs</h2>
+<h3 id="at-1000-devices">At 1,000 Devices</h3>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Monthly Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Soracom (cellular)</td>
+<td>$2,197</td>
+</tr>
+<tr>
+<td>Cloudflare</td>
+<td>$13</td>
+</tr>
+<tr>
+<td>Supabase</td>
+<td>$25</td>
+</tr>
+<tr>
+<td>Vercel</td>
+<td>$20</td>
+</tr>
+<tr>
+<td>OneSignal</td>
+<td>$0</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td><strong>$2,255</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Unit Economics:</strong></p>
+<ul>
+<li>Cost per device: <strong>$2.26/month</strong></li>
+<li>Annual cost per device: <strong>$27.12/year</strong></li>
+</ul>
+<h3 id="at-10000-devices">At 10,000 Devices</h3>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Monthly Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Soracom (cellular)</td>
+<td>$21,970</td>
+</tr>
+<tr>
+<td>Cloudflare</td>
+<td>$85</td>
+</tr>
+<tr>
+<td>Supabase</td>
+<td>$50-75</td>
+</tr>
+<tr>
+<td>Vercel</td>
+<td>$50-100</td>
+</tr>
+<tr>
+<td>OneSignal</td>
+<td>$9</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td><strong>$22,165-22,240</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Unit Economics:</strong></p>
+<ul>
+<li>Cost per device: <strong>$2.22/month</strong></li>
+<li>Annual cost per device: <strong>$26.60/year</strong></li>
+</ul>
+<h3 id="at-100000-devices">At 100,000 Devices</h3>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Monthly Cost (est.)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Soracom (cellular)</td>
+<td>$220,000</td>
+</tr>
+<tr>
+<td>Cloudflare</td>
+<td>$800-1,000</td>
+</tr>
+<tr>
+<td>Supabase</td>
+<td>$300-500</td>
+</tr>
+<tr>
+<td>Vercel</td>
+<td>$300-500</td>
+</tr>
+<tr>
+<td>OneSignal</td>
+<td>$100-200</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td><strong>$221,500-222,200</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Unit Economics:</strong></p>
+<ul>
+<li>Cost per device: <strong>$2.22/month</strong></li>
+<li>Annual cost per device: <strong>$26.58/year</strong></li>
+</ul>
+<hr />
+<h2 id="cost-breakdown-infrastructure-vs-cellular">Cost Breakdown:
+Infrastructure vs Cellular</h2>
+<table>
+<thead>
+<tr>
+<th>Scale</th>
+<th>Infrastructure Only</th>
+<th>Soracom Cellular</th>
+<th>Total</th>
+<th>% Cellular</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1K devices</td>
+<td><span
+class="math inline">58/<em>m</em><em>o</em>(</span>0.058/device)</td>
+<td><span
+class="math inline">2, 197/<em>m</em><em>o</em>(</span>2.20/device)</td>
+<td>$2,255/mo</td>
+<td>97%</td>
+</tr>
+<tr>
+<td>10K devices</td>
+<td><span
+class="math inline">194/<em>m</em><em>o</em>(</span>0.019/device)</td>
+<td><span
+class="math inline">21, 970/<em>m</em><em>o</em>(</span>2.20/device)</td>
+<td>$22,164/mo</td>
+<td>99%</td>
+</tr>
+<tr>
+<td>100K devices</td>
+<td><span
+class="math inline">1, 500/<em>m</em><em>o</em>(</span>0.015/device)</td>
+<td><span
+class="math inline">220, 000/<em>m</em><em>o</em>(</span>2.20/device)</td>
+<td>$221,500/mo</td>
+<td>99%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key Insight:</strong> Soracom cellular costs dominate.
+Infrastructure scales beautifully (sub-linear), but per-SIM cellular
+costs are fixed. The $0.06/day base fee on plan01s is the primary driver
+(~82% of per-device cost).</p>
+<hr />
+<h2 id="margin-analysis">Margin Analysis</h2>
+<h3 id="consumer-subscription-model-15mo">Consumer Subscription Model
+($15/mo)</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Cost/Device/Month</th>
+<th>At $15/mo Subscription</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Soracom (cellular)</td>
+<td>$2.20</td>
+<td></td>
+</tr>
+<tr>
+<td>Infrastructure (at 10K scale)</td>
+<td>$0.02</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Total Variable Cost</strong></td>
+<td><strong>$2.22</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Gross Profit</strong></td>
+<td></td>
+<td><strong>$12.78</strong></td>
+</tr>
+<tr>
+<td><strong>Gross Margin</strong></td>
+<td></td>
+<td><strong>85.2%</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="margin-sensitivity-analysis">Margin Sensitivity Analysis</h3>
+<table>
+<thead>
+<tr>
+<th>Subscription Price</th>
+<th>Variable Cost</th>
+<th>Gross Profit</th>
+<th>Gross Margin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$10/mo</td>
+<td>$2.22</td>
+<td>$7.78</td>
+<td>77.8%</td>
+</tr>
+<tr>
+<td>$12/mo</td>
+<td>$2.22</td>
+<td>$9.78</td>
+<td>81.5%</td>
+</tr>
+<tr>
+<td><strong>$15/mo</strong></td>
+<td><strong>$2.22</strong></td>
+<td><strong>$12.78</strong></td>
+<td><strong>85.2%</strong></td>
+</tr>
+<tr>
+<td>$20/mo</td>
+<td>$2.22</td>
+<td>$17.78</td>
+<td>88.9%</td>
+</tr>
+</tbody>
+</table>
+<h3 id="b2b-fleet-model-per-vehicle">B2B Fleet Model (per vehicle)</h3>
+<p><strong>Standard Fleet Pricing:</strong> $25/mo per vehicle</p>
+<table>
+<thead>
+<tr>
+<th>Tier</th>
+<th>Price/Vehicle</th>
+<th>Variable Cost</th>
+<th>Gross Margin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Standard Fleet (5-50)</td>
+<td>$25/mo</td>
+<td>$2.22</td>
+<td>91.1%</td>
+</tr>
+<tr>
+<td>Medium Fleet (50-200)</td>
+<td>$22/mo</td>
+<td>$2.22</td>
+<td>89.9%</td>
+</tr>
+<tr>
+<td>Enterprise (200+)</td>
+<td>$18/mo</td>
+<td>$2.22</td>
+<td>87.7%</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="hardware-costs-teltonika-fmm00a">Hardware Costs (Teltonika
+FMM00A)</h2>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Unit Cost</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FMM00A Device</td>
+<td>$85</td>
+<td>Current supplier pricing</td>
+</tr>
+<tr>
+<td>Soracom SIM</td>
+<td>$5</td>
+<td>One-time SIM cost</td>
+</tr>
+<tr>
+<td>Packaging &amp; Shipping</td>
+<td>$20</td>
+<td>Per unit landed</td>
+</tr>
+<tr>
+<td><strong>Total Hardware (Landed)</strong></td>
+<td><strong>$110</strong></td>
+<td>One-time</td>
+</tr>
+</tbody>
+</table>
+<h3 id="total-cost-of-ownership-year-1">Total Cost of Ownership (Year
+1)</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Consumer Channel</th>
+<th>Fleet Channel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hardware (landed)</td>
+<td>$110</td>
+<td>$110</td>
+</tr>
+<tr>
+<td>Soracom cellular (12 mo @ $2.20)</td>
+<td>$26.40</td>
+<td>$26.40</td>
+</tr>
+<tr>
+<td>Infrastructure (12 mo @ $0.02)</td>
+<td>$0.24</td>
+<td>$0.24</td>
+</tr>
+<tr>
+<td><strong>Total Cost</strong></td>
+<td><strong>$136.64/device</strong></td>
+<td><strong>$136.64/device</strong></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Device Sale Revenue</strong></td>
+<td><strong>$150</strong></td>
+<td><strong>$135</strong></td>
+</tr>
+<tr>
+<td><strong>Subscription Revenue (12 mo)</strong></td>
+<td>**<span class="math inline">180 * *(</span>15/mo)</td>
+<td>**<span class="math inline">300 * *(</span>25/mo)</td>
+</tr>
+<tr>
+<td><strong>Total Year 1 Revenue</strong></td>
+<td><strong>$330</strong></td>
+<td><strong>$435</strong></td>
+</tr>
+<tr>
+<td><strong>Year 1 Gross Profit</strong></td>
+<td><strong>$193.36/device</strong></td>
+<td><strong>$298.36/device</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="device-sales-revenue">Device Sales Revenue</h3>
+<p>Customers purchase devices upfront before activation. Device sales
+are a significant revenue stream:</p>
+<table>
+<thead>
+<tr>
+<th>Channel</th>
+<th>Device Price</th>
+<th>Hardware Cost</th>
+<th>Hardware Margin</th>
+<th>Units (Seed)</th>
+<th>Total Hardware Revenue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Consumer</td>
+<td>$150</td>
+<td>$110</td>
+<td>$40 (27%)</td>
+<td>225</td>
+<td>$33,750</td>
+</tr>
+<tr>
+<td>Fleet</td>
+<td>$135</td>
+<td>$110</td>
+<td>$25 (19%)</td>
+<td>75</td>
+<td>$10,125</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td><strong>300</strong></td>
+<td><strong>$43,875</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>At seed scale (300 devices):</strong></p>
+<ul>
+<li>Hardware revenue: $43,875</li>
+<li>Hardware margin: $10,875 (25% blended)</li>
+<li>This is in addition to subscription revenue ($63,000 ARR)</li>
+</ul>
+<h3 id="buy-now-pay-later-bnpl-opportunity">Buy Now Pay Later (BNPL)
+Opportunity</h3>
+<p><strong>Goal:</strong> Partner with a BNPL provider to reduce
+friction for consumer purchases.</p>
+<p><strong>Why BNPL:</strong></p>
+<ul>
+<li>$150 upfront is a barrier for budget-conscious consumers</li>
+<li>BNPL converts to "~$12-15/mo for 12 months" messaging</li>
+<li>Increases conversion rate and addressable market</li>
+<li>We get paid upfront by BNPL provider</li>
+</ul>
+<p><strong>Potential Partners:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Provider</th>
+<th>Merchant Fee</th>
+<th>Consumer Terms</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Affirm</td>
+<td>5-6%</td>
+<td>0% APR 3-12 mo</td>
+<td>Strong brand, auto-focused</td>
+</tr>
+<tr>
+<td>Klarna</td>
+<td>3-6%</td>
+<td>0% APR 4 payments</td>
+<td>Popular with younger demos</td>
+</tr>
+<tr>
+<td>Afterpay</td>
+<td>4-6%</td>
+<td>4 payments, 2 weeks</td>
+<td>Smaller purchases</td>
+</tr>
+<tr>
+<td>PayPal Pay Later</td>
+<td>2-4%</td>
+<td>4 payments</td>
+<td>Lowest fees, wide reach</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Economics with BNPL (Consumer):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Device Price</th>
+<th>BNPL Fee (5%)</th>
+<th>Net to Piston</th>
+<th>Margin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Without BNPL</td>
+<td>$150</td>
+<td>$0</td>
+<td>$150</td>
+<td>$40 (27%)</td>
+</tr>
+<tr>
+<td>With BNPL</td>
+<td>$150</td>
+<td>$7.50</td>
+<td>$142.50</td>
+<td>$32.50 (23%)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Trade-off:</strong> 4% margin reduction for higher
+conversion. Worth testing.</p>
+<p><strong>Consumer Messaging:</strong></p>
+<ul>
+<li>Without BNPL: "$150 device + $15/mo subscription"</li>
+<li>With BNPL: "From $12/mo for device + $15/mo subscription = $27/mo
+total"</li>
+</ul>
+<p><strong>Next Steps:</strong></p>
+<ul class="task-list">
+<li><label><input type="checkbox" />Evaluate Affirm (auto-focused,
+premium positioning)</label></li>
+<li><label><input type="checkbox" />Evaluate PayPal Pay Later (lowest
+fees, widest reach)</label></li>
+<li><label><input type="checkbox" />A/B test conversion rates
+with/without BNPL option</label></li>
+</ul>
+<hr />
+<h2 id="seed-stage-unit-economics">Seed Stage Unit Economics</h2>
+<p><em>For investor discussions. See <a
+href="../context/product/SEED_METRICS_CONTEXT.md">SEED_METRICS_CONTEXT.md</a>
+for full context.</em></p>
+<h3 id="revenue-model">Revenue Model</h3>
+<table>
+<thead>
+<tr>
+<th>Channel</th>
+<th>Device Price</th>
+<th>Hardware Cost</th>
+<th>Hardware Margin</th>
+<th>Subscription</th>
+<th>Year 1 Revenue/Device</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Consumer</td>
+<td>$150</td>
+<td>$110</td>
+<td>$40 (27%)</td>
+<td>$15/mo</td>
+<td>$330</td>
+</tr>
+<tr>
+<td>Fleet</td>
+<td>$135</td>
+<td>$110</td>
+<td>$25 (19%)</td>
+<td>$25/mo</td>
+<td>$435</td>
+</tr>
+</tbody>
+</table>
+<h3 id="seed-targets-300-devices">Seed Targets (300 Devices)</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Target</th>
+<th>MRR</th>
+<th>ARR</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Consumer devices</td>
+<td>225</td>
+<td>$3,375</td>
+<td>$40,500</td>
+</tr>
+<tr>
+<td>Fleet devices</td>
+<td>75</td>
+<td>$1,875</td>
+<td>$22,500</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td><strong>300</strong></td>
+<td><strong>$5,250</strong></td>
+<td><strong>$63,000</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="unit-economics-at-seed-scale-300-devices">Unit Economics at Seed
+Scale (300 devices)</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Consumer (225)</th>
+<th>Fleet (75)</th>
+<th>Blended</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hardware revenue</td>
+<td>$33,750</td>
+<td>$10,125</td>
+<td>$43,875</td>
+</tr>
+<tr>
+<td>Hardware cost</td>
+<td><span class="math inline">24, 750(</span>110x225)</td>
+<td><span class="math inline">8, 250(</span>110x75)</td>
+<td>$33,000</td>
+</tr>
+<tr>
+<td>Hardware margin</td>
+<td>$9,000 (27%)</td>
+<td>$1,875 (19%)</td>
+<td>$10,875 (25%)</td>
+</tr>
+<tr>
+<td>Monthly subscription</td>
+<td>$3,375</td>
+<td>$1,875</td>
+<td>$5,250</td>
+</tr>
+<tr>
+<td>Monthly variable cost</td>
+<td><span class="math inline">500(</span>2.22x225)</td>
+<td><span class="math inline">167(</span>2.22x75)</td>
+<td>$666</td>
+</tr>
+<tr>
+<td>Monthly gross profit</td>
+<td>$2,875</td>
+<td>$1,708</td>
+<td>$4,584</td>
+</tr>
+<tr>
+<td><strong>Monthly gross margin</strong></td>
+<td><strong>87%</strong></td>
+<td><strong>92%</strong></td>
+<td><strong>89%</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="year-1-projections-300-devices">Year 1 Projections (300
+devices)</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hardware revenue</td>
+<td>$43,875</td>
+</tr>
+<tr>
+<td>Hardware cost</td>
+<td>$33,000</td>
+</tr>
+<tr>
+<td>Hardware margin</td>
+<td>$10,875 (25%)</td>
+</tr>
+<tr>
+<td>Subscription revenue (12 mo)</td>
+<td>$63,000</td>
+</tr>
+<tr>
+<td>Variable costs (12 mo)</td>
+<td>$7,992</td>
+</tr>
+<tr>
+<td><strong>Gross profit</strong></td>
+<td><strong>$65,883</strong></td>
+</tr>
+<tr>
+<td><strong>Blended gross margin</strong></td>
+<td><strong>62%</strong></td>
+</tr>
+</tbody>
+</table>
+<p><em>Note: Gross margin on subscriptions alone is 87%. Hardware margin
+(25%) brings blended margin down. After Year 1, margins improve as
+hardware is paid off.</em></p>
+<h3 id="key-investor-metrics">Key Investor Metrics</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+<th>Benchmark</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Year 1 Gross Profit (consumer)</td>
+<td>$193/device</td>
+<td>Hardware + subscription - costs</td>
+</tr>
+<tr>
+<td>Year 1 Gross Profit (fleet)</td>
+<td>$298/device</td>
+<td>Higher subscription margin</td>
+</tr>
+<tr>
+<td>LTV (3 years @ 85% retention)</td>
+<td>$503</td>
+<td>Includes $40 device margin + subscription</td>
+</tr>
+<tr>
+<td>LTV:CAC ratio</td>
+<td>~8:1</td>
+<td>&gt; 3:1 (good)</td>
+</tr>
+<tr>
+<td>Year 1 revenue/device</td>
+<td>$330-430</td>
+<td></td>
+</tr>
+<tr>
+<td>Variable cost/device</td>
+<td>$2.22/mo</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="cost-optimization-opportunities">Cost Optimization
+Opportunities</h2>
+<h3 id="current-optimizations">Current Optimizations</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />R2 batching (60s/100
+records) - saves ~40% on write costs</label></li>
+<li><label><input type="checkbox" checked="" />Analytics Engine
+per-record (no batch benefit)</label></li>
+<li><label><input type="checkbox" checked="" />Durable Object state
+colocation (no external DB calls)</label></li>
+<li><label><input type="checkbox" checked="" />Privacy-first GPS
+stripping (reduces storage)</label></li>
+</ul>
+<h3 id="future-optimizations">Future Optimizations</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" /><strong>Reduce moving sample
+rate</strong> - 5s instead of 2s could reduce data costs
+~50%</label></li>
+<li><label><input type="checkbox" />Adaptive telemetry intervals (idle =
+60s, driving = 10s)</label></li>
+<li><label><input type="checkbox" />Edge caching for dashboard API
+calls</label></li>
+<li><label><input type="checkbox" />Supabase read replicas for shop
+dashboard</label></li>
+<li><label><input type="checkbox" />Cloudflare Stream for dashcam (if
+added)</label></li>
+<li><label><input type="checkbox" />Negotiate volume discounts with
+Soracom at 10K+ scale</label></li>
+</ul>
+<hr />
+<h2 id="appendix-pricing-sources">Appendix: Pricing Sources</h2>
+<ul>
+<li>Soracom Plan-US: <a
+href="https://developers.soracom.io/en/docs/reference/fees/">https://developers.soracom.io/en/docs/reference/fees/</a></li>
+<li>Soracom Beam: <a
+href="https://developers.soracom.io/en/docs/beam/">https://developers.soracom.io/en/docs/beam/</a></li>
+<li>Cloudflare Workers: <a
+href="https://developers.cloudflare.com/workers/platform/pricing/">https://developers.cloudflare.com/workers/platform/pricing/</a></li>
+<li>Cloudflare R2: <a
+href="https://developers.cloudflare.com/r2/pricing/">https://developers.cloudflare.com/r2/pricing/</a></li>
+<li>Cloudflare Analytics Engine: <a
+href="https://developers.cloudflare.com/analytics/analytics-engine/pricing/">https://developers.cloudflare.com/analytics/analytics-engine/pricing/</a></li>
+<li>Supabase: <a
+href="https://supabase.com/pricing">https://supabase.com/pricing</a></li>
+<li>Vercel: <a
+href="https://vercel.com/pricing">https://vercel.com/pricing</a></li>
+<li>OneSignal: <a
+href="https://onesignal.com/pricing">https://onesignal.com/pricing</a></li>
+</ul>
+<hr />
+<h2 id="revision-history">Revision History</h2>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-01-03</td>
+<td>Updated Soracom costs with v5 config analysis (packet sizes, usage
+patterns)</td>
+</tr>
+<tr>
+<td>2026-01-02</td>
+<td>Fixed TCO to include device revenue, clarified break-even, fixed LTV
+calc, MQTT→HTTPS</td>
+</tr>
+<tr>
+<td>2026-01-03</td>
+<td>Updated hardware to <span
+class="math inline">110<em>l</em><em>a</em><em>n</em><em>d</em><em>e</em><em>d</em>(</span>85
++ $5 SIM + $20 ship), fleet pricing to $25/mo</td>
+</tr>
+<tr>
+<td>2026-01-01</td>
+<td>Added Soracom cellular costs, $15/mo subscription model, margin
+analysis</td>
+</tr>
+<tr>
+<td>2026-01-01</td>
+<td>Initial cost analysis for 1K/10K/100K devices</td>
+</tr>
+</tbody>
+</table>
+    </article>
+  </main>
+  <footer class="site-footer">&copy; 2026 Piston Labs. All rights reserved.</footer>
+  <script>
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+  </script>
+</body>
+</html>

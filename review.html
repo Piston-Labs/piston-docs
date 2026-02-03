@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Document Review - Piston Labs</title>
+  <link rel="stylesheet" href="/assets/style.css">
+  <script>
+    (function() {
+      const saved = localStorage.getItem('theme');
+      if (saved) {
+        document.documentElement.setAttribute('data-theme', saved);
+      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+  <style>
+    /* Review Mode Layout */
+    .review-layout {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 0;
+      min-height: calc(100vh - 140px);
+    }
+
+    .review-content {
+      padding: 32px 48px;
+      border-right: 1px solid var(--color-border);
+      overflow-y: auto;
+    }
+
+    .review-sidebar {
+      background: var(--color-bg-subtle);
+      padding: 16px;
+      overflow-y: auto;
+      max-height: calc(100vh - 140px);
+      position: sticky;
+      top: 0;
+    }
+
+    /* Toolbar */
+    .review-toolbar {
+      background: var(--color-bg-subtle);
+      border-bottom: 1px solid var(--color-border);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .tool-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tool-group-label {
+      font-size: 12px;
+      color: var(--color-text-muted);
+      margin-right: 4px;
+    }
+
+    .tool-btn {
+      padding: 6px 12px;
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .tool-btn:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+    }
+
+    .tool-btn.active {
+      background: var(--color-accent);
+      border-color: var(--color-accent);
+      color: white;
+    }
+
+    .tool-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .doc-selector {
+      padding: 6px 12px;
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-size: 13px;
+      min-width: 200px;
+    }
+
+    .reviewer-name {
+      padding: 6px 12px;
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-size: 13px;
+      width: 150px;
+    }
+
+    .toolbar-spacer {
+      flex: 1;
+    }
+
+    .save-status {
+      font-size: 12px;
+      color: var(--color-text-muted);
+    }
+
+    .save-status.saved { color: #1a7f37; }
+    .save-status.saving { color: var(--color-accent); }
+    .save-status.error { color: #cf222e; }
+
+    /* Annotation Styles */
+    .annotation-highlight {
+      background: rgba(255, 235, 59, 0.5);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .annotation-highlight:hover {
+      background: rgba(255, 235, 59, 0.8);
+    }
+
+    .annotation-deletion {
+      text-decoration: line-through;
+      color: #cf222e;
+      background: rgba(207, 34, 46, 0.1);
+      cursor: pointer;
+    }
+
+    .annotation-deletion:hover {
+      background: rgba(207, 34, 46, 0.2);
+    }
+
+    .annotation-insertion {
+      color: #1a7f37;
+      background: rgba(26, 127, 55, 0.1);
+      border-bottom: 2px solid #1a7f37;
+      cursor: pointer;
+    }
+
+    .annotation-insertion:hover {
+      background: rgba(26, 127, 55, 0.2);
+    }
+
+    .annotation-comment-marker {
+      background: rgba(88, 166, 255, 0.3);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .annotation-comment-marker:hover {
+      background: rgba(88, 166, 255, 0.5);
+    }
+
+    .annotation-comment-marker::after {
+      content: attr(data-comment-num);
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: var(--color-accent);
+      color: white;
+      font-size: 10px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Comment Cards */
+    .comments-header {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .comment-count {
+      background: var(--color-accent);
+      color: white;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 12px;
+    }
+
+    .comment-card {
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 12px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .comment-card:hover {
+      border-color: var(--color-accent);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .comment-card.active {
+      border-color: var(--color-accent);
+      border-width: 2px;
+    }
+
+    .comment-card.resolved {
+      opacity: 0.6;
+      background: var(--color-bg-subtle);
+    }
+
+    .comment-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .comment-author {
+      font-weight: 600;
+      color: var(--color-text);
+    }
+
+    .comment-time {
+      font-size: 11px;
+      color: var(--color-text-muted);
+    }
+
+    .comment-type {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .comment-type.highlight { background: rgba(255, 235, 59, 0.5); color: #856404; }
+    .comment-type.deletion { background: rgba(207, 34, 46, 0.2); color: #cf222e; }
+    .comment-type.insertion { background: rgba(26, 127, 55, 0.2); color: #1a7f37; }
+    .comment-type.comment { background: rgba(88, 166, 255, 0.3); color: #0550ae; }
+
+    .comment-quote {
+      background: var(--color-bg-subtle);
+      border-left: 3px solid var(--color-border);
+      padding: 6px 10px;
+      margin: 8px 0;
+      font-style: italic;
+      color: var(--color-text-muted);
+      font-size: 12px;
+      max-height: 60px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .comment-text {
+      margin: 8px 0;
+      line-height: 1.4;
+    }
+
+    .comment-suggestion {
+      background: rgba(26, 127, 55, 0.1);
+      border: 1px dashed #1a7f37;
+      padding: 6px 10px;
+      border-radius: 4px;
+      margin: 8px 0;
+      font-size: 12px;
+    }
+
+    .comment-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .comment-action-btn {
+      padding: 4px 8px;
+      font-size: 11px;
+      border: 1px solid var(--color-border);
+      border-radius: 4px;
+      background: var(--color-bg);
+      cursor: pointer;
+      color: var(--color-text-muted);
+    }
+
+    .comment-action-btn:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+    }
+
+    .comment-action-btn.resolve {
+      color: #1a7f37;
+      border-color: #1a7f37;
+    }
+
+    .comment-action-btn.delete {
+      color: #cf222e;
+      border-color: #cf222e;
+    }
+
+    /* Selection Popover */
+    .selection-popover {
+      position: absolute;
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+      padding: 8px;
+      display: none;
+      z-index: 1000;
+    }
+
+    .selection-popover.visible {
+      display: flex;
+      gap: 4px;
+    }
+
+    .popover-btn {
+      padding: 6px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+
+    .popover-btn.highlight {
+      background: rgba(255, 235, 59, 0.5);
+      color: #856404;
+    }
+
+    .popover-btn.deletion {
+      background: rgba(207, 34, 46, 0.2);
+      color: #cf222e;
+    }
+
+    .popover-btn.comment {
+      background: rgba(88, 166, 255, 0.3);
+      color: #0550ae;
+    }
+
+    .popover-btn:hover {
+      filter: brightness(0.9);
+    }
+
+    /* Comment Input Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+    }
+
+    .modal-overlay.visible {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--color-bg);
+      border-radius: 12px;
+      padding: 24px;
+      width: 400px;
+      max-width: 90vw;
+    }
+
+    .modal-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .modal-quote {
+      background: var(--color-bg-subtle);
+      border-left: 3px solid var(--color-accent);
+      padding: 8px 12px;
+      margin-bottom: 16px;
+      font-style: italic;
+      font-size: 13px;
+      color: var(--color-text-muted);
+      max-height: 80px;
+      overflow: hidden;
+    }
+
+    .modal-input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      font-size: 14px;
+      margin-bottom: 12px;
+      resize: vertical;
+      min-height: 80px;
+      font-family: inherit;
+      background: var(--color-bg);
+      color: var(--color-text);
+    }
+
+    .modal-input:focus {
+      outline: none;
+      border-color: var(--color-accent);
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .modal-btn {
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      border: 1px solid var(--color-border);
+      background: var(--color-bg);
+      color: var(--color-text);
+    }
+
+    .modal-btn.primary {
+      background: var(--color-accent);
+      border-color: var(--color-accent);
+      color: white;
+    }
+
+    .modal-btn:hover {
+      filter: brightness(0.95);
+    }
+
+    /* Empty state */
+    .empty-comments {
+      text-align: center;
+      padding: 32px 16px;
+      color: var(--color-text-muted);
+    }
+
+    .empty-comments svg {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 12px;
+      opacity: 0.5;
+    }
+
+    /* Legend */
+    .legend {
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .legend-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      margin-bottom: 8px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      margin-bottom: 4px;
+      color: var(--color-text-muted);
+    }
+
+    .legend-swatch {
+      width: 16px;
+      height: 16px;
+      border-radius: 3px;
+    }
+
+    .legend-swatch.highlight { background: rgba(255, 235, 59, 0.5); }
+    .legend-swatch.deletion { background: rgba(207, 34, 46, 0.2); text-decoration: line-through; }
+    .legend-swatch.insertion { background: rgba(26, 127, 55, 0.1); border-bottom: 2px solid #1a7f37; }
+    .legend-swatch.comment { background: rgba(88, 166, 255, 0.3); }
+
+    /* Filter tabs */
+    .filter-tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 12px;
+    }
+
+    .filter-tab {
+      padding: 4px 8px;
+      font-size: 11px;
+      border: 1px solid var(--color-border);
+      border-radius: 4px;
+      background: var(--color-bg);
+      cursor: pointer;
+      color: var(--color-text-muted);
+    }
+
+    .filter-tab:hover {
+      border-color: var(--color-accent);
+    }
+
+    .filter-tab.active {
+      background: var(--color-accent);
+      border-color: var(--color-accent);
+      color: white;
+    }
+
+    @media (max-width: 900px) {
+      .review-layout {
+        grid-template-columns: 1fr;
+      }
+      .review-sidebar {
+        position: fixed;
+        right: 0;
+        top: 60px;
+        bottom: 0;
+        width: 300px;
+        transform: translateX(100%);
+        transition: transform 0.3s;
+        z-index: 100;
+        border-left: 1px solid var(--color-border);
+      }
+      .review-sidebar.open {
+        transform: translateX(0);
+      }
+      .toggle-sidebar {
+        display: block !important;
+      }
+    }
+
+    .toggle-sidebar {
+      display: none;
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      color: white;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      z-index: 99;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="/" class="site-logo">Piston Labs</a>
+      <nav class="site-nav">
+        <a href="/">Docs</a>
+        <a href="/review.html" style="color: var(--color-accent);">Review</a>
+        <a href="https://pistonlabs.co" target="_blank">Website</a>
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+          <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <div class="review-toolbar">
+    <div class="tool-group">
+      <span class="tool-group-label">Document:</span>
+      <select class="doc-selector" id="doc-select" onchange="loadDocument(this.value)">
+        <option value="">-- Select Document --</option>
+      </select>
+    </div>
+
+    <div class="tool-group">
+      <span class="tool-group-label">Your Name:</span>
+      <input type="text" class="reviewer-name" id="reviewer-name" placeholder="Reviewer name" value="">
+    </div>
+
+    <div class="tool-group">
+      <span class="tool-group-label">Tools:</span>
+      <button class="tool-btn" id="tool-highlight" onclick="setTool('highlight')" title="Highlight selected text (H)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+        Highlight
+      </button>
+      <button class="tool-btn" id="tool-strikethrough" onclick="setTool('deletion')" title="Suggest deletion (D)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="12" x2="20" y2="12"></line><path d="M6 6h12M6 18h12"></path></svg>
+        Strikethrough
+      </button>
+      <button class="tool-btn" id="tool-comment" onclick="setTool('comment')" title="Add comment (C)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        Comment
+      </button>
+    </div>
+
+    <div class="toolbar-spacer"></div>
+
+    <button class="tool-btn" onclick="undoLastAnnotation()" title="Undo last annotation (Ctrl+Z)" id="undo-btn" disabled>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7v6h6"></path><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"></path></svg>
+      Undo
+    </button>
+    <button class="tool-btn" onclick="exportAnnotations()" title="Export for Claude CLI">
+      Export
+    </button>
+    <span class="save-status" id="save-status">Ready</span>
+  </div>
+
+  <div class="review-layout">
+    <div class="review-content">
+      <article class="doc-content" id="doc-content">
+        <p style="color: var(--color-text-muted); text-align: center; padding: 48px;">
+          Select a document above to start reviewing
+        </p>
+      </article>
+    </div>
+
+    <div class="review-sidebar" id="sidebar">
+      <div class="comments-header">
+        <span>Suggestions</span>
+        <span class="comment-count" id="comment-count">0</span>
+      </div>
+
+      <div class="filter-tabs">
+        <button class="filter-tab active" data-filter="all" onclick="filterComments('all')">All</button>
+        <button class="filter-tab" data-filter="open" onclick="filterComments('open')">Open</button>
+        <button class="filter-tab" data-filter="resolved" onclick="filterComments('resolved')">Resolved</button>
+      </div>
+
+      <div id="comments-list">
+        <div class="empty-comments">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          <p>No suggestions yet</p>
+          <p style="font-size: 12px;">Select text and use the toolbar to add annotations</p>
+        </div>
+      </div>
+
+      <div class="legend">
+        <div class="legend-title">Legend</div>
+        <div class="legend-item"><span class="legend-swatch highlight"></span> Highlight - general note</div>
+        <div class="legend-item"><span class="legend-swatch deletion">abc</span> Strikethrough - suggest removal</div>
+        <div class="legend-item"><span class="legend-swatch insertion"></span> Insertion - suggest addition</div>
+        <div class="legend-item"><span class="legend-swatch comment"></span> Comment - with note</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Selection Popover -->
+  <div class="selection-popover" id="selection-popover">
+    <button class="popover-btn highlight" onclick="quickAnnotate('highlight')">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="14" width="18" height="6" rx="1"></rect></svg>
+      Highlight
+    </button>
+    <button class="popover-btn deletion" onclick="quickAnnotate('deletion')">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="12" x2="20" y2="12"></line></svg>
+      Delete
+    </button>
+    <button class="popover-btn comment" onclick="openCommentModal()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+      Comment
+    </button>
+  </div>
+
+  <!-- Comment Modal -->
+  <div class="modal-overlay" id="comment-modal">
+    <div class="modal-content">
+      <div class="modal-title">Add Comment</div>
+      <div class="modal-quote" id="modal-quote"></div>
+      <textarea class="modal-input" id="modal-comment" placeholder="Your comment or suggestion..."></textarea>
+      <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; font-size: 13px;">
+        <input type="checkbox" id="modal-suggest-replacement">
+        Suggest replacement text
+      </label>
+      <textarea class="modal-input" id="modal-replacement" placeholder="Replacement text..." style="display: none; min-height: 60px;"></textarea>
+      <div class="modal-actions">
+        <button class="modal-btn" onclick="closeCommentModal()">Cancel</button>
+        <button class="modal-btn primary" onclick="submitComment()">Add Comment</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile sidebar toggle -->
+  <button class="toggle-sidebar" onclick="toggleSidebar()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+  </button>
+
+  <script>
+    // State
+    let currentSlug = null;
+    let annotations = [];
+    let currentTool = null;
+    let pendingSelection = null;
+    let currentFilter = 'all';
+    let undoStack = []; // Stack of removed annotations for undo
+    let acceptedEdits = []; // Track accepted edits for Claude CLI export
+
+    // Update undo button state
+    function updateUndoButton() {
+      const btn = document.getElementById('undo-btn');
+      btn.disabled = undoStack.length === 0;
+    }
+
+    // Undo last annotation
+    function undoLastAnnotation() {
+      if (undoStack.length === 0) return;
+
+      const lastAction = undoStack.pop();
+      if (lastAction.action === 'add') {
+        // Remove the annotation that was added
+        annotations = annotations.filter(a => a.id !== lastAction.annotation.id);
+      } else if (lastAction.action === 'delete') {
+        // Restore the annotation that was deleted
+        annotations.push(lastAction.annotation);
+      }
+
+      saveAnnotations();
+      renderAnnotations();
+      renderCommentsList();
+      updateUndoButton();
+    }
+
+    // Accept an edit suggestion and apply it
+    function acceptEdit(id) {
+      const ann = annotations.find(a => a.id === id);
+      if (!ann) return;
+
+      // Track accepted edit
+      acceptedEdits.push({
+        id: ann.id,
+        type: ann.type,
+        original: ann.text,
+        replacement: ann.replacement || '',
+        acceptedAt: new Date().toISOString()
+      });
+
+      // Mark as resolved and accepted
+      ann.resolved = true;
+      ann.accepted = true;
+
+      // Save to localStorage
+      localStorage.setItem(`acceptedEdits-${currentSlug}`, JSON.stringify(acceptedEdits));
+
+      saveAnnotations();
+      renderAnnotations();
+      renderCommentsList();
+      setStatus('Edit accepted!', 'saved');
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+      loadDocumentList();
+      setupEventListeners();
+
+      // Load reviewer name from localStorage
+      const savedName = localStorage.getItem('reviewerName');
+      if (savedName) {
+        document.getElementById('reviewer-name').value = savedName;
+      }
+
+      // Check URL params
+      const params = new URLSearchParams(window.location.search);
+      const doc = params.get('doc');
+      if (doc) {
+        document.getElementById('doc-select').value = doc;
+        loadDocument(doc);
+      }
+    });
+
+    function setupEventListeners() {
+      // Save reviewer name
+      document.getElementById('reviewer-name').addEventListener('change', function() {
+        localStorage.setItem('reviewerName', this.value);
+      });
+
+      // Text selection
+      document.getElementById('doc-content').addEventListener('mouseup', handleTextSelection);
+
+      // Hide popover on click outside
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('.selection-popover') && !e.target.closest('.doc-content')) {
+          hidePopover();
+        }
+      });
+
+      // Keyboard shortcuts
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'h' && !e.ctrlKey && !e.metaKey && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+          setTool('highlight');
+        } else if (e.key === 'd' && !e.ctrlKey && !e.metaKey && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+          setTool('deletion');
+        } else if (e.key === 'c' && !e.ctrlKey && !e.metaKey && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+          setTool('comment');
+        } else if (e.key === 'Escape') {
+          setTool(null);
+          hidePopover();
+          closeCommentModal();
+        }
+      });
+
+      // Toggle replacement input
+      document.getElementById('modal-suggest-replacement').addEventListener('change', function() {
+        document.getElementById('modal-replacement').style.display = this.checked ? 'block' : 'none';
+      });
+    }
+
+    async function loadDocumentList() {
+      // Known local docs
+      const localDocs = [
+        { slug: 'pitch-materials', title: 'Pitch Materials' },
+        { slug: 'privacy-first-architecture', title: 'Privacy-First Architecture' },
+        { slug: 'infrastructure-costs', title: 'Infrastructure Cost Analysis' },
+        { slug: 'cloudflare-pages-migration', title: 'Cloudflare Pages Migration' },
+        { slug: 'network-technology', title: 'Network Technology' }
+      ];
+
+      const select = document.getElementById('doc-select');
+      localDocs.forEach(doc => {
+        const option = document.createElement('option');
+        option.value = doc.slug;
+        option.textContent = doc.title;
+        select.appendChild(option);
+      });
+
+      // Try to load from KV API too
+      try {
+        const response = await fetch('/api/docs');
+        if (response.ok) {
+          const docs = await response.json();
+          docs.forEach(doc => {
+            // Add if not already in list
+            if (!localDocs.find(d => d.slug === doc.slug)) {
+              const option = document.createElement('option');
+              option.value = doc.slug;
+              option.textContent = doc.title || doc.slug;
+              select.appendChild(option);
+            }
+          });
+        }
+      } catch (e) {
+        console.log('Could not load docs from KV');
+      }
+    }
+
+    async function loadDocument(slug) {
+      if (!slug) return;
+
+      currentSlug = slug;
+      setStatus('Loading...', '');
+
+      try {
+        // Load document HTML
+        const response = await fetch(`/docs/${slug}.html`);
+        if (!response.ok) throw new Error('Document not found');
+
+        const html = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const article = doc.querySelector('.doc-content');
+
+        if (article) {
+          document.getElementById('doc-content').innerHTML = article.innerHTML;
+        }
+
+        // Load annotations
+        await loadAnnotations(slug);
+
+        // Update URL
+        history.replaceState(null, '', `?doc=${slug}`);
+
+        setStatus('Loaded', 'saved');
+      } catch (e) {
+        console.error(e);
+        setStatus('Error loading document', 'error');
+      }
+    }
+
+    async function loadAnnotations(slug) {
+      try {
+        const response = await fetch(`/api/annotations/${slug}`);
+        if (response.ok) {
+          annotations = await response.json();
+        } else {
+          annotations = [];
+        }
+      } catch (e) {
+        // Try localStorage fallback
+        const saved = localStorage.getItem(`annotations-${slug}`);
+        annotations = saved ? JSON.parse(saved) : [];
+      }
+
+      renderAnnotations();
+      renderCommentsList();
+    }
+
+    async function saveAnnotations() {
+      if (!currentSlug) return;
+
+      setStatus('Saving...', 'saving');
+
+      // Always save to localStorage as backup
+      localStorage.setItem(`annotations-${currentSlug}`, JSON.stringify(annotations));
+
+      try {
+        const response = await fetch(`/api/annotations/${currentSlug}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(annotations)
+        });
+
+        if (response.ok) {
+          setStatus('Saved', 'saved');
+        } else {
+          setStatus('Saved locally', 'saved');
+        }
+      } catch (e) {
+        setStatus('Saved locally', 'saved');
+      }
+    }
+
+    function handleTextSelection(e) {
+      const selection = window.getSelection();
+      const text = selection.toString().trim();
+
+      if (!text || text.length < 2) {
+        hidePopover();
+        return;
+      }
+
+      // Check if selection is within doc content
+      const docContent = document.getElementById('doc-content');
+      if (!docContent.contains(selection.anchorNode)) {
+        return;
+      }
+
+      // Store selection info
+      pendingSelection = {
+        text: text,
+        range: selection.getRangeAt(0).cloneRange(),
+        startOffset: getTextOffset(docContent, selection.anchorNode, selection.anchorOffset),
+        endOffset: getTextOffset(docContent, selection.focusNode, selection.focusOffset)
+      };
+
+      // Ensure startOffset < endOffset
+      if (pendingSelection.startOffset > pendingSelection.endOffset) {
+        [pendingSelection.startOffset, pendingSelection.endOffset] = [pendingSelection.endOffset, pendingSelection.startOffset];
+      }
+
+      // Show popover near selection
+      const rect = selection.getRangeAt(0).getBoundingClientRect();
+      const popover = document.getElementById('selection-popover');
+      popover.style.top = (rect.bottom + window.scrollY + 8) + 'px';
+      popover.style.left = (rect.left + window.scrollX) + 'px';
+      popover.classList.add('visible');
+    }
+
+    function getTextOffset(container, node, offset) {
+      const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+      let totalOffset = 0;
+
+      while (walker.nextNode()) {
+        if (walker.currentNode === node) {
+          return totalOffset + offset;
+        }
+        totalOffset += walker.currentNode.textContent.length;
+      }
+
+      return totalOffset;
+    }
+
+    function hidePopover() {
+      document.getElementById('selection-popover').classList.remove('visible');
+    }
+
+    function setTool(tool) {
+      currentTool = tool;
+      document.querySelectorAll('.tool-btn').forEach(btn => btn.classList.remove('active'));
+      if (tool) {
+        document.getElementById(`tool-${tool === 'deletion' ? 'strikethrough' : tool}`).classList.add('active');
+      }
+    }
+
+    function quickAnnotate(type) {
+      if (!pendingSelection) return;
+
+      const reviewer = document.getElementById('reviewer-name').value || 'Anonymous';
+
+      const annotation = {
+        id: generateId(),
+        type: type,
+        text: pendingSelection.text,
+        startOffset: pendingSelection.startOffset,
+        endOffset: pendingSelection.endOffset,
+        comment: '',
+        replacement: '',
+        author: reviewer,
+        timestamp: new Date().toISOString(),
+        resolved: false
+      };
+
+      annotations.push(annotation);
+      saveAnnotations();
+      renderAnnotations();
+      renderCommentsList();
+      hidePopover();
+      window.getSelection().removeAllRanges();
+    }
+
+    function openCommentModal() {
+      if (!pendingSelection) return;
+
+      document.getElementById('modal-quote').textContent = pendingSelection.text;
+      document.getElementById('modal-comment').value = '';
+      document.getElementById('modal-replacement').value = '';
+      document.getElementById('modal-suggest-replacement').checked = false;
+      document.getElementById('modal-replacement').style.display = 'none';
+      document.getElementById('comment-modal').classList.add('visible');
+      document.getElementById('modal-comment').focus();
+      hidePopover();
+    }
+
+    function closeCommentModal() {
+      document.getElementById('comment-modal').classList.remove('visible');
+    }
+
+    function submitComment() {
+      if (!pendingSelection) return;
+
+      const reviewer = document.getElementById('reviewer-name').value || 'Anonymous';
+      const comment = document.getElementById('modal-comment').value.trim();
+      const hasReplacement = document.getElementById('modal-suggest-replacement').checked;
+      const replacement = hasReplacement ? document.getElementById('modal-replacement').value : '';
+
+      const annotation = {
+        id: generateId(),
+        type: hasReplacement ? 'insertion' : 'comment',
+        text: pendingSelection.text,
+        startOffset: pendingSelection.startOffset,
+        endOffset: pendingSelection.endOffset,
+        comment: comment,
+        replacement: replacement,
+        author: reviewer,
+        timestamp: new Date().toISOString(),
+        resolved: false
+      };
+
+      annotations.push(annotation);
+      saveAnnotations();
+      renderAnnotations();
+      renderCommentsList();
+      closeCommentModal();
+      window.getSelection().removeAllRanges();
+    }
+
+    function renderAnnotations() {
+      // Reload document content first
+      if (!currentSlug) return;
+
+      // Re-fetch and re-render with annotations
+      fetch(`/docs/${currentSlug}.html`)
+        .then(r => r.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+          const article = doc.querySelector('.doc-content');
+
+          if (!article) return;
+
+          // Get plain text and apply annotations
+          let content = article.innerHTML;
+          const docContent = document.getElementById('doc-content');
+          docContent.innerHTML = content;
+
+          // Sort annotations by startOffset (descending) to apply from end to start
+          const sortedAnnotations = [...annotations]
+            .filter(a => !a.resolved || currentFilter === 'all' || currentFilter === 'resolved')
+            .sort((a, b) => b.startOffset - a.startOffset);
+
+          // Apply each annotation
+          sortedAnnotations.forEach((ann, idx) => {
+            applyAnnotationToDOM(docContent, ann, annotations.length - idx);
+          });
+        });
+    }
+
+    function applyAnnotationToDOM(container, annotation, num) {
+      const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+      let currentOffset = 0;
+      let startNode = null, startNodeOffset = 0;
+      let endNode = null, endNodeOffset = 0;
+
+      // Find start and end nodes
+      while (walker.nextNode()) {
+        const node = walker.currentNode;
+        const nodeLength = node.textContent.length;
+
+        if (!startNode && currentOffset + nodeLength > annotation.startOffset) {
+          startNode = node;
+          startNodeOffset = annotation.startOffset - currentOffset;
+        }
+
+        if (!endNode && currentOffset + nodeLength >= annotation.endOffset) {
+          endNode = node;
+          endNodeOffset = annotation.endOffset - currentOffset;
+          break;
+        }
+
+        currentOffset += nodeLength;
+      }
+
+      if (!startNode || !endNode) return;
+
+      try {
+        const range = document.createRange();
+        range.setStart(startNode, startNodeOffset);
+        range.setEnd(endNode, endNodeOffset);
+
+        const wrapper = document.createElement('span');
+        wrapper.className = `annotation-${annotation.type}${annotation.resolved ? ' resolved' : ''}`;
+        wrapper.dataset.annotationId = annotation.id;
+        if (annotation.type === 'comment') {
+          wrapper.dataset.commentNum = num;
+        }
+
+        wrapper.addEventListener('click', () => scrollToComment(annotation.id));
+
+        range.surroundContents(wrapper);
+      } catch (e) {
+        console.log('Could not apply annotation:', e);
+      }
+    }
+
+    function renderCommentsList() {
+      const list = document.getElementById('comments-list');
+      const filtered = annotations.filter(a => {
+        if (currentFilter === 'open') return !a.resolved;
+        if (currentFilter === 'resolved') return a.resolved;
+        return true;
+      });
+
+      document.getElementById('comment-count').textContent = annotations.filter(a => !a.resolved).length;
+
+      if (filtered.length === 0) {
+        list.innerHTML = `
+          <div class="empty-comments">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            <p>No ${currentFilter === 'all' ? 'suggestions' : currentFilter + ' suggestions'} yet</p>
+            <p style="font-size: 12px;">Select text to add annotations</p>
+          </div>
+        `;
+        return;
+      }
+
+      list.innerHTML = filtered.map(ann => `
+        <div class="comment-card ${ann.resolved ? 'resolved' : ''}" data-id="${ann.id}" onclick="scrollToAnnotation('${ann.id}')">
+          <div class="comment-header">
+            <span class="comment-author">${escapeHtml(ann.author)}</span>
+            <span class="comment-type ${ann.type}">${ann.type}</span>
+          </div>
+          <div class="comment-time">${formatTime(ann.timestamp)}</div>
+          <div class="comment-quote">"${escapeHtml(ann.text.substring(0, 100))}${ann.text.length > 100 ? '...' : ''}"</div>
+          ${ann.comment ? `<div class="comment-text">${escapeHtml(ann.comment)}</div>` : ''}
+          ${ann.replacement ? `<div class="comment-suggestion">→ ${escapeHtml(ann.replacement)}</div>` : ''}
+          <div class="comment-actions">
+            <button class="comment-action-btn resolve" onclick="event.stopPropagation(); toggleResolve('${ann.id}')">${ann.resolved ? 'Reopen' : 'Resolve'}</button>
+            <button class="comment-action-btn delete" onclick="event.stopPropagation(); deleteAnnotation('${ann.id}')">Delete</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function scrollToAnnotation(id) {
+      const el = document.querySelector(`[data-annotation-id="${id}"]`);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.style.animation = 'pulse 0.5s ease';
+        setTimeout(() => el.style.animation = '', 500);
+      }
+    }
+
+    function scrollToComment(id) {
+      const card = document.querySelector(`.comment-card[data-id="${id}"]`);
+      if (card) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        card.classList.add('active');
+        setTimeout(() => card.classList.remove('active'), 2000);
+      }
+    }
+
+    function toggleResolve(id) {
+      const ann = annotations.find(a => a.id === id);
+      if (ann) {
+        ann.resolved = !ann.resolved;
+        saveAnnotations();
+        renderAnnotations();
+        renderCommentsList();
+      }
+    }
+
+    function deleteAnnotation(id) {
+      if (!confirm('Delete this annotation?')) return;
+      annotations = annotations.filter(a => a.id !== id);
+      saveAnnotations();
+      renderAnnotations();
+      renderCommentsList();
+    }
+
+    function filterComments(filter) {
+      currentFilter = filter;
+      document.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.filter === filter);
+      });
+      renderCommentsList();
+    }
+
+    function exportAnnotations() {
+      if (!currentSlug || annotations.length === 0) {
+        alert('No annotations to export');
+        return;
+      }
+
+      const data = {
+        document: currentSlug,
+        exportedAt: new Date().toISOString(),
+        annotations: annotations
+      };
+
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${currentSlug}-annotations.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+    }
+
+    function setStatus(text, type) {
+      const status = document.getElementById('save-status');
+      status.textContent = text;
+      status.className = 'save-status ' + type;
+    }
+
+    function generateId() {
+      return 'ann-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function formatTime(timestamp) {
+      const date = new Date(timestamp);
+      return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+
+    // Add CSS animation
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>

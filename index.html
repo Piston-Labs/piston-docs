@@ -1,46 +1,124 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Piston Labs Documentation</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0f172a;
-            color: #e2e8f0;
-            line-height: 1.6;
-            padding: 2rem;
-        }
-        .container { max-width: 900px; margin: 0 auto; }
-        h1 { color: #38bdf8; margin-bottom: 0.5rem; }
-        .subtitle { color: #94a3b8; margin-bottom: 2rem; }
-        .doc-link {
-            display: block;
-            background: #1e293b;
-            padding: 1.5rem;
-            border-radius: 8px;
-            text-decoration: none;
-            color: #e2e8f0;
-            margin-bottom: 1rem;
-            border: 1px solid #334155;
-            transition: border-color 0.2s;
-        }
-        .doc-link:hover { border-color: #38bdf8; }
-        .doc-link h3 { color: #38bdf8; margin-bottom: 0.5rem; }
-        .doc-link p { color: #94a3b8; font-size: 0.9rem; }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Piston Labs - Documentation</title>
+  <link rel="stylesheet" href="/assets/style.css">
+  <script>
+    // Check for saved theme preference or default to system preference
+    (function() {
+      const saved = localStorage.getItem('theme');
+      if (saved) {
+        document.documentElement.setAttribute('data-theme', saved);
+      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
 </head>
 <body>
-    <div class="container">
-        <h1>Piston Labs Docs</h1>
-        <p class="subtitle">Internal documentation and specs</p>
-
-        <a href="/living-health-record.html" class="doc-link">
-            <h3>Living Health Record Spec</h3>
-            <p>Vehicle health inspection format for Glovebox beta - core items, measurements, and display guidelines.</p>
-        </a>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="/" class="site-logo">Piston Labs</a>
+      <nav class="site-nav">
+        <a href="/">Docs</a>
+        <a href="/review.html">Review</a>
+        <a href="https://pistonlabs.co" target="_blank">Website</a>
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+          <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+      </nav>
     </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Piston Labs Documentation</h1>
+      <p>Technical documentation, architecture guides, and company resources</p>
+    </section>
+
+    <section class="doc-grid">
+      <a href="/docs/privacy-first-architecture.html" class="doc-card">
+        <h3>Privacy-First Architecture</h3>
+        <p>Our approach to vehicle telematics that minimizes data collection by design. Technical implementation, security analysis, and consumer messaging.</p>
+        <span class="tag">Security</span>
+      </a>
+
+      <a href="/docs/infrastructure-costs.html" class="doc-card">
+        <h3>Infrastructure Cost Analysis</h3>
+        <p>Complete breakdown of unit economics, margins, and infrastructure costs at scale. Investor-ready metrics and pricing models.</p>
+        <span class="tag">Business</span>
+      </a>
+
+      <a href="/docs/cloudflare-pages-migration.html" class="doc-card">
+        <h3>Cloudflare Pages Migration</h3>
+        <p>Migration proposal for moving from Vercel to Cloudflare Pages. Analysis of API routes, compute limits, and implementation strategy.</p>
+        <span class="tag">Infrastructure</span>
+      </a>
+
+      <a href="/docs/network-technology.html" class="doc-card">
+        <h3>Network Technology</h3>
+        <p>LTE Cat-M1 devices with Soracom multi-carrier SIMs for 10+ year device lifespan and carrier-agnostic connectivity. Investor/sales reference.</p>
+        <span class="tag">Hardware</span>
+      </a>
+
+      <a href="/docs/investor-one-pager.html" class="doc-card">
+        <h3>Investor One-Pager</h3>
+        <p>Executive summary for investors. The opportunity, business model, traction, competitive advantage, roadmap, and the ask.</p>
+        <span class="tag">Investor</span>
+      </a>
+
+      <a href="/docs/pitch-materials.html" class="doc-card">
+        <h3>Pitch Materials</h3>
+        <p>Investor and collaborator networking reference. The four pillars, pitches (10/30/60 second), key stats, objection handling, and canonical messaging.</p>
+        <span class="tag">Sales</span>
+      </a>
+
+      <a href="/docs/sacramento-startup-recon.html" class="doc-card">
+        <h3>Sacramento Startup Recon</h3>
+        <p>Network intelligence for Sacramento startup ecosystem. Key investors, ecosystem connectors, founders, and conversation starters for events.</p>
+        <span class="tag">Networking</span>
+      </a>
+
+      <a href="/docs/rod-giorgiu-pitch.html" class="doc-card">
+        <h3>Rod Giorgiu Pitch</h3>
+        <p>Tailored pitch for Rod Giorgiu (AllData founder). Personal connection, $500K ask, growth trajectory, and why his expertise matters.</p>
+        <span class="tag">Investor</span>
+      </a>
+
+      <a href="/docs/product-descriptions.html" class="doc-card">
+        <h3>myOdo Product Guide</h3>
+        <p>Consumer-friendly guide to the myOdo ecosystem: Device, App, Shop Dashboard, and Fleet Dashboard. Benefits-focused, no jargon.</p>
+        <span class="tag">Product</span>
+      </a>
+
+      <a href="/docs/system-flow-sandbox.html" class="doc-card">
+        <h3>System Flow (Source of Truth)</h3>
+        <p>Comprehensive, audience-agnostic documentation of all product flows. Master reference for generating consumer, shop, and investor materials.</p>
+        <span class="tag">Sandbox</span>
+      </a>
+
+      <a href="/docs/living-health-record.html" class="doc-card">
+        <h3>Living Health Record</h3>
+        <p>Vehicle health inspection format for Glovebox beta. Core 14 items, measurement thresholds, display examples, and JSON schema for Ryan.</p>
+        <span class="tag">Product</span>
+      </a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    &copy; 2026 Piston Labs. All rights reserved.
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+  </script>
 </body>
 </html>

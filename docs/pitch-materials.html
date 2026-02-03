@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pitch Materials - Piston Labs</title>
+  <link rel="stylesheet" href="/assets/style.css">
+  <script>
+    (function() {
+      const saved = localStorage.getItem('theme');
+      if (saved) {
+        document.documentElement.setAttribute('data-theme', saved);
+      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="/" class="site-logo">Piston Labs</a>
+      <nav class="site-nav">
+        <a href="/">Docs</a>
+        <a href="/review.html?doc=pitch-materials">Review</a>
+        <a href="https://pistonlabs.co" target="_blank">Website</a>
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+          <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <div class="breadcrumb"><a href="/">Docs</a>
+        <a href="/review.html?doc=pitch-materials">Review</a> / Pitch Materials</div>
+    <article class="doc-content">
+<h1 id="pitch-materials">Piston Labs - Pitch Materials</h1>
+<p><strong>Last Updated:</strong> 2026-01-11<br>
+<strong>Purpose:</strong> Investor and collaborator networking reference<br>
+<strong>Version:</strong> 1.1 (Canonical Messaging)</p>
+<hr>
+
+<h2 id="quick-reference">Quick Reference Card</h2>
+
+<h3 id="10-second">The 10-Second Pitch</h3>
+<blockquote>
+<p>"We fix customer retention for independent auto repair shops. The relationship breaks after the visit - customers forget to come back. We send mileage-based reminders that keep them connected to their shop."</p>
+</blockquote>
+
+<h3 id="30-second">The 30-Second Pitch</h3>
+<blockquote>
+<p>"Piston Labs solves customer retention for the $130B automotive aftermarket. Independent shops lose 60% of customers after the first visit. The relationship breaks because shops have no way to stay connected. We fix that moment.</p>
+<p>Our device plugs into the car, tracks real mileage, and sends service reminders based on how you actually drive - not arbitrary calendar intervals. It runs automatically in the background. No campaigns, no CRM work.</p>
+<p>I'm a shop owner myself. I achieve 80% retention through manual work. Piston automates it. We're raising $500K pre-seed on a $5M cap."</p>
+</blockquote>
+
+<h3 id="60-second">The 60-Second Pitch</h3>
+<blockquote>
+<p>"The automotive aftermarket is a $130B industry with a massive retention problem. Independent shops lose 60% of customers after their first visit. Not because of bad service - because the relationship breaks after the visit. There's no connection between appointments.</p>
+<p>Piston Labs fixes that moment. We give shops three things: an OBD-II device that tracks real mileage, a dashboard that links service history to customers via VIN, and automatic reminders based on how you actually drive.</p>
+<p>When a car needs service, the owner gets a notification: 'You've driven 4,800 miles since your last oil change. Schedule with your shop?' One tap. Done. The shop stays top-of-mind because they're sending the reminder.</p>
+<p>The key insight: accuracy builds trust. Calendar-based reminders feel like spam. Mileage-based reminders feel helpful. And it runs in the background - no added work for shops.</p>
+<p>I'm Tyler. I own Era Automotive and achieve 80% retention through intensive manual work. Piston automates what I do. We're raising $500K on a $5M cap. Target: 300 devices, 20 shops, $65K ARR in 12 months."</p>
+</blockquote>
+<hr>
+
+<h2 id="four-pillars">The Four Pillars (Canonical)</h2>
+<p>These are locked messaging pillars - use them consistently:</p>
+
+<h3>1. Retention Is the Outcome</h3>
+<blockquote><p>"We keep customers returning to independent shops."</p></blockquote>
+<p>The entire system exists to solve retention. Everything else is a means to this end.</p>
+
+<h3>2. Accuracy Builds Trust</h3>
+<blockquote><p>"Timing, not frequency, creates credibility."</p></blockquote>
+<p>Calendar-based reminders feel like spam. Mileage-based reminders feel helpful. Accuracy is why vehicle owners engage instead of ignoring.</p>
+
+<h3>3. The Reminder Drives the Relationship</h3>
+<blockquote><p>"Who sends it stays top-of-mind."</p></blockquote>
+<p>The shop that sends the service reminder is the shop that gets the business. We make sure it's the independent shop, not the dealer.</p>
+
+<h3>4. It Must Not Add Work</h3>
+<blockquote><p>"Operates automatically in the background."</p></blockquote>
+<p>No campaigns. No CRM workflows. No manual outreach. Shops upload repair orders and the system handles everything else.</p>
+<hr>
+
+<h2 id="taglines">Approved Taglines</h2>
+<ul>
+<li><strong>"Maintenance, based on how you drive"</strong></li>
+<li>"Service reminders you can trust"</li>
+<li>"Stay ahead of maintenance"</li>
+<li>"Drive. We'll handle the timing."</li>
+</ul>
+<hr>
+
+<h2 id="company-snapshot">Company Snapshot</h2>
+<table>
+<thead>
+<tr><th>Metric</th><th>Value</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Company</strong></td><td>Piston Labs</td></tr>
+<tr><td><strong>Product</strong></td><td>Connected vehicle ecosystem for independent auto shops</td></tr>
+<tr><td><strong>Market</strong></td><td>$130B automotive aftermarket, 250K+ US shops</td></tr>
+<tr><td><strong>Stage</strong></td><td>Pre-seed, pre-revenue</td></tr>
+<tr><td><strong>Raise</strong></td><td>$500K on YC Post-Money SAFE @ $5M cap</td></tr>
+<tr><td><strong>Runway</strong></td><td>12 months at $30K/mo burn</td></tr>
+<tr><td><strong>Team</strong></td><td>6 (Tyler CEO, Ryan CTO, Noah CSO/Full-Stack, Tom DevOps, Eli Sales, Marisa Marketing)</td></tr>
+<tr><td><strong>Status</strong></td><td>Infrastructure operational, beta devices transmitting</td></tr>
+</tbody>
+</table>
+<hr>
+
+<h2 id="the-problem">The Problem</h2>
+
+<h3>For Shops</h3>
+<ul>
+<li><strong>60%</strong> of customers never return after first visit</li>
+<li>The relationship breaks <strong>after the visit</strong> - no connection between appointments</li>
+<li>Calendar-based reminders feel like spam and get ignored</li>
+<li>Dealers dominate with OnStar, Toyota Connected, etc.</li>
+<li><strong>Zero existing solutions</strong> send mileage-based reminders for independent shops</li>
+</ul>
+
+<h3>For Vehicle Owners</h3>
+<ul>
+<li>Car maintenance is <strong>reactive by default</strong> - "Your car is due for service right now"</li>
+<li>No time to plan, sudden stress, worrisome uncertainty</li>
+<li><strong>Service records are a mess:</strong>
+<ul>
+<li>Papers stuffed in the glovebox</li>
+<li>Records scattered across tire shops, alignment shops, oil change places, mechanics</li>
+<li>Want your history? Call each shop individually and hope they kept it</li>
+<li>Carfax? Pay $40/month and still get incomplete records</li>
+</ul>
+</li>
+<li>Vehicle owners have <strong>already paid</strong> for the service - why should accessing their own records be this hard?</li>
+</ul>
+<hr>
+
+<h2 id="solution">The Solution (Three Components)</h2>
+<pre><code>1. PISTON DEVICE        2. CLOUD DATABASE         3. SHOP DASHBOARD
+   (in vehicle)            (our IP)                  (automatic)
+        |                      |                          |
+        +-----------> VIN = Universal Key <---------------+
+                    (connects everything)</code></pre>
+<ol>
+<li><strong>Piston Device</strong> - OBD-II telemetry device (Teltonika hardware), tracks real mileage</li>
+<li><strong>Cloud Database</strong> - Stores mileage + service history + vehicle owner profiles, all VIN-linked</li>
+<li><strong>Shop Dashboard</strong> - Runs automatically, shops upload repair orders, system handles the rest</li>
+</ol>
+<p><strong>Result:</strong> When a car needs service, the owner gets: <em>"You've driven 4,800 miles since your last oil change. Schedule with your shop?"</em> One tap. Booked. No added work for the shop.</p>
+<hr>
+
+<h2 id="business-model">Business Model</h2>
+
+<h3>Revenue Streams</h3>
+<table>
+<thead>
+<tr><th>Stream</th><th>Amount</th><th>Notes</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Consumer Device</strong></td><td>$150 one-time</td><td>$40 margin (27%)</td></tr>
+<tr><td><strong>Consumer Subscription</strong></td><td>$15/month</td><td>$180/year per device</td></tr>
+<tr><td><strong>Fleet Device</strong></td><td>$135 one-time</td><td>$25 margin (19%)</td></tr>
+<tr><td><strong>Fleet Subscription</strong></td><td>$25/month</td><td>$300/year per device</td></tr>
+</tbody>
+</table>
+
+<h3>Unit Economics</h3>
+<table>
+<thead>
+<tr><th>Channel</th><th>Year 1 Revenue per Device</th><th>Year 2+</th></tr>
+</thead>
+<tbody>
+<tr><td>Consumer</td><td>$330 ($150 + $180)</td><td>$180/year</td></tr>
+<tr><td>Fleet</td><td>$435 ($135 + $300)</td><td>$300/year</td></tr>
+</tbody>
+</table>
+
+<h3>Infrastructure Costs</h3>
+<ul>
+<li><strong>$2.26/device/month</strong> (Cloudflare + Soracom cellular)</li>
+<li>Scales efficiently - infrastructure never bottlenecks growth</li>
+<li>At 100K devices: variable cost is ~1.3% of subscription revenue</li>
+</ul>
+
+<h3>Shop Dashboard (B2B Product)</h3>
+<p><em>Free tier gets shops in the door. Pro tier unlocks revenue.</em></p>
+<table>
+<thead>
+<tr><th>Feature</th><th>Free</th><th>Pro ($100/mo)</th></tr>
+</thead>
+<tbody>
+<tr><td>Service record uploads</td><td>✓</td><td>✓</td></tr>
+<tr><td>Incoming service notifications with customer info</td><td>✓</td><td>✓</td></tr>
+<tr><td>Lite CRM customer list</td><td>✓</td><td>✓</td></tr>
+<tr><td>Manual customer outreach</td><td>✓</td><td>✓</td></tr>
+<tr><td>Calendar scheduling integration</td><td>—</td><td>✓</td></tr>
+<tr><td>Automated scheduling (customer swipes → booked)</td><td>—</td><td>✓</td></tr>
+<tr><td>Direct messaging to customers</td><td>—</td><td>✓</td></tr>
+</tbody>
+</table>
+
+<h3>Consumer App (B2C Product)</h3>
+<p><em>Free to vehicle owners. Complete records. Owner-controlled.</em></p>
+<ul>
+<li><strong>Proactive notifications:</strong> "You have 500 miles until your next service" (not "Your car is due NOW")</li>
+<li><strong>One-tap scheduling:</strong> Swipe to schedule with your preferred shop</li>
+<li><strong>Complete service history:</strong> All records tied to your VIN, accessible forever</li>
+<li><strong>No gatekeeping:</strong> No Carfax subscription, no calling shops for records</li>
+<li><strong>You control your data:</strong> Share with shops you choose, private by default</li>
+</ul>
+
+<h3>Fleet Dashboard (B2B Product)</h3>
+<p><em>Enterprise fleet management for businesses with 5+ vehicles.</em></p>
+<table>
+<thead>
+<tr><th>Feature</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>Real-time tracking</td><td>Live GPS map with vehicle status, speed, battery</td></tr>
+<tr><td>Trip history &amp; replay</td><td>Full trip logs with animated route playback</td></tr>
+<tr><td>Geofencing</td><td>Define boundaries, get entry/exit alerts</td></tr>
+<tr><td>Driver safety scores</td><td>Rankings based on driving behavior</td></tr>
+<tr><td>Fleet analytics</td><td>Utilization, mileage, maintenance reports</td></tr>
+<tr><td>Service scheduling</td><td>Track intervals, get maintenance alerts</td></tr>
+</tbody>
+</table>
+<p><strong>Pricing:</strong> $25/device/month (same device, higher value for fleet operators)</p>
+<p><strong>Target customers:</strong> Delivery companies, service contractors (HVAC, plumbing), construction, rental agencies</p>
+<hr>
+
+<h2 id="platform-strategy">Platform Strategy: One Device, Three Markets</h2>
+<p><em>This is not scatter - it's leverage.</em></p>
+
+<h3>The Insight</h3>
+<blockquote><p>The same $110 device and the same cloud infrastructure serves three distinct markets at three different price points. Each additional market is incremental revenue without incremental R&amp;D.</p></blockquote>
+
+<h3>Shared Infrastructure</h3>
+<table>
+<thead>
+<tr><th>Layer</th><th>Shared Across All Products</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Hardware</strong></td><td>Piston Device (Teltonika FMM00A) - one SKU, volume discounts</td></tr>
+<tr><td><strong>Cellular</strong></td><td>Soracom SIM - same data plan for all use cases</td></tr>
+<tr><td><strong>Backend</strong></td><td>Cloudflare Workers - telemetry ingestion, state management</td></tr>
+<tr><td><strong>Data Model</strong></td><td>VIN-linked records - service history follows the vehicle</td></tr>
+</tbody>
+</table>
+
+<h3>Three Markets, One Platform</h3>
+<table>
+<thead>
+<tr><th>Product</th><th>Market</th><th>Price</th><th>Value Prop</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Consumer App</strong></td><td>Vehicle owners (B2C)</td><td>$15/mo</td><td>Proactive maintenance, complete records</td></tr>
+<tr><td><strong>Shop Dashboard</strong></td><td>Repair shops (B2B SaaS)</td><td>$0-100/mo</td><td>Customer retention, service requests</td></tr>
+<tr><td><strong>Fleet Dashboard</strong></td><td>Fleet operators (B2B)</td><td>$25/mo</td><td>Real-time tracking, driver management</td></tr>
+</tbody>
+</table>
+
+<h3>Why This Is Strategic, Not Scattered</h3>
+<ol>
+<li><strong>Same hardware</strong> - Volume discounts, simplified supply chain, one device to support</li>
+<li><strong>Same backend</strong> - One engineering team, shared development costs</li>
+<li><strong>Network effects</strong> - Shops service fleet vehicles, fleet drivers become consumers</li>
+<li><strong>Price discrimination</strong> - Fleet pays 67% more for same underlying tech</li>
+<li><strong>TAM expansion</strong> - $130B aftermarket + $34B fleet management = larger opportunity</li>
+</ol>
+
+<h3>Development Status</h3>
+<table>
+<thead>
+<tr><th>Product</th><th>Status</th><th>Live URL</th></tr>
+</thead>
+<tbody>
+<tr><td>Consumer App</td><td>In development</td><td>—</td></tr>
+<tr><td>Shop Dashboard</td><td>Functional, beta ready</td><td>—</td></tr>
+<tr><td>Fleet Dashboard</td><td>85% complete, polish phase</td><td><a href="https://piston-fleet-dashboard.pages.dev">piston-fleet-dashboard.pages.dev</a></td></tr>
+</tbody>
+</table>
+<hr>
+
+<h2 id="traction">Current Traction</h2>
+
+<h3>Devices</h3>
+<ul>
+<li><strong>9 devices</strong> deployed for internal testing</li>
+<li><strong>30 devices</strong> on order for private beta</li>
+<li><strong>3 beta shops</strong> ready: Tyler's shop (Era Automotive) + 2 additional shops</li>
+</ul>
+
+<h3>Infrastructure</h3>
+<ul>
+<li>Cloudflare infrastructure: &lt;50ms processing, 0% error rate</li>
+<li>Dashboard functional: PDF upload, VIN parsing, automatic linking</li>
+</ul>
+
+<h3>Distribution Strategy</h3>
+<p><strong>Wholesale Partners (In Discussion)</strong></p>
+<ul>
+<li><strong>WorldPac</strong> - National auto parts distributor, interested in bulk device purchases</li>
+<li><strong>SSF</strong> - Auto parts wholesaler, exploring co-branded distribution program</li>
+</ul>
+<p><em>Wholesale model: Discounted device pricing for bulk purchases, partners resell to shops at margin. We retain subscription revenue.</em></p>
+
+<p><strong>Additional Channels</strong></p>
+<ul>
+<li>Partnerships with automotive colleges for shop onboarding and training</li>
+<li>Local shops engaged as platform champions for peer referrals and device sales</li>
+</ul>
+
+<h3>What This Proves</h3>
+<ul>
+<li><strong>We can execute</strong> - Team delivered production infrastructure</li>
+<li><strong>Tech risk is de-risked</strong> - Architecture works, scales, secure</li>
+<li><strong>Go-to-market started</strong> - Beta shops ready, distribution partnerships forming</li>
+</ul>
+<hr>
+
+<h2 id="the-ask">The Ask: $500K Pre-Seed</h2>
+
+<h3>Use of Funds</h3>
+<table>
+<thead>
+<tr><th>Category</th><th>Amount</th><th>Notes</th></tr>
+</thead>
+<tbody>
+<tr><td>Salaries (12 mo)</td><td>$222,000</td><td>Tyler, Ryan, Tom, Eli, Marisa</td></tr>
+<tr><td>Payroll taxes</td><td>$26,400</td><td></td></tr>
+<tr><td>Infrastructure</td><td>$18,000</td><td>Cloudflare, Soracom, etc.</td></tr>
+<tr><td>Devices (200 units)</td><td>$22,000</td><td>$110 landed cost</td></tr>
+<tr><td>Equipment</td><td>$15,000</td><td>Laptops, test devices</td></tr>
+<tr><td>Legal/accounting</td><td>$15,000</td><td>SAFE docs, C-corp</td></tr>
+<tr><td>D&amp;O insurance</td><td>$5,000</td><td></td></tr>
+<tr><td>Marketing/travel</td><td>$15,000</td><td>Demos, collateral</td></tr>
+<tr><td>Buffer</td><td>$162,200</td><td>32% contingency</td></tr>
+<tr><td><strong>Total</strong></td><td><strong>$500,000</strong></td><td></td></tr>
+</tbody>
+</table>
+
+<h3>Terms</h3>
+<ul>
+<li><strong>Instrument:</strong> YC Post-Money SAFE</li>
+<li><strong>Valuation Cap:</strong> $5,000,000</li>
+<li><strong>Dilution:</strong> ~10%</li>
+<li><strong>Floor:</strong> $350,000 (won't close below this)</li>
+</ul>
+<hr>
+
+<h2 id="seed-milestones">Seed Milestones (12 Months Out)</h2>
+<table>
+<thead>
+<tr><th>Metric</th><th>Minimum</th><th>Target</th><th>Stretch</th></tr>
+</thead>
+<tbody>
+<tr><td>Total devices</td><td>225</td><td>300</td><td>400</td></tr>
+<tr><td>Consumer devices</td><td>175</td><td>225</td><td>300</td></tr>
+<tr><td>Fleet devices</td><td>50</td><td>75</td><td>100</td></tr>
+<tr><td>Shops onboarded</td><td>15</td><td>20</td><td>30</td></tr>
+<tr><td>Fleet customers</td><td>3</td><td>5</td><td>8</td></tr>
+<tr><td>MRR</td><td>$4,500</td><td>$5,400</td><td>$7,200</td></tr>
+<tr><td>ARR</td><td>$54K</td><td>$65K</td><td>$86K</td></tr>
+<tr><td>Retention</td><td>80%+</td><td>85%+</td><td>90%+</td></tr>
+<tr><td>MoM growth</td><td>10%+</td><td>15%+</td><td>20%+</td></tr>
+</tbody>
+</table>
+
+<h3>What Hitting Target Unlocks</h3>
+<ul>
+<li><strong>Seed round:</strong> $750K-$1.2M at $10-11M cap</li>
+<li><strong>Valuation support:</strong> 300 devices + 85% retention + 15% growth = solid up round</li>
+</ul>
+<hr>
+
+<h2 id="competitive">Competitive Advantage</h2>
+
+<h3>Why We Win</h3>
+<table>
+<thead>
+<tr><th>Competitor</th><th>Their Play</th><th>Our Advantage</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Shop CRMs</strong> (ShopGenie, Tekmetric)</td><td>Shop-only tools, calendar reminders</td><td>We have the device + mileage-based accuracy</td></tr>
+<tr><td><strong>Dealerships</strong></td><td>OEM connected cars</td><td>We work with ANY vehicle, ANY shop</td></tr>
+<tr><td><strong>OEM Apps</strong> (Toyota, GM, Ford)</td><td>Route to dealers</td><td>We route to independent shops (OEMs can't)</td></tr>
+</tbody>
+</table>
+
+<h3>The Moat</h3>
+<ol>
+<li><strong>Mileage-based accuracy</strong> - Calendar reminders feel like spam; ours feel helpful</li>
+<li><strong>VIN-based data model</strong> - Simple but powerful architecture</li>
+<li><strong>No added work</strong> - Runs automatically, unlike CRM-based solutions</li>
+<li><strong>First mover</strong> - No existing solution sends mileage-based reminders to independent shops</li>
+<li><strong>Privacy-first architecture</strong> - Can't steal what doesn't exist</li>
+</ol>
+
+<h3>Privacy as Competitive Edge</h3>
+<blockquote><p>"Can't steal what doesn't exist."</p></blockquote>
+<p>We don't store GPS location data. GPS is processed in real-time for mileage calculation, then immediately discarded.</p>
+<ul>
+<li><strong>Reduced breach risk:</strong> Ephemeral data model minimizes exposure and liability</li>
+<li><strong>Regulatory advantage:</strong> Not classified as a data broker, avoiding heightened scrutiny</li>
+<li><strong>Law enforcement:</strong> Can't comply with location data requests - data isn't retained</li>
+<li><strong>Competitive moat:</strong> Competitors (Bouncie, Zubie, Hum) monetize location data - we don't</li>
+</ul>
+<p><em>Privacy and functionality aren't mutually exclusive. This is a structural advantage.</em></p>
+<hr>
+
+<h2 id="cap-table">Cap Table</h2>
+
+<h3>Post Pre-Seed ($500K @ $5M)</h3>
+<table>
+<thead>
+<tr><th>Holder</th><th>Pre-Raise</th><th>Post Pre-Seed</th></tr>
+</thead>
+<tbody>
+<tr><td>Tyler Porras (CEO)</td><td>52.0%</td><td>45.9%</td></tr>
+<tr><td>Ryan Morris (CTO)</td><td>23.0%</td><td>20.3%</td></tr>
+<tr><td>Elide (strategic)</td><td>15.0%</td><td>15.0% (protected)</td></tr>
+<tr><td>Option pool</td><td>10.0%</td><td>8.8%</td></tr>
+<tr><td>Pre-seed investors</td><td>—</td><td>10%</td></tr>
+<tr><td><strong>Founder bloc</strong></td><td><strong>75%</strong></td><td><strong>66.2%</strong></td></tr>
+</tbody>
+</table>
+
+<h3>Vesting</h3>
+<ul>
+<li><strong>Tyler:</strong> Immediate (founder)</li>
+<li><strong>Ryan:</strong> 2 years, 6-month cliff</li>
+<li><strong>Tom/Eli/Marisa:</strong> 4 years, 1-year cliff (base grants from option pool)</li>
+</ul>
+<hr>
+
+<h2 id="team">The Team</h2>
+
+<h3>Founders (Equity Defined)</h3>
+<p><strong>Tyler Porras - CEO</strong> (52%)</p>
+<ul>
+<li>Owner/operator of Era Automotive (independent shop)</li>
+<li>Achieves <strong>80% retention</strong> - 2x industry average</li>
+<li>Built production infrastructure</li>
+<li><strong>Founder-market fit:</strong> Tyler IS the customer</li>
+</ul>
+
+<p><strong>Ryan Morris - CTO</strong> (23%)</p>
+<ul>
+<li>Technical co-founder, full-stack + design</li>
+<li>Building dashboard and vehicle owner app</li>
+<li>Long-time collaborator with Tyler</li>
+</ul>
+
+<h3>Core Team (Equity Based on Beta Deliverables)</h3>
+<ul>
+<li><strong>Noah</strong> - Chief Systems Officer, Full-Stack Engineer &amp; Designer</li>
+<li><strong>Tom</strong> - DevOps &amp; IoT (device management, Soracom, provisioning)</li>
+<li><strong>Eli</strong> - Sales Engineering (beta shop onboarding, demos)</li>
+<li><strong>Marisa</strong> - Marketing &amp; Content (website, sales collateral)</li>
+</ul>
+<p><em>Note: Equity stakes for Noah, Tom, Eli, and Marisa are outstanding and will be calculated based on their deliverables through beta.</em></p>
+<hr>
+
+<h2 id="growth">Growth Trajectory</h2>
+<table>
+<thead>
+<tr><th>Stage</th><th>Devices</th><th>ARR</th><th>Team</th><th>Raise</th><th>Valuation</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Pre-Seed</strong></td><td>300</td><td>$54K</td><td>5</td><td>$500K</td><td>$5M</td></tr>
+<tr><td>Seed</td><td>3,000</td><td>$540K</td><td>10</td><td>$2M</td><td>$10M</td></tr>
+<tr><td>Series A</td><td>15,000</td><td>$2.7M</td><td>24</td><td>$10M</td><td>$50M</td></tr>
+<tr><td>Series B</td><td>50,000</td><td>$9M</td><td>50</td><td>$35M</td><td>$150M</td></tr>
+<tr><td>Series C</td><td>100,000</td><td>$18M</td><td>112</td><td>$80M</td><td>$400M</td></tr>
+</tbody>
+</table>
+<hr>
+
+<h2 id="faq">FAQ / Objection Handling</h2>
+
+<h3>"Why haven't shop CRMs built this?"</h3>
+<p>They send calendar-based reminders - "It's been 6 months." That feels like spam. We send mileage-based reminders - "You've driven 4,800 miles." That feels helpful. Accuracy requires the device. They don't have it.</p>
+
+<h3>"What about OEM connected car apps?"</h3>
+<p>OEMs route to dealers - conflict of interest with independent shops. We're the only solution that routes to the shop the vehicle owner actually wants.</p>
+
+<h3>"Isn't this just marketing software?"</h3>
+<p>No. Marketing software adds work - campaigns, segments, workflows. We run automatically in the background. Shops upload repair orders and we handle everything else. The pillar is: it must not add work.</p>
+
+<h3>"300 devices seems small for seed."</h3>
+<p>Retention and growth rate matter more than absolute count. 300 devices with 85% retention and 15% MoM growth is more fundable than 1,000 devices with 60% retention and flat growth.</p>
+
+<h3>"Pre-revenue is risky."</h3>
+<p>Infrastructure is operational today. We're not building from scratch. The technical risk is de-risked. We're validating go-to-market, not technology.</p>
+<hr>
+
+<h2 id="founder-story">Founder Story</h2>
+<blockquote>
+<p>"I own Era Automotive, an independent repair shop. I achieve 80% customer retention - double the industry average. But I do it through brutal manual work: texting customers, tracking mileage in spreadsheets, calling to remind them at the right time.</p>
+<p>Most shop owners can't do this. They don't have the time. So they lose 60% of customers after the first visit. The relationship just... breaks.</p>
+<p>Piston Labs fixes that moment. We automate what I do manually - mileage-based reminders that keep customers connected to their shop. It runs in the background. No added work. Just retention."</p>
+</blockquote>
+<hr>
+
+<h2 id="language">Language Guidelines</h2>
+
+<h3>DO Use</h3>
+<ul>
+<li>"Mileage-based" or "usage-based"</li>
+<li>"Vehicle owner" (not "consumer" or "user")</li>
+<li>"The relationship breaks after the visit"</li>
+<li>"Accuracy builds trust"</li>
+<li>"Runs automatically in the background"</li>
+<li>"No added work"</li>
+</ul>
+
+<h3>DON'T Use</h3>
+<ul>
+<li><s>"Otto"</s> (deprecated product name)</li>
+<li><s>"Vehicle health"</s> (too vague)</li>
+<li><s>"Marketing software"</s> (we're not that)</li>
+<li><s>"CRM"</s> when describing our dashboard (implies work)</li>
+<li>Don't over-explain the technology</li>
+<li>Don't frame as a marketing tool</li>
+</ul>
+
+<h3>Key Phrases to Repeat</h3>
+<ul>
+<li>"We fix the moment where the relationship breaks: after the visit."</li>
+<li>"Calendar reminders feel like spam. Mileage reminders feel helpful."</li>
+<li>"Who sends the reminder stays top-of-mind."</li>
+<li>"Maintenance, based on how you drive."</li>
+</ul>
+<hr>
+
+<h2 id="revision-history">Revision History</h2>
+<table>
+<thead>
+<tr><th>Date</th><th>Changes</th></tr>
+</thead>
+<tbody>
+<tr><td>2026-01-11</td><td>Initial document with canonical messaging</td></tr>
+<tr><td>2026-01-12</td><td>Added distilled value props for networking</td></tr>
+<tr><td>2026-01-12</td><td>Updated raise to $500K, recalculated use of funds and cap table</td></tr>
+<tr><td>2026-01-12</td><td>Restored customer-facing copy: vehicle owner pain points, Shop Dashboard, Consumer App</td></tr>
+<tr><td>2026-01-12</td><td>Added Noah (CSO) to team, updated team count to 6, equity based on beta deliverables</td></tr>
+<tr><td>2026-01-12</td><td>Added Fleet Dashboard product, Platform Strategy section (one device, three markets)</td></tr>
+</tbody>
+</table>
+<hr>
+
+<h2 id="value-props">Core Value Props (Networking Quick Reference)</h2>
+<p><em>Memorize these for quick conversations:</em></p>
+
+<h3>The Ecosystem (One Device, Three Markets)</h3>
+<table>
+<thead>
+<tr><th>Product</th><th>For</th><th>Price</th><th>Value</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Consumer App</strong></td><td>Vehicle owners</td><td>$15/mo</td><td>Proactive maintenance, complete records</td></tr>
+<tr><td><strong>Shop Dashboard</strong></td><td>Repair shops</td><td>$0-100/mo</td><td>Automated retention, service requests</td></tr>
+<tr><td><strong>Fleet Dashboard</strong></td><td>Fleet operators</td><td>$25/mo</td><td>Real-time tracking, driver management</td></tr>
+</tbody>
+</table>
+<p><em>Same device. Same backend. Three revenue streams.</em></p>
+
+<h3>For Vehicle Owners</h3>
+<blockquote><p>"Proactive maintenance with complete records. 'You have 500 miles until your next service - swipe to schedule.' All your service history in one place, tied to your VIN."</p></blockquote>
+
+<h3>For Shops</h3>
+<blockquote><p>"Automated customer retention. The shop that sends the reminder gets the business. No campaigns, no CRM work - it runs in the background."</p></blockquote>
+
+<h3>The Insight</h3>
+<blockquote><p>"Whoever sends the reminder gets the business. We make sure it's the independent shop, not the dealer."</p></blockquote>
+
+<h3>Why It Works (Pick One)</h3>
+<ul>
+<li><strong>Proactive vs Reactive:</strong> "'You have 500 miles' beats 'Your car is due NOW.'"</li>
+<li><strong>Accuracy builds trust:</strong> "Calendar reminders feel like spam. Mileage reminders feel helpful."</li>
+<li><strong>Records access:</strong> "Vehicle owners already paid for the service - why is their history locked away?"</li>
+<li><strong>Zero work for shops:</strong> "Upload repair orders. We handle the rest."</li>
+</ul>
+
+<h3>Why Us (Pick One)</h3>
+<ul>
+<li><strong>Founder-fit:</strong> "I own a shop. I achieve 80% retention manually. Piston automates it."</li>
+<li><strong>First mover:</strong> "No one else does mileage-based reminders for independent shops."</li>
+<li><strong>De-risked:</strong> "9 devices deployed, 30 on order, 3 beta shops ready."</li>
+</ul>
+
+<h3>The Ask (Casual)</h3>
+<blockquote><p>"We're raising $500K pre-seed to get 300 devices in cars and 20 shops using the platform."</p></blockquote>
+
+<h3>Conversation Starters</h3>
+<ul>
+<li>"Ever notice how your dealer app knows when you need service, but your local shop doesn't?"</li>
+<li>"Where do you keep your car's service records? ... Exactly. That's the problem."</li>
+<li>"We flip maintenance from reactive to proactive - for both shops and drivers."</li>
+</ul>
+    </article>
+  </main>
+  <footer class="site-footer">&copy; 2026 Piston Labs. All rights reserved.</footer>
+  <script>
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+  </script>
+</body>
+</html>

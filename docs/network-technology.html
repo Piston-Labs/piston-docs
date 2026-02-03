@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Network Technology - Piston Labs</title>
+  <link rel="stylesheet" href="/assets/style.css">
+  <script>
+    (function() {
+      const saved = localStorage.getItem('theme');
+      if (saved) {
+        document.documentElement.setAttribute('data-theme', saved);
+      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="/" class="site-logo">Piston Labs</a>
+      <nav class="site-nav">
+        <a href="/">Docs</a>
+        <a href="/review.html?doc=network-technology">Review</a>
+        <a href="https://pistonlabs.co" target="_blank">Website</a>
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+          <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <div class="breadcrumb"><a href="/">Docs</a>
+        <a href="/review.html?doc=network-technology">Review</a> / Network Technology</div>
+    <article class="doc-content">
+<h1 id="network-technology">Piston Labs Network Technology</h1>
+<p><strong>Last Updated:</strong> 2026-01-02<br>
+<strong>Purpose:</strong> Investor/sales reference for connectivity strategy</p>
+<hr>
+
+<h2 id="executive-summary">Executive Summary</h2>
+<p>Piston Labs uses <strong>LTE Cat-M1</strong> devices with <strong>Soracom multi-carrier SIMs</strong> to ensure 10+ year device lifespan and carrier-agnostic connectivity. This avoids the mass hardware recalls that competitors faced during 2G/3G network shutdowns.</p>
+<hr>
+
+<h2 id="the-problem">The Problem with 2G/3G</h2>
+<table>
+<thead>
+<tr><th>Network</th><th>Status</th><th>Impact</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>2G (GSM/GPRS)</strong></td><td>Shutdown complete in US (AT&T 2017, T-Mobile 2024)</td><td><strong>Dead</strong></td></tr>
+<tr><td><strong>3G (UMTS/HSPA)</strong></td><td>Shutdown complete in US (all carriers by Feb 2024)</td><td><strong>Dead</strong></td></tr>
+<tr><td><strong>Legacy devices</strong></td><td>Bouncie, older fleet trackers, cheap OBD dongles</td><td><strong>Bricked</strong></td></tr>
+</tbody>
+</table>
+<p>Millions of connected car devices became e-waste when carriers shut down 2G/3G networks. Companies like Bouncie had to execute mass hardware replacements, causing customer churn and significant costs.</p>
+<hr>
+
+<h2 id="our-solution-teltonika">Our Solution: Teltonika FMM00A</h2>
+<p>The Teltonika FMM00A is a professional-grade OBD-II telematics device with future-proof connectivity.</p>
+
+<h3 id="network-capabilities">Network Capabilities</h3>
+<table>
+<thead>
+<tr><th>Feature</th><th>Specification</th><th>Benefit</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>LTE Cat-M1</strong></td><td>4G low-power IoT variant</td><td>10+ year network lifespan</td></tr>
+<tr><td><strong>LTE Cat-NB1 (NB-IoT)</strong></td><td>Narrowband IoT</td><td>Ultra-low power fallback</td></tr>
+<tr><td><strong>2G fallback</strong></td><td>GSM (where available)</td><td>International roaming</td></tr>
+<tr><td><strong>US Bands</strong></td><td>B2, B4, B5, B12, B13, B25, B26</td><td>All major US carriers</td></tr>
+</tbody>
+</table>
+
+<h3 id="why-lte-cat-m1">Why LTE Cat-M1?</h3>
+<ul>
+<li><strong>Carrier commitment</strong>: AT&T, T-Mobile, Verizon actively investing in Cat-M1 infrastructure</li>
+<li><strong>IoT-optimized</strong>: Designed for low-bandwidth, always-on devices (exactly our use case)</li>
+<li><strong>Power efficient</strong>: Extends device lifespan, important for OBD-powered devices</li>
+<li><strong>Better coverage</strong>: Penetrates buildings/garages better than standard LTE</li>
+</ul>
+<hr>
+
+<h2 id="soracom-connectivity">Our Solution: Soracom Connectivity</h2>
+<p>Soracom provides carrier-agnostic global IoT connectivity with pay-as-you-go pricing.</p>
+
+<h3 id="traditional-vs-soracom">Traditional vs Soracom Approach</h3>
+<table>
+<thead>
+<tr><th>Traditional Approach</th><th>Soracom Approach</th></tr>
+</thead>
+<tbody>
+<tr><td>Locked to one carrier (AT&T/Verizon SIM)</td><td><strong>Multi-carrier SIM</strong> - roams across networks</td></tr>
+<tr><td>Carrier sunsets network → device dies</td><td>Auto-switches to available network</td></tr>
+<tr><td>US-only or complex roaming deals</td><td><strong>Global coverage</strong> - same SIM works in 130+ countries</td></tr>
+<tr><td>Contract minimums, overage fees</td><td><strong>Pay-as-you-go</strong> - $0.06/day + data used</td></tr>
+<tr><td>Manage carrier relationships</td><td>Single dashboard, API-first</td></tr>
+</tbody>
+</table>
+
+<h3 id="network-fallback">Network Fallback Chain</h3>
+<pre><code>Primary:    T-Mobile LTE Cat-M1
+    ↓ (no signal)
+Fallback 1: AT&T LTE Cat-M1
+    ↓ (no signal)
+Fallback 2: NB-IoT
+    ↓ (international)
+Fallback 3: 2G roaming (EU, LatAm where available)</code></pre>
+
+<h3 id="soracom-beam">Soracom Beam: Protocol Conversion</h3>
+<p>Our devices send raw TCP to Soracom Beam, which converts to HTTPS before hitting our Cloudflare Workers:</p>
+<pre><code>Teltonika Device → TCP → Soracom Beam → HTTPS → Cloudflare Workers</code></pre>
+<p><strong>Benefits:</strong></p>
+<ul>
+<li>No TLS certificates on device (simpler, more secure)</li>
+<li>Protocol conversion at edge (lower device power consumption)</li>
+<li>Easy endpoint switching (no firmware update needed)</li>
+</ul>
+<hr>
+
+<h2 id="competitive-advantage">Competitive Advantage</h2>
+<table>
+<thead>
+<tr><th>Competitor</th><th>Network Technology</th><th>Risk</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Bouncie</strong></td><td>Was 3G, scrambled to 4G</td><td>Had mass device recalls in 2022-2023</td></tr>
+<tr><td><strong>Zubie</strong></td><td>Carrier-specific SIMs</td><td>Locked to one network's pricing/coverage</td></tr>
+<tr><td><strong>Cheap Amazon OBD</strong></td><td>Often 2G/3G</td><td>Already dead or dying</td></tr>
+<tr><td><strong>Mojio</strong></td><td>Carrier partnerships</td><td>Complex, limited flexibility</td></tr>
+<tr><td><strong>Piston (us)</strong></td><td>LTE-M + NB-IoT + Soracom</td><td><strong>Future-proof 10+ years</strong></td></tr>
+</tbody>
+</table>
+<hr>
+
+<h2 id="why-investors">Why This Matters to Investors</h2>
+
+<h3 id="no-recalls">1. No Mass Hardware Recalls</h3>
+<ul>
+<li>Devices won't brick when networks evolve</li>
+<li>Avoids costly swap-out programs competitors faced</li>
+<li>Protects hardware margin and customer relationships</li>
+</ul>
+
+<h3 id="lower-churn">2. Lower Churn</h3>
+<ul>
+<li>Customers don't leave because device stopped working</li>
+<li>Service continuity builds trust and retention</li>
+<li>Reduces CAC by avoiding re-acquisition</li>
+</ul>
+
+<h3 id="global-ready">3. Global Expansion Ready</h3>
+<ul>
+<li>Same hardware works internationally (Canada, Mexico, Europe)</li>
+<li>No new SKUs or carrier negotiations for new markets</li>
+<li>Faster time-to-market for geographic expansion</li>
+</ul>
+
+<h3 id="carrier-leverage">4. Carrier Negotiation Leverage</h3>
+<ul>
+<li>Not locked to one provider's pricing</li>
+<li>Can optimize for cost or coverage per-region</li>
+<li>Soracom handles carrier relationships</li>
+</ul>
+
+<h3 id="predictable-economics">5. Predictable Unit Economics</h3>
+<ul>
+<li>Pay-as-you-go cellular (no contract minimums)</li>
+<li>Costs scale linearly with active devices</li>
+<li>No surprise overage bills</li>
+</ul>
+<hr>
+
+<h2 id="why-customers">Why This Matters to Customers</h2>
+
+<h3 id="consumer-messaging">Consumer Messaging</h3>
+<table>
+<thead>
+<tr><th>Concern</th><th>Our Answer</th></tr>
+</thead>
+<tbody>
+<tr><td>"Will this work in 5 years?"</td><td>Yes - LTE-M has 10+ year runway, backed by carrier investments</td></tr>
+<tr><td>"My last tracker stopped working"</td><td>Ours won't - built on IoT-specific LTE, not legacy networks</td></tr>
+<tr><td>"What about dead zones?"</td><td>Multi-carrier fallback finds the best signal automatically</td></tr>
+</tbody>
+</table>
+
+<h3 id="fleet-messaging">Fleet Messaging</h3>
+<table>
+<thead>
+<tr><th>Concern</th><th>Our Answer</th></tr>
+</thead>
+<tbody>
+<tr><td>"We have trucks across the US and Canada"</td><td>Same device, same SIM, automatic roaming</td></tr>
+<tr><td>"What if one carrier has an outage?"</td><td>Auto-switches to alternate carrier</td></tr>
+<tr><td>"We got burned by 3G shutdown"</td><td>LTE Cat-M1 is the new long-term standard</td></tr>
+<tr><td>"Hidden fees?"</td><td>Pay-as-you-go, ~$1.92/device/month all-in</td></tr>
+</tbody>
+</table>
+<hr>
+
+<h2 id="technical-architecture">Technical Architecture</h2>
+<pre><code>┌─────────────────────────────────────────────────────────────────┐
+│                    Teltonika FMM00A                             │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐              │
+│  │ LTE Cat-M1  │  │ LTE Cat-NB1 │  │  2G GSM     │              │
+│  │ (primary)   │  │ (fallback)  │  │ (roaming)   │              │
+│  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘              │
+│         └────────────────┼────────────────┘                     │
+│                          │ Best available network               │
+└──────────────────────────┼──────────────────────────────────────┘
+                           │ TCP (Codec8 Extended)
+                           ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    Soracom Platform                             │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐              │
+│  │ Multi-IMSI  │  │    Beam     │  │   Console   │              │
+│  │ SIM Card    │  │ TCP→HTTPS   │  │ Management  │              │
+│  └─────────────┘  └──────┬──────┘  └─────────────┘              │
+└──────────────────────────┼──────────────────────────────────────┘
+                           │ HTTPS
+                           ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                 Cloudflare Workers                              │
+│         Telemetry ingestion, processing, storage                │
+└─────────────────────────────────────────────────────────────────┘</code></pre>
+<hr>
+
+<h2 id="network-lifespan">Network Lifespan Projections</h2>
+<table>
+<thead>
+<tr><th>Technology</th><th>Expected Sunset</th><th>Our Exposure</th></tr>
+</thead>
+<tbody>
+<tr><td>2G GSM</td><td>Complete (US)</td><td>None (fallback only for international)</td></tr>
+<tr><td>3G UMTS</td><td>Complete (US)</td><td>None</td></tr>
+<tr><td>4G LTE</td><td>2035+</td><td>Low (Cat-M1 is subset, will outlast voice LTE)</td></tr>
+<tr><td>LTE Cat-M1</td><td>2040+</td><td><strong>Primary</strong> - carriers actively expanding</td></tr>
+<tr><td>5G NR</td><td>N/A</td><td>Future upgrade path, same Soracom SIM</td></tr>
+</tbody>
+</table>
+<p><strong>Bottom line:</strong> Our devices have a 10-15 year connectivity runway before any network concerns.</p>
+<hr>
+
+<h2 id="cost-summary">Cost Summary</h2>
+<p>See <a href="/docs/infrastructure-costs.html">Infrastructure Cost Analysis</a> for detailed breakdown.</p>
+<table>
+<thead>
+<tr><th>Component</th><th>Monthly Cost</th><th>Notes</th></tr>
+</thead>
+<tbody>
+<tr><td>Soracom base fee</td><td>$1.80/device</td><td>$0.06/day</td></tr>
+<tr><td>Soracom data</td><td>~$0.12/device</td><td>~1.6MB/month @ $0.073/MB</td></tr>
+<tr><td><strong>Total cellular</strong></td><td><strong>~$1.92/device</strong></td><td>Pay-as-you-go, no minimums</td></tr>
+</tbody>
+</table>
+<hr>
+
+<h2 id="appendix">Appendix: Soracom Resources</h2>
+<ul>
+<li>Soracom Coverage Map: <a href="https://soracom.io/iot-connectivity/">https://soracom.io/iot-connectivity/</a></li>
+<li>Soracom Beam Docs: <a href="https://developers.soracom.io/en/docs/beam/">https://developers.soracom.io/en/docs/beam/</a></li>
+<li>LTE Cat-M1 Explained: <a href="https://www.soracom.io/blog/what-is-lte-m/">https://www.soracom.io/blog/what-is-lte-m/</a></li>
+</ul>
+<hr>
+
+<h2 id="revision-history">Revision History</h2>
+<table>
+<thead>
+<tr><th>Date</th><th>Changes</th></tr>
+</thead>
+<tbody>
+<tr><td>2026-01-02</td><td>Initial document</td></tr>
+</tbody>
+</table>
+    </article>
+  </main>
+  <footer class="site-footer">&copy; 2026 Piston Labs. All rights reserved.</footer>
+  <script>
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>System Flow (Sandbox) - Piston Labs</title>
+  <link rel="stylesheet" href="/assets/style.css">
+  <script>
+    (function() {
+      const saved = localStorage.getItem('theme');
+      if (saved) document.documentElement.setAttribute('data-theme', saved);
+      else if (window.matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.setAttribute('data-theme', 'dark');
+    })();
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="/" class="site-logo">Piston Labs</a>
+      <nav class="site-nav">
+        <a href="/">Docs</a>
+        <a href="https://pistonlabs.co" target="_blank">Website</a>
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+          <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <div class="breadcrumb"><a href="/">Docs</a> / System Flow (Sandbox)</div>
+    <article class="doc-content">
+
+<h1>myodo Complete System Flow</h1>
+<p><strong>Status:</strong> SANDBOX DOCUMENT - Work in Progress<br>
+<strong>Purpose:</strong> Comprehensive explanation of end-to-end product flows<br>
+<strong>Last Updated:</strong> January 2026</p>
+
+<p>This document explains every step of how data moves through the myodo ecosystem - from the moment a repair order is created to the moment a customer books their next appointment. Every touchpoint, every handoff, every notification.</p>
+
+<hr>
+
+<h2>Table of Contents</h2>
+<ol>
+<li><a href="#overview">System Overview</a></li>
+<li><a href="#service-record-flow">Service Record Upload Flow</a></li>
+<li><a href="#device-telemetry-flow">Device Telemetry Flow</a></li>
+<li><a href="#vehicle-profile-linking">Vehicle Profile & Linking</a></li>
+<li><a href="#service-notification-flow">Service Notification Flow</a></li>
+<li><a href="#scheduling-flow">Scheduling System Flow</a></li>
+<li><a href="#messaging-flow">Shop-Consumer Messaging Flow</a></li>
+<li><a href="#data-privacy-flow">Data Privacy & Consent Flow</a></li>
+<li><a href="#complete-journey">Complete User Journey (End-to-End)</a></li>
+</ol>
+
+<hr>
+
+<h2 id="overview">1. System Overview</h2>
+
+<h3>The Core Concept</h3>
+<p>myodo acts as an intelligent broker between three parties:</p>
+<ul>
+<li><strong>Vehicle Owners</strong> - People who drive cars and need maintenance</li>
+<li><strong>Repair Shops</strong> - Independent businesses that service vehicles</li>
+<li><strong>The Vehicle Itself</strong> - Via the myodo device, providing real-time data</li>
+</ul>
+
+<p>The system's job is to create and maintain connections between these parties, facilitate communication, and ensure the right information reaches the right person at the right time.</p>
+
+<h3>The Universal Key: VIN</h3>
+<p>Everything in myodo revolves around the Vehicle Identification Number (VIN). The VIN is a 17-character unique identifier assigned to every vehicle manufactured since 1981. It never changes for the life of the vehicle.</p>
+
+<p>The VIN connects:</p>
+<ul>
+<li>The myodo device installed in the vehicle</li>
+<li>The vehicle owner's account in the myodo app</li>
+<li>Every service record ever uploaded for that vehicle</li>
+<li>The shop(s) that have serviced that vehicle</li>
+<li>Manufacturer maintenance schedules for that specific make/model/year</li>
+</ul>
+
+<p>When any piece of data enters the myodo system, the first question is always: <strong>"What VIN does this belong to?"</strong></p>
+
+<h3>Data Sources</h3>
+<p>Data enters myodo from three sources:</p>
+
+<table>
+<thead><tr><th>Source</th><th>Data Type</th><th>How It Enters</th></tr></thead>
+<tbody>
+<tr><td><strong>myodo Device</strong></td><td>Mileage, engine data, trip info</td><td>Automatic cellular transmission</td></tr>
+<tr><td><strong>Shop Dashboard</strong></td><td>Service records, repair orders</td><td>Manual upload by shop staff</td></tr>
+<tr><td><strong>Consumer App</strong></td><td>Historical records, preferences</td><td>Photo upload, manual entry</td></tr>
+</tbody>
+</table>
+
+<hr>
+
+<h2 id="service-record-flow">2. Service Record Upload Flow</h2>
+
+<h3>Step 1: Service Is Performed</h3>
+<p>A vehicle owner brings their car to a repair shop. The shop performs work - could be an oil change, brake replacement, tire rotation, major repair, or any combination of services. At the end of the visit, the shop generates a repair order (also called an invoice or work order).</p>
+
+<p>This repair order contains:</p>
+<ul>
+<li>Shop name and contact information</li>
+<li>Date of service</li>
+<li>Vehicle information (make, model, year, VIN, license plate, mileage)</li>
+<li>Customer information (name, phone, email)</li>
+<li>Line items for each service performed</li>
+<li>Parts used (part numbers, quantities, prices)</li>
+<li>Labor charges (hours, rates)</li>
+<li>Totals, taxes, payment information</li>
+<li>Technician notes or recommendations</li>
+</ul>
+
+<h3>Step 2: Shop Uploads the Repair Order</h3>
+<p>The shop employee accesses the myodo Shop Dashboard and uploads the repair order. This can happen in several ways:</p>
+
+<h4>Method A: PDF Upload (Most Common)</h4>
+<ol>
+<li>Shop exports repair order as PDF from their shop management system (ShopGenie, Tekmetric, Mitchell, etc.)</li>
+<li>Shop employee drags and drops the PDF into the myodo dashboard</li>
+<li>myodo receives the file and queues it for processing</li>
+</ol>
+
+<h4>Method B: Photo Upload</h4>
+<ol>
+<li>Shop employee takes a photo of the printed repair order</li>
+<li>Photo is uploaded via the dashboard or mobile app</li>
+<li>myodo receives the image and queues it for processing</li>
+</ol>
+
+<h4>Method C: Direct Integration (Future)</h4>
+<ol>
+<li>Shop management system has API integration with myodo</li>
+<li>When repair order is finalized, it automatically syncs to myodo</li>
+<li>No manual upload required</li>
+</ol>
+
+<h3>Step 3: AI Document Processing</h3>
+<p>When myodo receives a repair order (PDF or image), the AI processing pipeline activates:</p>
+
+<h4>3a. Document Intake</h4>
+<ul>
+<li>File is received and stored in secure cloud storage</li>
+<li>File is assigned a unique document ID</li>
+<li>Metadata is recorded: upload timestamp, uploading shop ID, file type, file size</li>
+</ul>
+
+<h4>3b. Text Extraction</h4>
+<ul>
+<li>For PDFs: Text is extracted directly from the PDF structure</li>
+<li>For images: Optical Character Recognition (OCR) converts the image to text</li>
+<li>The raw extracted text is stored for processing</li>
+</ul>
+
+<h4>3c. VIN Detection</h4>
+<ul>
+<li>AI scans the extracted text looking for a valid VIN</li>
+<li>VINs follow a specific pattern: 17 characters, specific character positions have meaning</li>
+<li>If found, the VIN is validated against known patterns</li>
+<li>If no VIN is found, the system attempts to identify the vehicle via make/model/year + license plate</li>
+<li>If vehicle cannot be identified, the upload is flagged for manual review</li>
+</ul>
+
+<h4>3d. Data Extraction</h4>
+<p>The AI extracts structured data from the unstructured document:</p>
+<ul>
+<li><strong>Service Date</strong> - When the work was performed</li>
+<li><strong>Mileage at Service</strong> - Odometer reading at time of service</li>
+<li><strong>Services Performed</strong> - Each line item (oil change, brake pads, etc.)</li>
+<li><strong>Parts Used</strong> - Part numbers, descriptions, quantities</li>
+<li><strong>Labor Details</strong> - Hours, rates, descriptions</li>
+<li><strong>Costs</strong> - Parts costs, labor costs, totals</li>
+<li><strong>Technician Recommendations</strong> - "Recommend replacing tires at next visit"</li>
+<li><strong>Customer Information</strong> - Name, phone, email (if present)</li>
+</ul>
+
+<h4>3e. Data Normalization</h4>
+<p>Different shops describe the same service in different ways. The AI normalizes this:</p>
+<ul>
+<li>"Oil Change" = "Lube, Oil, Filter" = "LOF" = "Engine Oil Service"</li>
+<li>"Brake Pads - Front" = "Front Brake Pad Replacement" = "Fr Brake Pads"</li>
+<li>All variations are mapped to standard service categories</li>
+</ul>
+
+<h4>3f. Confidence Scoring</h4>
+<ul>
+<li>Each extracted field gets a confidence score (0-100%)</li>
+<li>High confidence fields are accepted automatically</li>
+<li>Low confidence fields may be flagged for human review</li>
+<li>Overall document confidence determines if manual review is needed</li>
+</ul>
+
+<h3>Step 4: Record Storage</h3>
+<p>Once processed, the service record is stored in the myodo database:</p>
+
+<ul>
+<li><strong>Primary Key:</strong> VIN + Service Date + Shop ID</li>
+<li><strong>Indexed Fields:</strong> VIN, Shop ID, Service Date, Service Types</li>
+<li><strong>Original Document:</strong> Stored as reference (never deleted)</li>
+<li><strong>Extracted Data:</strong> Stored in structured format for querying</li>
+</ul>
+
+<h3>Step 5: Relationship Linking</h3>
+<p>After storage, the system checks for and creates relationships:</p>
+
+<h4>5a. Vehicle-Shop Link</h4>
+<ul>
+<li>If this is the first time this shop has serviced this VIN, a new shop-vehicle relationship is created</li>
+<li>If the relationship already exists, the "last service date" is updated</li>
+<li>The shop is now the "most recent service provider" for this vehicle</li>
+</ul>
+
+<h4>5b. Vehicle-Owner Link (If Device Exists)</h4>
+<ul>
+<li>System checks: Is there a myodo device registered to this VIN?</li>
+<li>If yes: The service record is linked to the vehicle owner's account</li>
+<li>If no: The record is stored but not linked to any consumer account (yet)</li>
+</ul>
+
+<h4>5c. Consumer Notification (If Linked)</h4>
+<ul>
+<li>If the vehicle owner has a myodo account and has opted into notifications:</li>
+<li>A push notification is sent: "New service record added: [Service Type] at [Shop Name]"</li>
+<li>The record appears in their app under Service History</li>
+</ul>
+
+<hr>
+
+<h2 id="device-telemetry-flow">3. Device Telemetry Flow</h2>
+
+<h3>Step 1: Device Installation</h3>
+<p>The vehicle owner (or a shop employee) installs the myodo device:</p>
+
+<ol>
+<li>Locate the OBD-II port (under the dashboard, driver's side, near the steering column)</li>
+<li>Plug the myodo device into the port</li>
+<li>The device powers on automatically (draws power from the vehicle's 12V system)</li>
+<li>LED indicator shows status (blinking = connecting, solid = connected)</li>
+</ol>
+
+<h3>Step 2: Device Registration</h3>
+<p>The device must be registered to a vehicle owner's account:</p>
+
+<ol>
+<li>Vehicle owner opens the myodo app</li>
+<li>Selects "Add Device"</li>
+<li>Scans the QR code on the device (or manually enters the device serial number)</li>
+<li>The app sends a registration request to the myodo backend</li>
+<li>The backend associates the device serial number with the user's account</li>
+</ol>
+
+<h3>Step 3: VIN Auto-Detection</h3>
+<p>Once plugged in, the device reads the vehicle's VIN:</p>
+
+<ol>
+<li>Device sends a request over the OBD-II protocol asking for the VIN</li>
+<li>The vehicle's onboard computer responds with the 17-character VIN</li>
+<li>Device transmits the VIN to myodo servers</li>
+<li>The VIN is validated and associated with the device and user account</li>
+<li>The vehicle's make, model, year, and engine are decoded from the VIN</li>
+<li>Manufacturer maintenance schedules for this specific vehicle are loaded</li>
+</ol>
+
+<h3>Step 4: Continuous Data Collection</h3>
+<p>While the device is installed, it continuously collects data:</p>
+
+<h4>When the Vehicle is Running:</h4>
+<ul>
+<li><strong>Every 1 second:</strong> GPS coordinates captured (for distance calculation)</li>
+<li><strong>Every 5 seconds:</strong> Speed, RPM, engine load recorded</li>
+<li><strong>Every 60 seconds:</strong> Data packet assembled and transmitted to myodo servers</li>
+</ul>
+
+<h4>Data Packet Contents:</h4>
+<ul>
+<li>Device ID</li>
+<li>Timestamp</li>
+<li>Current odometer reading</li>
+<li>Trip distance since last transmission</li>
+<li>Current speed</li>
+<li>Engine RPM</li>
+<li>Coolant temperature</li>
+<li>Battery voltage</li>
+<li>Fuel level (if available)</li>
+<li>Check engine light status</li>
+<li>Any diagnostic trouble codes (DTCs)</li>
+</ul>
+
+<h4>When the Vehicle is Parked:</h4>
+<ul>
+<li>Device enters low-power mode</li>
+<li>Transmits a "heartbeat" packet every 4 hours</li>
+<li>Heartbeat confirms device is still connected and vehicle battery status</li>
+</ul>
+
+<h3>Step 5: Data Transmission</h3>
+<p>The device sends data to myodo servers via cellular connection:</p>
+
+<ol>
+<li>Device has a built-in cellular modem with pre-installed SIM card</li>
+<li>Connects to available cellular network (multi-carrier, chooses strongest signal)</li>
+<li>Data is encrypted before transmission</li>
+<li>Transmitted to myodo ingestion servers</li>
+<li>Server acknowledges receipt</li>
+<li>If transmission fails, data is buffered on-device (up to 7 days of storage)</li>
+</ol>
+
+<h3>Step 6: Server-Side Processing</h3>
+<p>When data arrives at myodo servers:</p>
+
+<h4>6a. Authentication</h4>
+<ul>
+<li>Device ID is verified against registered devices</li>
+<li>Cryptographic signature is validated</li>
+<li>Invalid or unregistered devices are rejected</li>
+</ul>
+
+<h4>6b. GPS Processing (Privacy-Critical)</h4>
+<ul>
+<li>GPS coordinates are used ONLY to calculate distance traveled</li>
+<li>Distance is added to running trip total</li>
+<li><strong>GPS coordinates are then immediately discarded</strong></li>
+<li>Only the distance value is stored, never the location</li>
+</ul>
+
+<h4>6c. Odometer Update</h4>
+<ul>
+<li>New odometer reading is compared to previous reading</li>
+<li>Sanity check: Is the increase reasonable? (Can't go backward, can't jump 10,000 miles)</li>
+<li>If valid, vehicle's odometer record is updated</li>
+<li>Mileage history is logged (date + odometer reading)</li>
+</ul>
+
+<h4>6d. Service Interval Calculation</h4>
+<ul>
+<li>Current odometer is compared against service schedules</li>
+<li>For each maintenance item (oil change, tire rotation, etc.):</li>
+<li>Calculate: Miles since last service of this type</li>
+<li>Compare to: Recommended interval for this vehicle</li>
+<li>Determine: Miles remaining until service is due</li>
+</ul>
+
+<h4>6e. Alert Generation</h4>
+<ul>
+<li>If any service is within threshold (default: 500 miles), flag for notification</li>
+<li>If check engine light is on, flag for immediate notification</li>
+<li>If battery voltage is low, flag for notification</li>
+<li>Alerts are queued for the notification system</li>
+</ul>
+
+<hr>
+
+<h2 id="vehicle-profile-linking">4. Vehicle Profile & Linking</h2>
+
+<h3>The Vehicle Profile</h3>
+<p>Every vehicle in myodo has a profile, which is the central record that connects everything:</p>
+
+<ul>
+<li><strong>VIN</strong> - The unique identifier</li>
+<li><strong>Decoded Vehicle Info</strong> - Year, Make, Model, Engine, Trim</li>
+<li><strong>Current Odometer</strong> - Most recent known mileage</li>
+<li><strong>Service History</strong> - All uploaded service records</li>
+<li><strong>Maintenance Schedule</strong> - Manufacturer-recommended service intervals</li>
+<li><strong>Service Status</strong> - What's due, what's coming up, what's overdue</li>
+<li><strong>Linked Device</strong> - If a myodo device is installed</li>
+<li><strong>Linked Owner</strong> - If a consumer has claimed this vehicle</li>
+<li><strong>Linked Shops</strong> - Shops that have serviced this vehicle</li>
+</ul>
+
+<h3>How Linking Works</h3>
+
+<h4>Scenario A: Device First, Then Service</h4>
+<ol>
+<li>Consumer buys myodo device and installs it</li>
+<li>Device registers VIN to consumer's account</li>
+<li>Vehicle profile is created (or existing orphan profile is claimed)</li>
+<li>Consumer takes car to a shop for service</li>
+<li>Shop uploads repair order</li>
+<li>myodo detects: "This VIN has a registered owner"</li>
+<li>Service record is automatically linked to consumer's account</li>
+<li>Consumer sees record in their app immediately</li>
+<li>Shop is now linked as a service provider for this vehicle</li>
+</ol>
+
+<h4>Scenario B: Service First, Then Device</h4>
+<ol>
+<li>Consumer takes car to a myodo-connected shop</li>
+<li>Shop uploads repair order</li>
+<li>myodo creates a vehicle profile for this VIN (orphan profile - no owner)</li>
+<li>Service record is stored, linked to vehicle profile</li>
+<li>Later, consumer buys and installs myodo device</li>
+<li>Device reads VIN during registration</li>
+<li>myodo detects: "This VIN already has service history"</li>
+<li>Existing vehicle profile is linked to consumer's account</li>
+<li>All previous service records now appear in consumer's app</li>
+<li>Consumer "inherits" the service history</li>
+</ol>
+
+<h4>Scenario C: Consumer Uploads Historical Records</h4>
+<ol>
+<li>Consumer has myodo device installed</li>
+<li>Consumer has old service records (paper, email, photos)</li>
+<li>Consumer uploads these via the myodo app</li>
+<li>AI processes and extracts data</li>
+<li>VIN is matched to consumer's vehicle</li>
+<li>Historical records are added to the vehicle's service history</li>
+<li>Service intervals are recalculated based on complete history</li>
+</ol>
+
+<h3>The Shop-Consumer Connection</h3>
+<p>When a shop services a vehicle with a myodo device, a relationship is created:</p>
+
+<ul>
+<li>The shop can see: This vehicle exists, its service history (at their shop only), upcoming service needs</li>
+<li>The shop cannot see: Consumer's personal details, service history at other shops, location data</li>
+<li>The consumer can see: The shop's name, contact info, their service history at that shop</li>
+<li>The consumer controls: Whether the shop can contact them, what data is shared</li>
+</ul>
+
+<hr>
+
+<h2 id="service-notification-flow">5. Service Notification Flow</h2>
+
+<h3>Trigger: Service Approaching</h3>
+<p>The notification system constantly monitors all vehicles with active devices:</p>
+
+<ol>
+<li>Every time new mileage data arrives, service intervals are recalculated</li>
+<li>If a service item crosses the notification threshold, an alert is triggered</li>
+<li>Default threshold: 500 miles before service is due</li>
+<li>Consumer can customize thresholds (250 miles, 1000 miles, etc.)</li>
+</ol>
+
+<h3>Notification Content Generation</h3>
+<p>When a notification is triggered, the system generates the message:</p>
+
+<h4>Information Gathered:</h4>
+<ul>
+<li>What service is due (e.g., "Oil Change")</li>
+<li>Miles until due (e.g., "487 miles")</li>
+<li>Most recent shop for this vehicle (e.g., "Joe's Auto Repair")</li>
+<li>Consumer's notification preferences (push, email, SMS)</li>
+</ul>
+
+<h4>Message Constructed:</h4>
+<blockquote><p>"Your [Vehicle Year Make Model] is due for an oil change in about 500 miles. Schedule with Joe's Auto Repair?"</p></blockquote>
+
+<h3>Notification Delivery</h3>
+
+<h4>Push Notification (Primary)</h4>
+<ol>
+<li>Message is sent to Apple Push Notification Service (iOS) or Firebase Cloud Messaging (Android)</li>
+<li>Consumer's phone receives the notification</li>
+<li>Notification appears on lock screen and in notification center</li>
+<li>Tapping the notification opens the myodo app to the scheduling screen</li>
+</ol>
+
+<h4>Email Notification (Secondary)</h4>
+<ol>
+<li>If consumer has email notifications enabled:</li>
+<li>Email is generated with service details</li>
+<li>Includes "Schedule Now" button linking to the app</li>
+<li>Sent via email delivery service</li>
+</ol>
+
+<h4>SMS Notification (Optional)</h4>
+<ol>
+<li>If consumer has SMS notifications enabled:</li>
+<li>Short message is generated</li>
+<li>Sent via SMS gateway</li>
+<li>Includes link to schedule</li>
+</ol>
+
+<h3>Notification Frequency Controls</h3>
+<p>To prevent notification fatigue:</p>
+
+<ul>
+<li>Same service type: Maximum one notification per 7 days</li>
+<li>Total notifications: Maximum 3 per week per vehicle</li>
+<li>Consumer can snooze: "Remind me in 1 week"</li>
+<li>Consumer can dismiss: "I've already scheduled this"</li>
+<li>Consumer can disable: Turn off notifications for specific service types</li>
+</ul>
+
+<hr>
+
+<h2 id="scheduling-flow">6. Scheduling System Flow</h2>
+
+<h3>Consumer Initiates Scheduling</h3>
+<p>From the notification or from the app, the consumer decides to schedule:</p>
+
+<ol>
+<li>Consumer taps "Schedule" button</li>
+<li>App opens scheduling interface</li>
+<li>Default shop is pre-selected (most recent service provider)</li>
+<li>Consumer can change shop if desired</li>
+</ol>
+
+<h3>Shop Availability (Pro Shops)</h3>
+<p>If the shop has a Pro subscription with calendar integration:</p>
+
+<ol>
+<li>myodo queries the shop's calendar for available slots</li>
+<li>Available times are displayed to the consumer</li>
+<li>Consumer selects a date and time</li>
+<li>Selected slot is temporarily held (5 minutes to complete booking)</li>
+</ol>
+
+<h3>Shop Availability (Free Shops)</h3>
+<p>If the shop is on the free tier (no calendar integration):</p>
+
+<ol>
+<li>Consumer sees shop's business hours</li>
+<li>Consumer selects a preferred date/time</li>
+<li>Request is sent to shop as a "requested time" (not guaranteed)</li>
+<li>Shop will confirm or suggest alternatives</li>
+</ol>
+
+<h3>Appointment Request Submission</h3>
+<p>Consumer submits the scheduling request:</p>
+
+<h4>Data Included in Request:</h4>
+<ul>
+<li>Consumer ID (anonymized until shop confirms)</li>
+<li>Vehicle: Year, Make, Model (not full VIN yet)</li>
+<li>Service requested: "Oil Change"</li>
+<li>Requested date/time</li>
+<li>Consumer's contact preference (app message, phone call, email)</li>
+<li>Optional notes: "Car is making a squeaking noise too"</li>
+</ul>
+
+<h3>Shop Receives Request</h3>
+<p>The shop is notified of the incoming appointment request:</p>
+
+<ol>
+<li>Push notification to shop dashboard: "New appointment request"</li>
+<li>Email notification to shop's designated email</li>
+<li>Request appears in shop's dashboard queue</li>
+</ol>
+
+<h3>Shop Confirms or Modifies</h3>
+
+<h4>Option A: Confirm as Requested</h4>
+<ol>
+<li>Shop clicks "Confirm"</li>
+<li>Appointment is locked in</li>
+<li>Consumer receives confirmation notification</li>
+<li>Appointment appears on both calendars</li>
+</ol>
+
+<h4>Option B: Suggest Different Time</h4>
+<ol>
+<li>Shop clicks "Suggest Alternative"</li>
+<li>Shop selects available times to offer</li>
+<li>Consumer receives notification with options</li>
+<li>Consumer selects from alternatives or requests different times</li>
+<li>Process repeats until agreement is reached</li>
+</ol>
+
+<h4>Option C: Decline</h4>
+<ol>
+<li>Shop declines the request (too busy, don't offer that service, etc.)</li>
+<li>Consumer is notified</li>
+<li>Consumer can request from a different shop</li>
+</ol>
+
+<h3>Appointment Confirmation</h3>
+<p>Once confirmed, both parties receive:</p>
+
+<h4>Consumer Receives:</h4>
+<ul>
+<li>Push notification: "Appointment confirmed for [Date] at [Time]"</li>
+<li>Calendar invite (if enabled)</li>
+<li>Shop name, address, phone number</li>
+<li>Service to be performed</li>
+<li>Option to add to phone calendar</li>
+</ul>
+
+<h4>Shop Receives:</h4>
+<ul>
+<li>Consumer's name and contact information (now revealed)</li>
+<li>Vehicle details including VIN</li>
+<li>Service history at their shop</li>
+<li>Service requested</li>
+<li>Consumer's notes</li>
+</ul>
+
+<h3>Appointment Reminders</h3>
+<p>As the appointment approaches:</p>
+
+<ul>
+<li><strong>24 hours before:</strong> Consumer receives reminder notification</li>
+<li><strong>2 hours before:</strong> Consumer receives final reminder</li>
+<li><strong>Morning of:</strong> Shop receives daily schedule including this appointment</li>
+</ul>
+
+<hr>
+
+<h2 id="messaging-flow">7. Shop-Consumer Messaging Flow</h2>
+
+<h3>myodo as Message Broker</h3>
+<p>All communication between shops and consumers flows through myodo. This provides:</p>
+
+<ul>
+<li><strong>Privacy:</strong> Consumer's personal phone/email not exposed to shop</li>
+<li><strong>Control:</strong> Consumer can block a shop at any time</li>
+<li><strong>Record:</strong> All messages are logged for dispute resolution</li>
+<li><strong>Filtering:</strong> Spam/inappropriate messages can be blocked</li>
+</ul>
+
+<h3>Message Types</h3>
+
+<h4>Type 1: Service Updates</h4>
+<p>Shop sends updates about in-progress service:</p>
+<ul>
+<li>"Your vehicle is being worked on now"</li>
+<li>"We found an additional issue - see details"</li>
+<li>"Your vehicle is ready for pickup"</li>
+</ul>
+
+<h4>Type 2: Quotes and Estimates</h4>
+<p>Shop sends pricing information:</p>
+<ul>
+<li>Itemized quote for requested service</li>
+<li>Quote for additional recommended work</li>
+<li>Consumer can approve or decline via app</li>
+</ul>
+
+<h4>Type 3: Photos and Documentation</h4>
+<p>Shop shares visual information:</p>
+<ul>
+<li>Photos of worn parts</li>
+<li>Photos of damage discovered</li>
+<li>Inspection report images</li>
+</ul>
+
+<h4>Type 4: General Communication</h4>
+<p>Free-form messaging:</p>
+<ul>
+<li>Questions about the vehicle</li>
+<li>Clarifications about service</li>
+<li>Scheduling coordination</li>
+</ul>
+
+<h3>Message Flow (Shop to Consumer)</h3>
+
+<ol>
+<li>Shop composes message in dashboard</li>
+<li>Shop attaches photos/documents if applicable</li>
+<li>Shop clicks "Send"</li>
+<li>Message is stored in myodo database</li>
+<li>Consumer notification is triggered</li>
+<li>Consumer's phone shows push notification</li>
+<li>Consumer opens app to view full message</li>
+<li>Read receipt is recorded</li>
+<li>Consumer can reply</li>
+</ol>
+
+<h3>Message Flow (Consumer to Shop)</h3>
+
+<ol>
+<li>Consumer opens conversation in app</li>
+<li>Consumer types message or attaches photo</li>
+<li>Consumer sends</li>
+<li>Message is stored in myodo database</li>
+<li>Shop notification is triggered</li>
+<li>Shop sees notification in dashboard</li>
+<li>Shop views and responds</li>
+</ol>
+
+<h3>Privacy Controls in Messaging</h3>
+
+<ul>
+<li><strong>Consumer can block shop:</strong> No further messages allowed</li>
+<li><strong>Consumer can mute shop:</strong> Messages allowed but no notifications</li>
+<li><strong>Consumer can report shop:</strong> Flagged for myodo review</li>
+<li><strong>Shop cannot message without relationship:</strong> Must have serviced vehicle first</li>
+<li><strong>Shop cannot mass-message:</strong> Only individual conversations allowed</li>
+</ul>
+
+<hr>
+
+<h2 id="data-privacy-flow">8. Data Privacy & Consent Flow</h2>
+
+<h3>Consumer Data Ownership</h3>
+<p>Fundamental principle: <strong>The consumer owns their data.</strong></p>
+
+<ul>
+<li>Service records belong to the consumer, not the shop</li>
+<li>Mileage data belongs to the consumer, not myodo</li>
+<li>The consumer decides what to share and with whom</li>
+</ul>
+
+<h3>Consent Levels</h3>
+
+<h4>Level 1: Account Creation</h4>
+<p>Consumer agrees to:</p>
+<ul>
+<li>myodo Terms of Service</li>
+<li>Privacy Policy</li>
+<li>Data processing for service functionality</li>
+</ul>
+
+<h4>Level 2: Device Registration</h4>
+<p>Consumer agrees to:</p>
+<ul>
+<li>Collection of vehicle telemetry data</li>
+<li>Use of GPS for mileage calculation (not storage)</li>
+<li>Transmission of data via cellular network</li>
+</ul>
+
+<h4>Level 3: Shop Connection</h4>
+<p>When a shop services their vehicle, consumer is notified:</p>
+<ul>
+<li>"[Shop Name] uploaded a service record for your vehicle"</li>
+<li>"[Shop Name] can now see your service history at their shop"</li>
+<li>Consumer can disconnect the shop at any time</li>
+</ul>
+
+<h4>Level 4: Data Sharing (Per-Request)</h4>
+<p>When consumer schedules with a new shop:</p>
+<ul>
+<li>Consumer chooses what to share: Full history? Just basics?</li>
+<li>Sharing is revocable at any time</li>
+<li>Shop only sees what consumer explicitly shared</li>
+</ul>
+
+<h3>Data Deletion Rights</h3>
+
+<h4>Delete Specific Records</h4>
+<p>Consumer can delete individual service records:</p>
+<ul>
+<li>Record is removed from consumer's visible history</li>
+<li>Record is flagged as deleted (not shown to shops)</li>
+<li>Original document may be retained for legal compliance (configurable)</li>
+</ul>
+
+<h4>Delete Account</h4>
+<p>Consumer can delete their entire account:</p>
+<ul>
+<li>All personal data is removed from active systems</li>
+<li>Device is deregistered</li>
+<li>Backup copies are purged within 30 days</li>
+<li>Anonymized aggregate data may be retained for analytics</li>
+</ul>
+
+<h3>Shop Data Access</h3>
+<p>Shops have limited data access by design:</p>
+
+<ul>
+<li><strong>Can see:</strong> Vehicles they have serviced, service history at their shop</li>
+<li><strong>Cannot see:</strong> Service history at other shops, consumer personal data (until appointment confirmed), location history (doesn't exist)</li>
+</ul>
+
+<hr>
+
+<h2 id="complete-journey">9. Complete User Journey (End-to-End)</h2>
+
+<p>Let's follow a complete journey from device purchase to return visit:</p>
+
+<h3>Day 1: Device Purchase and Installation</h3>
+<ol>
+<li>Sarah buys a myodo device ($150) from the myodo website</li>
+<li>Device ships within 2 days</li>
+<li>Sarah receives device, downloads myodo app</li>
+<li>Sarah creates account (email, password)</li>
+<li>Sarah plugs device into her 2019 Honda Accord</li>
+<li>Device reads VIN: 1HGCV1F34KA123456</li>
+<li>App confirms: "2019 Honda Accord EX detected"</li>
+<li>Device is now transmitting mileage data</li>
+</ol>
+
+<h3>Day 5: Historical Records Upload</h3>
+<ol>
+<li>Sarah finds old service receipts in her glovebox</li>
+<li>Opens myodo app, taps "Add Service Record"</li>
+<li>Takes photos of 3 old receipts</li>
+<li>AI processes and extracts: Oil change (15,000 mi), Tire rotation (18,000 mi), Oil change (21,000 mi)</li>
+<li>Records appear in her service history</li>
+<li>App calculates: "Next oil change due at 26,000 miles"</li>
+</ol>
+
+<h3>Day 30: Shop Visit</h3>
+<ol>
+<li>Sarah takes car to Joe's Auto Repair for a check engine light</li>
+<li>Joe diagnoses: Loose gas cap (no repair needed)</li>
+<li>Joe uploads the repair order to myodo Shop Dashboard</li>
+<li>myodo links the record to Sarah's vehicle (VIN match)</li>
+<li>Sarah receives notification: "New service record from Joe's Auto Repair"</li>
+<li>Record appears in her app: "Check Engine Diagnosis - $45"</li>
+<li>Joe's Auto Repair is now linked as a service provider</li>
+</ol>
+
+<h3>Day 90: Service Notification</h3>
+<ol>
+<li>Sarah has driven 4,500 miles since her last oil change</li>
+<li>Oil change interval for her vehicle: 5,000 miles</li>
+<li>myodo triggers notification (500 miles before due)</li>
+<li>Sarah's phone buzzes: "Your Honda Accord is due for an oil change in about 500 miles. Schedule with Joe's Auto Repair?"</li>
+</ol>
+
+<h3>Day 90: Scheduling</h3>
+<ol>
+<li>Sarah taps the notification</li>
+<li>myodo app opens to scheduling screen</li>
+<li>Joe's Auto Repair is pre-selected</li>
+<li>Sarah sees available times (Joe has Pro subscription)</li>
+<li>Sarah selects: "Thursday 10:00 AM"</li>
+<li>Sarah taps "Request Appointment"</li>
+<li>Request is sent to Joe's dashboard</li>
+</ol>
+
+<h3>Day 90: Shop Confirmation</h3>
+<ol>
+<li>Joe receives notification: "New appointment request"</li>
+<li>Joe sees: Sarah M., 2019 Honda Accord, Oil Change, Thursday 10 AM</li>
+<li>Joe sees Sarah's history at his shop: "Check Engine Diagnosis - 2 months ago"</li>
+<li>Joe clicks "Confirm"</li>
+<li>Sarah receives: "Appointment confirmed! Thursday 10:00 AM at Joe's Auto Repair"</li>
+</ol>
+
+<h3>Day 93: Appointment Reminder</h3>
+<ol>
+<li>Wednesday evening: Sarah receives push notification</li>
+<li>"Reminder: Oil change tomorrow at 10:00 AM at Joe's Auto Repair"</li>
+<li>Sarah adds to phone calendar</li>
+</ol>
+
+<h3>Day 94: Service Visit</h3>
+<ol>
+<li>Sarah arrives at Joe's at 10 AM</li>
+<li>Joe already has her info pulled up from myodo</li>
+<li>Joe performs oil change</li>
+<li>Joe notices: "Brakes are getting worn, recommend replacing in 10,000 miles"</li>
+<li>Joe completes service, generates repair order</li>
+<li>Joe uploads to myodo: "Oil Change - $65, Note: Brake pads wearing"</li>
+</ol>
+
+<h3>Day 94: Post-Service</h3>
+<ol>
+<li>Sarah receives notification: "Service record updated: Oil Change at Joe's Auto Repair"</li>
+<li>Record appears in app with full details</li>
+<li>myodo updates next service: "Oil change due at 31,500 miles"</li>
+<li>myodo notes: "Brake pad replacement recommended around 36,000 miles"</li>
+<li>Sarah's service history is complete and up to date</li>
+</ol>
+
+<h3>Day 180: Next Cycle Begins</h3>
+<ol>
+<li>Sarah approaches 31,000 miles</li>
+<li>myodo sends notification: "Oil change due in 500 miles"</li>
+<li>Sarah schedules with Joe again</li>
+<li>The cycle continues</li>
+</ol>
+
+<hr>
+
+<h2>Summary: The myodo Value Loop</h2>
+
+<p>The complete system creates a virtuous cycle:</p>
+
+<ol>
+<li><strong>Device tracks mileage</strong> → Enables accurate service predictions</li>
+<li><strong>Accurate predictions</strong> → Consumer trusts notifications</li>
+<li><strong>Consumer trusts notifications</strong> → Consumer schedules service</li>
+<li><strong>Consumer schedules service</strong> → Shop retains customer</li>
+<li><strong>Shop retains customer</strong> → Shop uploads records</li>
+<li><strong>Shop uploads records</strong> → Better service history</li>
+<li><strong>Better service history</strong> → More accurate predictions</li>
+<li><strong>Repeat</strong></li>
+</ol>
+
+<p>myodo sits at the center of this loop, facilitating every connection while ensuring the consumer maintains control of their data and relationships.</p>
+
+<hr>
+
+<p><em>myodo - Your car. Your records. Your choice.</em></p>
+
+<hr>
+
+<h2 id="elevator-pitch">Investor Elevator Pitch</h2>
+
+<blockquote>
+<p><strong>What We Do:</strong> myodo is the intelligence layer between vehicles and repair shops. We broker the relationship - tracking real mileage, storing service history, and connecting drivers to shops at exactly the right moment.</p>
+
+<p><strong>How It Works:</strong> A small device plugs into your car and reports mileage to our system. We combine that with service records from shops. When maintenance is actually due, we notify the driver and route them back to their shop. One tap to schedule.</p>
+
+<p><strong>Why We Win:</strong> We sit in the middle. Drivers get accurate reminders and a complete service history. Shops get customers who come back. We're the broker that makes both sides better off.</p>
+
+<p><strong>The Business:</strong> $150 device, $15/month for drivers. Free dashboard for shops, $100/month Pro tier. $25/month for fleets. Same device, same backend, three revenue streams.</p>
+
+<p><strong>The Ask:</strong> $500K on a $5M cap. 12-month runway to 300 devices, 20 shops, $65K ARR.</p>
+</blockquote>
+
+<p><strong>Document Status:</strong> SANDBOX - Work in Progress</p>
+
+    </article>
+  </main>
+  <footer class="site-footer">&copy; 2026 Piston Labs</footer>
+  <script>
+    function toggleTheme() {
+      const c = document.documentElement.getAttribute('data-theme');
+      const n = c === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', n);
+      localStorage.setItem('theme', n);
+    }
+  </script>
+</body>
+</html>

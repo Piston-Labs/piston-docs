@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cloudflare Pages Migration Proposal - Piston Labs</title>
+  <link rel="stylesheet" href="/assets/style.css">
+  <script>
+    (function() {
+      const saved = localStorage.getItem('theme');
+      if (saved) {
+        document.documentElement.setAttribute('data-theme', saved);
+      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="/" class="site-logo">Piston Labs</a>
+      <nav class="site-nav">
+        <a href="/">Docs</a>
+        <a href="/review.html?doc=cloudflare-pages-migration">Review</a>
+        <a href="https://pistonlabs.co" target="_blank">Website</a>
+        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+          <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <div class="breadcrumb"><a href="/">Docs</a>
+        <a href="/review.html?doc=cloudflare-pages-migration">Review</a> / Cloudflare Pages Migration Proposal</div>
+    <article class="doc-content">
+<h1 id="vercel-to-cloudflare-pages-migration-proposal">Vercel to Cloudflare Pages Migration Proposal</h1>
+<p><strong>Date:</strong> January 2026<br>
+<strong>Project:</strong> Piston Labs React Application (Shop &amp; Consumer Dashboards)<br>
+<strong>Current Stack:</strong> Next.js 15 + Supabase + Vercel<br>
+<strong>Target Stack:</strong> Next.js 15 + Supabase + Cloudflare Pages</p>
+<hr>
+
+<h2 id="executive-summary">Executive Summary</h2>
+<p>This document outlines the migration strategy from Vercel to Cloudflare Pages for the Piston Labs React application. The migration is feasible but requires careful handling of long-running API routes and some code adjustments for Cloudflare's runtime environment.</p>
+<p><strong>Recommendation:</strong> Proceed with migration using a phased approach, offloading heavy compute tasks to Cloudflare Workers with Queues.</p>
+<hr>
+
+<h2 id="current-architecture-analysis">Current Architecture Analysis</h2>
+
+<h3 id="tech-stack">Tech Stack</h3>
+<table>
+<thead>
+<tr><th>Component</th><th>Technology</th><th>Version</th></tr>
+</thead>
+<tbody>
+<tr><td>Framework</td><td>Next.js</td><td>15.1.9</td></tr>
+<tr><td>React</td><td>React</td><td>19.2.1</td></tr>
+<tr><td>Database</td><td>Supabase (PostgreSQL)</td><td>Latest</td></tr>
+<tr><td>Auth</td><td>Supabase Auth (SSR)</td><td>@supabase/ssr 0.5.2</td></tr>
+<tr><td>Styling</td><td>Tailwind CSS</td><td>3.4.17</td></tr>
+<tr><td>Runtime</td><td>Node.js</td><td>&gt;= 20.0.0</td></tr>
+</tbody>
+</table>
+
+<h3 id="external-services">External Services (Unchanged by Migration)</h3>
+<ul>
+<li><strong>Supabase</strong> - Database, Auth, Storage (keeping)</li>
+<li><strong>OpenAI</strong> - GPT-4o-mini for document parsing</li>
+<li><strong>Google Document AI</strong> - OCR processing</li>
+<li><strong>OneSignal</strong> - Push notifications, Email, SMS</li>
+<li><strong>TekMetric</strong> - Shop management webhooks</li>
+<li><strong>AutoPi</strong> - Vehicle telemetry</li>
+</ul>
+
+<h3 id="api-routes-inventory">API Routes Inventory (14 Routes)</h3>
+<table>
+<thead>
+<tr><th>Route</th><th>Complexity</th><th>Timeout Needed</th><th>Migration Risk</th></tr>
+</thead>
+<tbody>
+<tr><td><code>/api/pdf-parse</code></td><td><strong>High</strong></td><td>5 minutes</td><td><strong>High</strong></td></tr>
+<tr><td><code>/api/webhooks/tekmetric</code></td><td>Medium</td><td>30s</td><td>Low</td></tr>
+<tr><td><code>/api/webhooks/iot-device</code></td><td>Medium</td><td>30s</td><td>Low</td></tr>
+<tr><td><code>/api/notifications/send</code></td><td>Medium</td><td>30s</td><td>Low</td></tr>
+<tr><td><code>/api/autopi/sync</code></td><td>Medium</td><td>30s</td><td>Low</td></tr>
+<tr><td><code>/api/device-onboarding/*</code></td><td>Low</td><td>10s</td><td>Low</td></tr>
+<tr><td><code>/api/parsed-service-records/*</code></td><td>Low</td><td>10s</td><td>Low</td></tr>
+<tr><td><code>/api/pdf-upload-sessions/*</code></td><td>Low</td><td>10s</td><td>Low</td></tr>
+<tr><td><code>/api/push-notifications/*</code></td><td>Low</td><td>10s</td><td>Low</td></tr>
+<tr><td><code>/api/internal/*</code></td><td>Low</td><td>10s</td><td>Low</td></tr>
+<tr><td><code>/api/test-ocr-parse</code></td><td>Low</td><td>30s</td><td>Low</td></tr>
+</tbody>
+</table>
+<hr>
+
+<h2 id="cloudflare-pages-capabilities">Cloudflare Pages Capabilities</h2>
+
+<h3 id="what-cloudflare-supports">What Cloudflare Pages Supports</h3>
+<table>
+<thead>
+<tr><th>Feature</th><th>Support</th><th>Notes</th></tr>
+</thead>
+<tbody>
+<tr><td>Next.js 15 App Router</td><td>Yes</td><td>Via <code>@cloudflare/next-on-pages</code></td></tr>
+<tr><td>React 19</td><td>Yes</td><td>Fully supported</td></tr>
+<tr><td>API Routes</td><td>Yes</td><td>Converted to Cloudflare Workers</td></tr>
+<tr><td>Middleware</td><td>Yes</td><td>Runs at the edge</td></tr>
+<tr><td>Server Components</td><td>Yes</td><td>Supported</td></tr>
+<tr><td>Static Generation</td><td>Yes</td><td>Supported</td></tr>
+<tr><td>ISR</td><td>Limited</td><td>Different implementation</td></tr>
+<tr><td>Edge Runtime</td><td>Yes</td><td>Native</td></tr>
+<tr><td>Node.js Runtime</td><td>Compat</td><td>Via <code>nodejs_compat</code> flag</td></tr>
+</tbody>
+</table>
+
+<h3 id="cloudflare-workers-limits">Cloudflare Workers Limits</h3>
+<table>
+<thead>
+<tr><th>Limit</th><th>Free Plan</th><th>Paid Plan ($5/mo)</th></tr>
+</thead>
+<tbody>
+<tr><td>CPU Time</td><td>10ms</td><td>30s</td></tr>
+<tr><td>Duration</td><td>30s</td><td>5 minutes (with Unbound)</td></tr>
+<tr><td>Memory</td><td>128 MB</td><td>128 MB</td></tr>
+<tr><td>Subrequest</td><td>50</td><td>1000</td></tr>
+<tr><td>Environment Variables</td><td>64</td><td>64</td></tr>
+<tr><td>Script Size</td><td>1 MB</td><td>10 MB</td></tr>
+</tbody>
+</table>
+<p><strong>Critical:</strong> The pdf-parse route requires up to 5 minutes. This requires:</p>
+<ol>
+<li>Cloudflare Workers Paid plan ($5/mo)</li>
+<li>Workers Unbound pricing model</li>
+<li>Or: Offload to separate async processing</li>
+</ol>
+<hr>
+
+<h2 id="vercel-specific-code">Vercel-Specific Code to Migrate</h2>
+
+<h3 id="route-segment-configs">1. Route Segment Configs</h3>
+<p><strong>Current (Vercel):</strong></p>
+<pre><code>// app/api/pdf-parse/route.ts
+export const maxDuration = 300 // 5 minutes
+export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'</code></pre>
+
+<p><strong>Target (Cloudflare):</strong></p>
+<pre><code>// app/api/pdf-parse/route.ts
+export const runtime = 'edge' // or 'nodejs' with nodejs_compat
+
+// For long-running tasks, use Cloudflare Queues
+// See "Heavy Compute Strategy" below</code></pre>
+
+<h3 id="middleware">2. Middleware (Supabase Auth)</h3>
+<p><strong>Current:</strong> Works with Next.js middleware + Supabase SSR</p>
+<p><strong>Migration:</strong> Generally compatible. Update to use Cloudflare's request context.</p>
+
+<h3 id="server-side-supabase">3. Server-Side Supabase Client</h3>
+<p><strong>Current:</strong></p>
+<pre><code>import { cookies } from 'next/headers'</code></pre>
+<p><strong>Migration:</strong> Works on Cloudflare Pages with <code>@cloudflare/next-on-pages</code></p>
+
+<h3 id="environment-variables">4. Environment Variables</h3>
+<p><strong>Current:</strong> Set in Vercel dashboard</p>
+<p><strong>Migration:</strong> Set in Cloudflare Pages dashboard or <code>wrangler.toml</code></p>
+<p>Required env vars:</p>
+<pre><code>NEXT_PUBLIC_SUPABASE_URL
+NEXT_PUBLIC_SUPABASE_ANON_KEY
+SUPABASE_SERVICE_ROLE_KEY
+OPENAI_API_KEY
+GOOGLE_CLOUD_PROJECT_ID
+GOOGLE_DOCUMENT_AI_PROCESSOR_ID
+GOOGLE_CLOUD_CREDENTIALS (base64)
+ONESIGNAL_APP_ID
+ONESIGNAL_REST_API_KEY
+TEKMETRIC_API_KEY
+AUTOPI_API_KEY
+CRON_SECRET
+INTERNAL_ACCESS_USER_IDS</code></pre>
+<hr>
+
+<h2 id="heavy-compute-strategy">Heavy Compute Strategy: PDF Processing</h2>
+<p>The <code>/api/pdf-parse</code> route is the main challenge:</p>
+<ul>
+<li>Google Document AI OCR (network I/O)</li>
+<li>OpenAI GPT-4o parsing (network I/O)</li>
+<li>File upload to Supabase Storage</li>
+<li>Database writes</li>
+</ul>
+
+<h3 id="option-a">Option A: Workers Unbound (Recommended)</h3>
+<p>Keep the existing architecture but use Cloudflare Workers Unbound pricing:</p>
+<ul>
+<li><strong>Cost:</strong> ~$12.50/million requests + $0.02/million ms</li>
+<li><strong>Duration:</strong> Up to 5 minutes per request</li>
+<li><strong>Complexity:</strong> Low - minimal code changes</li>
+</ul>
+<pre><code># wrangler.toml
+[build]
+command = "npx @cloudflare/next-on-pages"
+
+[[routes]]
+pattern = "/api/pdf-parse"
+worker = "pdf-processor"
+
+[workers.pdf-processor]
+compatibility_flags = ["nodejs_compat"]</code></pre>
+
+<h3 id="option-b">Option B: Queue-Based Processing (More Scalable)</h3>
+<p>Split into async processing:</p>
+<ol>
+<li><strong>Upload Handler</strong> (fast, edge):
+<ul>
+<li>Accept file upload</li>
+<li>Store in Supabase Storage</li>
+<li>Queue processing job</li>
+<li>Return immediately</li>
+</ul>
+</li>
+<li><strong>Queue Consumer</strong> (background worker):
+<ul>
+<li>Process OCR with Document AI</li>
+<li>Parse with OpenAI</li>
+<li>Update database</li>
+<li>Notify via webhook/WebSocket</li>
+</ul>
+</li>
+</ol>
+<pre><code>User Upload → Edge Worker → Supabase Storage
+                   ↓
+            Cloudflare Queue
+                   ↓
+         Background Worker (5 min limit)
+                   ↓
+            Supabase DB + Webhook</code></pre>
+<p><strong>Advantages:</strong></p>
+<ul>
+<li>Better user experience (instant upload response)</li>
+<li>More reliable (retries built-in)</li>
+<li>Scales better</li>
+</ul>
+<hr>
+
+<h2 id="migration-steps">Migration Steps</h2>
+
+<h3 id="phase-1">Phase 1: Setup (Day 1)</h3>
+<ol>
+<li>Create Cloudflare account / project</li>
+<li>Install <code>@cloudflare/next-on-pages</code></li>
+<li>Add <code>wrangler.toml</code> configuration</li>
+<li>Test local build with Wrangler</li>
+</ol>
+<pre><code>npm install @cloudflare/next-on-pages
+npx wrangler login</code></pre>
+
+<h3 id="phase-2">Phase 2: Code Adjustments (Days 2-3)</h3>
+<ol>
+<li>Update route configs for Cloudflare compatibility</li>
+<li>Add <code>nodejs_compat</code> flag where needed</li>
+<li>Test all API routes locally</li>
+<li>Implement queue-based PDF processing (if Option B)</li>
+</ol>
+
+<h3 id="phase-3">Phase 3: Environment &amp; Secrets (Day 4)</h3>
+<ol>
+<li>Configure all env vars in Cloudflare dashboard</li>
+<li>Set up Google Cloud credentials (may need adjustment)</li>
+<li>Verify Supabase connectivity from Cloudflare edge</li>
+</ol>
+
+<h3 id="phase-4">Phase 4: Testing (Days 5-7)</h3>
+<ol>
+<li>Deploy to Cloudflare Pages preview</li>
+<li>Test all user flows:
+<ul>
+<li>User authentication (sign in/out)</li>
+<li>Shop dashboard access</li>
+<li>Consumer dashboard access</li>
+<li>PDF upload and parsing</li>
+<li>Webhook reception</li>
+<li>Push notifications</li>
+<li>TekMetric integration</li>
+</ul>
+</li>
+</ol>
+
+<h3 id="phase-5">Phase 5: DNS &amp; Cutover (Day 8)</h3>
+<ol>
+<li>Configure custom domain in Cloudflare</li>
+<li>Update DNS records</li>
+<li>Monitor for 24 hours</li>
+<li>Decommission Vercel project</li>
+</ol>
+<hr>
+
+<h2 id="cost-comparison">Cost Comparison</h2>
+
+<h3 id="current-vercel">Current (Vercel)</h3>
+<table>
+<thead>
+<tr><th>Item</th><th>Cost</th></tr>
+</thead>
+<tbody>
+<tr><td>Pro Plan</td><td>$20/user/month</td></tr>
+<tr><td>Serverless Functions</td><td>Included (limited)</td></tr>
+<tr><td>Bandwidth</td><td>1TB included</td></tr>
+<tr><td>Build Minutes</td><td>6000/month</td></tr>
+</tbody>
+</table>
+
+<h3 id="projected-cloudflare">Projected (Cloudflare Pages)</h3>
+<table>
+<thead>
+<tr><th>Item</th><th>Cost</th></tr>
+</thead>
+<tbody>
+<tr><td>Pages</td><td>Free (or $5/mo for 5M requests)</td></tr>
+<tr><td>Workers Unbound</td><td>~$5/mo base + usage</td></tr>
+<tr><td>Queues (if used)</td><td>$0.40/million messages</td></tr>
+<tr><td>R2 Storage (optional)</td><td>$0.015/GB/month</td></tr>
+</tbody>
+</table>
+<p><strong>Estimated Savings:</strong> $10-15/month depending on usage</p>
+<hr>
+
+<h2 id="risk-assessment">Risk Assessment</h2>
+<table>
+<thead>
+<tr><th>Risk</th><th>Likelihood</th><th>Impact</th><th>Mitigation</th></tr>
+</thead>
+<tbody>
+<tr><td>PDF processing timeout</td><td>Medium</td><td>High</td><td>Use Workers Unbound or Queues</td></tr>
+<tr><td>Supabase SSR incompatibility</td><td>Low</td><td>High</td><td>Test thoroughly; fallback available</td></tr>
+<tr><td>Google Cloud auth issues</td><td>Medium</td><td>Medium</td><td>Use JSON credentials in env var</td></tr>
+<tr><td>Webhook timing issues</td><td>Low</td><td>Low</td><td>Workers handle webhooks well</td></tr>
+<tr><td>Cold start latency</td><td>Medium</td><td>Low</td><td>Edge deployment minimizes this</td></tr>
+</tbody>
+</table>
+<hr>
+
+<h2 id="rollback-plan">Rollback Plan</h2>
+<p>If critical issues arise:</p>
+<ol>
+<li>Keep Vercel project active (don't delete)</li>
+<li>Switch DNS back to Vercel</li>
+<li>Full rollback in &lt; 5 minutes</li>
+</ol>
+<hr>
+
+<h2 id="recommendation">Recommendation</h2>
+<p><strong>Proceed with migration using Option A (Workers Unbound)</strong> for initial release:</p>
+<ol>
+<li>Minimal code changes</li>
+<li>Maintains existing architecture</li>
+<li>Cost-effective ($5-10/month total)</li>
+<li>Can upgrade to queue-based (Option B) later if scale demands</li>
+</ol>
+<p><strong>Timeline:</strong> 8 working days for full migration</p>
+<p><strong>Prerequisites:</strong></p>
+<ul>
+<li>Cloudflare account with Workers Unbound enabled</li>
+<li>All environment variables documented and ready</li>
+<li>Test environment for validation</li>
+</ul>
+<hr>
+
+<h2 id="next-steps">Next Steps</h2>
+<ol>
+<li>Tyler approval of migration approach</li>
+<li>Set up Cloudflare account and project</li>
+<li>Create feature branch: <code>feature/cloudflare-migration</code></li>
+<li>Begin Phase 1 implementation</li>
+</ol>
+<hr>
+<p><em>Document prepared by phil agent - January 2026</em></p>
+    </article>
+  </main>
+  <footer class="site-footer">&copy; 2026 Piston Labs. All rights reserved.</footer>
+  <script>
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+  </script>
+</body>
+</html>
