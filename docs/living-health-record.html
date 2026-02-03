@@ -335,24 +335,31 @@
                 <tr class="section-header"><td colspan="5">Safety &amp; Visibility</td></tr>
                 <tr>
                     <td>Wiper Blades</td>
-                    <td>condition</td>
+                    <td>status</td>
                     <td class="green">OK</td>
-                    <td class="yellow">Streaking</td>
-                    <td class="red">Needs Replacement</td>
+                    <td class="yellow">Monitor</td>
+                    <td class="red">Service Required</td>
                 </tr>
                 <tr>
                     <td>Lights</td>
                     <td>status</td>
                     <td class="green">OK</td>
                     <td class="yellow">Monitor</td>
-                    <td class="red">Out</td>
+                    <td class="red">Service Required</td>
                 </tr>
                 <tr>
-                    <td>Belts &amp; Hoses</td>
-                    <td>condition</td>
-                    <td class="green">good</td>
-                    <td class="yellow">cracked</td>
-                    <td class="red">leaking</td>
+                    <td>Belts</td>
+                    <td>status</td>
+                    <td class="green">OK</td>
+                    <td class="yellow">Monitor</td>
+                    <td class="red">Service Required</td>
+                </tr>
+                <tr>
+                    <td>Hoses</td>
+                    <td>status</td>
+                    <td class="green">OK</td>
+                    <td class="yellow">Monitor</td>
+                    <td class="red">Service Required</td>
                 </tr>
             </tbody>
         </table>
@@ -485,8 +492,12 @@
                         <span class="value green">OK</span>
                     </div>
                     <div class="inspection-item">
-                        <span class="label">Belts & Hoses</span>
-                        <span class="value green">Good</span>
+                        <span class="label">Belts</span>
+                        <span class="value green">OK</span>
+                    </div>
+                    <div class="inspection-item">
+                        <span class="label">Hoses</span>
+                        <span class="value green">OK</span>
                     </div>
                 </div>
             </div>
@@ -596,7 +607,8 @@
   "safety": {
     "wiperBlades": { "status": "good" },
     "lights": { "status": "ok" },
-    "beltsHoses": { "status": "good" }
+    "belts": { "status": "ok" },
+    "hoses": { "status": "ok" }
   },
 
   "overallHealth": "fair",
