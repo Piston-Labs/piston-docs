@@ -82,7 +82,7 @@
 
         <div class="info-box">
             <h4>Purpose</h4>
-            <p>This taxonomy enables high-confidence mapping from varied shop inspection language to our standardized 22-item Living Health Record. Each item includes aliases (what shops call it) and status phrase mappings (how shops describe conditions).</p>
+            <p>This taxonomy enables high-confidence mapping from varied shop inspection language to our standardized 26-item Living Health Record. Each item includes aliases (what shops call it) and status phrase mappings (how shops describe conditions). The JSON version (<a href="/docs/inspection-taxonomy.json">inspection-taxonomy.json</a>) contains 37 entries (tires expanded by position).</p>
         </div>
 
         <div class="info-box">
@@ -96,15 +96,16 @@
 {
   "brakes": { "frontPads": { "mm": number, "status": string }, "rearPads": { ... } },
   "tires": { "lf|rf|lr|rr": { "tread32nds": number, "pressurePsi": number, "dotCode": string, "ageYears": number } },
-  "fluids": { "oil|brake|coolant|transmission": { "status": string } },
+  "fluids": { "oil|brake|coolant|transmission|powerSteering": { "status": string } },
   "filters": { "engineAir|cabinAir": { "status": string } },
   "battery": { "voltage": number, "ccaPercent": number, "ageMonths": number },
-  "underHood": { "belts|hoses|brakeHoses|leaks": { "status": string } },
-  "undercarriage": { "suspension|steering|driveshaft|axles": { "status": string } },
+  "underHood": { "belts|hoses|brakeHoses|leaks": { "status": string }, "other": { "status": string, "notes": [] } },
+  "undercarriage": { "suspension|steering|driveshaft|axles|exhaust": { "status": string }, "other": { "status": string, "notes": [] } },
   "visibility": { "wiperBlades|lights": { "status": string } }
 }
 
 Status values: "ok" | "monitor" | "service_required"
+Type: "status" | "quantitative" | "status_with_notes"
         </pre>
 
         <!-- BRAKES -->
@@ -619,6 +620,61 @@ Status values: "ok" | "monitor" | "service_required"
                     </div>
                 </div>
             </div>
+
+            <div class="item-card status-based">
+                <h4>Power Steering Fluid <span class="type">STATUS</span> <span class="id">INS-FLUID-PS</span></h4>
+                <div class="field">Schema: <code>fluids.powerSteering.status</code></div>
+
+                <div class="aliases">
+                    <div class="aliases-label">Aliases</div>
+                    <div class="alias-list">
+                        <span class="alias">power steering fluid</span>
+                        <span class="alias">power steering</span>
+                        <span class="alias">PS fluid</span>
+                        <span class="alias">steering fluid</span>
+                        <span class="alias">power steering level</span>
+                        <span class="alias">hydraulic steering fluid</span>
+                    </div>
+                </div>
+
+                <div class="status-mappings">
+                    <div class="status-row">
+                        <span class="status-label green">OK</span>
+                        <div class="status-phrases">
+                            <span class="phrase">full</span>
+                            <span class="phrase">good</span>
+                            <span class="phrase">ok</span>
+                            <span class="phrase">pass</span>
+                            <span class="phrase">clean</span>
+                            <span class="phrase">proper level</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label yellow">Monitor</span>
+                        <div class="status-phrases">
+                            <span class="phrase">low</span>
+                            <span class="phrase">dark</span>
+                            <span class="phrase">discolored</span>
+                            <span class="phrase">fair</span>
+                            <span class="phrase">topped off</span>
+                            <span class="phrase">slightly low</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label red">Service Required</span>
+                        <div class="status-phrases">
+                            <span class="phrase">very low</span>
+                            <span class="phrase">empty</span>
+                            <span class="phrase">contaminated</span>
+                            <span class="phrase">foamy</span>
+                            <span class="phrase">aerated</span>
+                            <span class="phrase">leaking</span>
+                            <span class="phrase">noisy pump</span>
+                            <span class="phrase">whining</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- FILTERS -->
@@ -1099,6 +1155,72 @@ Status values: "ok" | "monitor" | "service_required"
                     </div>
                 </div>
             </div>
+
+            <div class="item-card status-based" style="border-left-color: #f59e0b;">
+                <h4>Under Hood Other <span class="type" style="background: #f59e0b20; color: #f59e0b;">STATUS + NOTES</span> <span class="id">INS-UH-OTHER</span></h4>
+                <div class="field">Schema: <code>underHood.other</code> → <code>{ status, notes[] }</code></div>
+
+                <div class="aliases">
+                    <div class="aliases-label">Aliases</div>
+                    <div class="alias-list">
+                        <span class="alias">under hood other</span>
+                        <span class="alias">engine bay other</span>
+                        <span class="alias">engine compartment other</span>
+                        <span class="alias">miscellaneous under hood</span>
+                        <span class="alias">other findings</span>
+                        <span class="alias">additional findings</span>
+                    </div>
+                </div>
+
+                <div class="status-mappings">
+                    <div class="status-row">
+                        <span class="status-label green">OK</span>
+                        <div class="status-phrases">
+                            <span class="phrase">good</span>
+                            <span class="phrase">ok</span>
+                            <span class="phrase">pass</span>
+                            <span class="phrase">no issues</span>
+                            <span class="phrase">nothing noted</span>
+                            <span class="phrase">satisfactory</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label yellow">Monitor</span>
+                        <div class="status-phrases">
+                            <span class="phrase">note</span>
+                            <span class="phrase">found</span>
+                            <span class="phrase">observed</span>
+                            <span class="phrase">noticed</span>
+                            <span class="phrase">minor issue</span>
+                            <span class="phrase">attention needed</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label red">Service Required</span>
+                        <div class="status-phrases">
+                            <span class="phrase">needs attention</span>
+                            <span class="phrase">repair needed</span>
+                            <span class="phrase">service required</span>
+                            <span class="phrase">immediate attention</span>
+                            <span class="phrase">safety concern</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid #334155;">
+                    <div class="aliases-label">Common Note Patterns (for extraction)</div>
+                    <div class="alias-list" style="margin-top: 0.5rem;">
+                        <span class="alias">missing bolt</span>
+                        <span class="alias">missing hardware</span>
+                        <span class="alias">broken clip</span>
+                        <span class="alias">cracked plastic</span>
+                        <span class="alias">loose cover</span>
+                        <span class="alias">aftermarket part</span>
+                        <span class="alias">rodent damage</span>
+                        <span class="alias">corrosion</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- UNDERCARRIAGE -->
@@ -1316,6 +1438,131 @@ Status values: "ok" | "monitor" | "service_required"
                             <span class="phrase">noisy</span>
                             <span class="phrase">worn out</span>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item-card status-based">
+                <h4>Exhaust <span class="type">STATUS</span> <span class="id">INS-EXHAUST</span></h4>
+                <div class="field">Schema: <code>undercarriage.exhaust.status</code></div>
+
+                <div class="aliases">
+                    <div class="aliases-label">Aliases</div>
+                    <div class="alias-list">
+                        <span class="alias">exhaust</span>
+                        <span class="alias">exhaust system</span>
+                        <span class="alias">exhaust pipe</span>
+                        <span class="alias">muffler</span>
+                        <span class="alias">catalytic converter</span>
+                        <span class="alias">cat</span>
+                        <span class="alias">resonator</span>
+                        <span class="alias">tailpipe</span>
+                        <span class="alias">flex pipe</span>
+                        <span class="alias">exhaust hangers</span>
+                    </div>
+                </div>
+
+                <div class="status-mappings">
+                    <div class="status-row">
+                        <span class="status-label green">OK</span>
+                        <div class="status-phrases">
+                            <span class="phrase">good</span>
+                            <span class="phrase">ok</span>
+                            <span class="phrase">pass</span>
+                            <span class="phrase">no leaks</span>
+                            <span class="phrase">quiet</span>
+                            <span class="phrase">secure</span>
+                            <span class="phrase">no rust</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label yellow">Monitor</span>
+                        <div class="status-phrases">
+                            <span class="phrase">minor rust</span>
+                            <span class="phrase">surface rust</span>
+                            <span class="phrase">fair</span>
+                            <span class="phrase">aging</span>
+                            <span class="phrase">small hole</span>
+                            <span class="phrase">minor leak</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label red">Service Required</span>
+                        <div class="status-phrases">
+                            <span class="phrase">leaking</span>
+                            <span class="phrase">loud</span>
+                            <span class="phrase">hole</span>
+                            <span class="phrase">rusted through</span>
+                            <span class="phrase">hanging</span>
+                            <span class="phrase">loose</span>
+                            <span class="phrase">broken hanger</span>
+                            <span class="phrase">exhaust smell</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item-card status-based" style="border-left-color: #f59e0b;">
+                <h4>Undercarriage Other <span class="type" style="background: #f59e0b20; color: #f59e0b;">STATUS + NOTES</span> <span class="id">INS-UC-OTHER</span></h4>
+                <div class="field">Schema: <code>undercarriage.other</code> → <code>{ status, notes[] }</code></div>
+
+                <div class="aliases">
+                    <div class="aliases-label">Aliases</div>
+                    <div class="alias-list">
+                        <span class="alias">undercarriage other</span>
+                        <span class="alias">underbody other</span>
+                        <span class="alias">chassis other</span>
+                        <span class="alias">miscellaneous undercarriage</span>
+                        <span class="alias">other undercarriage findings</span>
+                    </div>
+                </div>
+
+                <div class="status-mappings">
+                    <div class="status-row">
+                        <span class="status-label green">OK</span>
+                        <div class="status-phrases">
+                            <span class="phrase">good</span>
+                            <span class="phrase">ok</span>
+                            <span class="phrase">pass</span>
+                            <span class="phrase">no issues</span>
+                            <span class="phrase">nothing noted</span>
+                            <span class="phrase">satisfactory</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label yellow">Monitor</span>
+                        <div class="status-phrases">
+                            <span class="phrase">note</span>
+                            <span class="phrase">found</span>
+                            <span class="phrase">observed</span>
+                            <span class="phrase">noticed</span>
+                            <span class="phrase">minor issue</span>
+                            <span class="phrase">attention needed</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label red">Service Required</span>
+                        <div class="status-phrases">
+                            <span class="phrase">needs attention</span>
+                            <span class="phrase">repair needed</span>
+                            <span class="phrase">service required</span>
+                            <span class="phrase">immediate attention</span>
+                            <span class="phrase">safety concern</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid #334155;">
+                    <div class="aliases-label">Common Note Patterns (for extraction)</div>
+                    <div class="alias-list" style="margin-top: 0.5rem;">
+                        <span class="alias">undertray damage</span>
+                        <span class="alias">splash shield</span>
+                        <span class="alias">skid plate</span>
+                        <span class="alias">rusty hardware</span>
+                        <span class="alias">missing shield</span>
+                        <span class="alias">frame rust</span>
+                        <span class="alias">subframe corrosion</span>
+                        <span class="alias">impact damage</span>
                     </div>
                 </div>
             </div>
