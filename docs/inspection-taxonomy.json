@@ -178,6 +178,135 @@
     }
   },
   {
+    "id": "INS-BRK-ROTOR-F",
+    "category": "brakes",
+    "schemaPath": "brakes.frontRotors",
+    "name": "Front Brake Rotors",
+    "type": "quantitative",
+    "unit": "mm",
+    "aliases": [
+      "front rotors",
+      "front brake rotors",
+      "front discs",
+      "front brake discs",
+      "F rotors",
+      "fr rotors",
+      "front rotor thickness",
+      "front rotor condition"
+    ],
+    "statusPhrases": {
+      "ok": [
+        "good",
+        "ok",
+        "pass",
+        "smooth",
+        "within spec",
+        "no scoring",
+        "no grooves",
+        "adequate",
+        "like new",
+        "resurfaced"
+      ],
+      "monitor": [
+        "scored",
+        "scoring",
+        "light scoring",
+        "minor scoring",
+        "grooved",
+        "light grooves",
+        "minor grooves",
+        "surface scoring",
+        "light rust",
+        "surface rust",
+        "lip forming",
+        "fair"
+      ],
+      "service_required": [
+        "deeply grooved",
+        "deep scoring",
+        "warped",
+        "warping",
+        "pulsating",
+        "pulsation",
+        "vibration when braking",
+        "below spec",
+        "below minimum",
+        "too thin",
+        "cracked",
+        "replace",
+        "needs rotors",
+        "replace rotors",
+        "machined to limit",
+        "cannot resurface"
+      ]
+    }
+  },
+  {
+    "id": "INS-BRK-ROTOR-R",
+    "category": "brakes",
+    "schemaPath": "brakes.rearRotors",
+    "name": "Rear Brake Rotors",
+    "type": "quantitative",
+    "unit": "mm",
+    "aliases": [
+      "rear rotors",
+      "rear brake rotors",
+      "rear discs",
+      "rear brake discs",
+      "R rotors",
+      "rr rotors",
+      "rear rotor thickness",
+      "rear rotor condition",
+      "back rotors"
+    ],
+    "statusPhrases": {
+      "ok": [
+        "good",
+        "ok",
+        "pass",
+        "smooth",
+        "within spec",
+        "no scoring",
+        "no grooves",
+        "adequate",
+        "like new",
+        "resurfaced"
+      ],
+      "monitor": [
+        "scored",
+        "scoring",
+        "light scoring",
+        "minor scoring",
+        "grooved",
+        "light grooves",
+        "minor grooves",
+        "surface scoring",
+        "light rust",
+        "surface rust",
+        "lip forming",
+        "fair"
+      ],
+      "service_required": [
+        "deeply grooved",
+        "deep scoring",
+        "warped",
+        "warping",
+        "pulsating",
+        "pulsation",
+        "vibration when braking",
+        "below spec",
+        "below minimum",
+        "too thin",
+        "cracked",
+        "replace",
+        "needs rotors",
+        "replace rotors",
+        "machined to limit",
+        "cannot resurface"
+      ]
+    }
+  },
+  {
     "id": "INS-TIRE-TREAD-LF",
     "category": "tires",
     "schemaPath": "tires.lf.tread32nds",

@@ -458,7 +458,7 @@
         <p class="subtitle">Vehicle health inspection format for Glovebox beta</p>
 
         <h2>Core Inspection Items</h2>
-        <p style="color: #94a3b8; margin-bottom: 1rem;">27 items that matter most to vehicle owners, with high shop capture rates.</p>
+        <p style="color: #94a3b8; margin-bottom: 1rem;">29 items that matter most to vehicle owners, with high shop capture rates.</p>
 
         <table class="spec-table">
             <thead>
@@ -485,6 +485,20 @@
                     <td class="green">&gt;5mm</td>
                     <td class="yellow">3-5mm</td>
                     <td class="red">&lt;3mm</td>
+                </tr>
+                <tr>
+                    <td>Front Rotors</td>
+                    <td>status</td>
+                    <td class="green">Smooth, within spec</td>
+                    <td class="yellow">Scored, light grooves</td>
+                    <td class="red">Warped, deeply grooved, below min</td>
+                </tr>
+                <tr>
+                    <td>Rear Rotors</td>
+                    <td>status</td>
+                    <td class="green">Smooth, within spec</td>
+                    <td class="yellow">Scored, light grooves</td>
+                    <td class="red">Warped, deeply grooved, below min</td>
                 </tr>
 
                 <tr class="section-header"><td colspan="5">Tires</td></tr>
@@ -714,7 +728,7 @@
             <div class="category-list" id="categoryList">
                 <div class="category-row" onclick="toggleCategory('brakes')">
                     <span class="category-name"><span class="chevron" id="chevron-brakes">&#9654;</span> Brakes</span>
-                    <span class="category-status yellow">1 item to monitor</span>
+                    <span class="category-status yellow">2 items to monitor</span>
                 </div>
                 <div class="category-items" id="items-brakes">
                     <div class="item-row" onclick="toggleItem(event, 'brakes-front')">
@@ -724,7 +738,7 @@
                     <div class="item-detail" id="detail-brakes-front">
                         <div class="tech-notes">
                             <div class="tech-notes-header">Technician Notes</div>
-                            <p>Measured at 7mm. Plenty of life remaining, no uneven wear observed. Rotors in good condition.</p>
+                            <p>Measured at 7mm. Plenty of life remaining, no uneven wear observed.</p>
                             <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
                         </div>
                     </div>
@@ -736,6 +750,28 @@
                         <div class="tech-notes warn">
                             <div class="tech-notes-header">Technician Notes</div>
                             <p>Measured at 4mm. Approaching minimum thickness. Recommend replacing at next service or within 5,000 miles. Slight glazing noted on inboard pad.</p>
+                            <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
+                        </div>
+                    </div>
+                    <div class="item-row" onclick="toggleItem(event, 'brakes-front-rotors')">
+                        <span class="item-name">Front Rotors</span>
+                        <span class="item-value green">OK</span>
+                    </div>
+                    <div class="item-detail" id="detail-brakes-front-rotors">
+                        <div class="tech-notes">
+                            <div class="tech-notes-header">Technician Notes</div>
+                            <p>Rotors smooth, no scoring or grooves. Measured at 28mm (min spec 25mm). No pulsation or warping detected.</p>
+                            <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
+                        </div>
+                    </div>
+                    <div class="item-row" onclick="toggleItem(event, 'brakes-rear-rotors')">
+                        <span class="item-name">Rear Rotors</span>
+                        <span class="item-value yellow">Monitor</span>
+                    </div>
+                    <div class="item-detail" id="detail-brakes-rear-rotors">
+                        <div class="tech-notes warn">
+                            <div class="tech-notes-header">Technician Notes</div>
+                            <p>Light scoring visible on both rear rotors. Still within spec at 10mm (min 9mm). Can be resurfaced when pads are replaced, or replace if scoring worsens.</p>
                             <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
                         </div>
                     </div>
@@ -1161,8 +1197,10 @@
   "inspectingShop": "Main Street Auto",
 
   "brakes": {
-    "frontPads": { "mm": 7, "status": "good" },
-    "rearPads": { "mm": 4, "status": "monitor" }
+    "frontPads": { "mm": 7, "status": "ok" },
+    "rearPads": { "mm": 4, "status": "monitor" },
+    "frontRotors": { "mm": 28, "minSpec": 25, "status": "ok" },
+    "rearRotors": { "mm": 10, "minSpec": 9, "status": "monitor", "notes": "light scoring" }
   },
 
   "tires": {
@@ -1221,6 +1259,7 @@
     { "item": "Coolant", "status": "monitor" },
     { "item": "Engine Air Filter", "status": "monitor" },
     { "item": "Rear Brake Pads", "status": "monitor" },
+    { "item": "Rear Rotors", "status": "monitor", "notes": "light scoring" },
     { "item": "Axles", "status": "monitor" },
     { "item": "Under Hood Other", "status": "monitor", "notes": ["missing bolt on air box"] }
   ]
