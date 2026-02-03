@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Living Health Record Spec - Piston Labs</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+        .container { max-width: 1000px; margin: 0 auto; padding: 2rem; }
+        h1 { color: #38bdf8; margin-bottom: 0.5rem; font-size: 2rem; }
+        h2 { color: #f8fafc; margin: 2rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #334155; }
+        h3 { color: #94a3b8; margin: 1.5rem 0 0.75rem; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        .subtitle { color: #94a3b8; margin-bottom: 2rem; }
+        a { color: #38bdf8; }
+
+        /* Status colors */
+        .green { color: #4ade80; }
+        .yellow { color: #facc15; }
+        .red { color: #f87171; }
+        .bg-green { background: rgba(74, 222, 128, 0.15); }
+        .bg-yellow { background: rgba(250, 204, 21, 0.15); }
+        .bg-red { background: rgba(248, 113, 113, 0.15); }
+
+        /* Spec table */
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0 2rem;
+            font-size: 0.9rem;
+        }
+        .spec-table th {
+            text-align: left;
+            padding: 0.75rem;
+            background: #1e293b;
+            color: #94a3b8;
+            font-weight: 500;
+            border-bottom: 1px solid #334155;
+        }
+        .spec-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #1e293b;
+        }
+        .spec-table tr:hover { background: rgba(56, 189, 248, 0.05); }
+        .spec-table .section-header {
+            background: #1e293b;
+            color: #38bdf8;
+            font-weight: 600;
+        }
+        .spec-table .section-header td { padding: 0.5rem 0.75rem; }
+
+        /* Example card */
+        .example-card {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border: 1px solid #334155;
+        }
+        .example-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #334155;
+        }
+        .vehicle-info h4 { color: #f8fafc; font-size: 1.25rem; }
+        .vehicle-info p { color: #64748b; font-size: 0.85rem; }
+        .health-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .health-good { background: rgba(74, 222, 128, 0.2); color: #4ade80; }
+        .health-fair { background: rgba(250, 204, 21, 0.2); color: #facc15; }
+
+        /* Inspection grid */
+        .inspection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .inspection-section {
+            background: #0f172a;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        .inspection-section h5 {
+            color: #94a3b8;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+        }
+        .inspection-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.4rem 0;
+            font-size: 0.9rem;
+        }
+        .inspection-item .label { color: #cbd5e1; }
+        .inspection-item .value { font-weight: 500; }
+
+        /* Tire grid */
+        .tire-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        .tire-item {
+            background: #1e293b;
+            padding: 0.5rem;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+        .tire-item .pos { color: #64748b; font-size: 0.7rem; }
+        .tire-item .val { font-weight: 600; margin-top: 0.25rem; }
+
+        /* DOT Info box */
+        .info-box {
+            background: #1e293b;
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1rem 0;
+            border-left: 3px solid #38bdf8;
+        }
+        .info-box h4 { color: #38bdf8; margin-bottom: 0.5rem; }
+        .info-box p { color: #94a3b8; font-size: 0.9rem; margin-bottom: 0.5rem; }
+        .info-box .cite { font-style: italic; color: #64748b; font-size: 0.85rem; }
+
+        /* Tire age display */
+        .tire-age-display {
+            background: #0f172a;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        .tire-age-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+        .tire-age-header .age { font-size: 1.25rem; font-weight: 600; }
+        .tire-age-header .dot { color: #64748b; font-size: 0.85rem; }
+        .tire-age-bar {
+            height: 8px;
+            background: #334155;
+            border-radius: 4px;
+            position: relative;
+            margin: 1rem 0 0.5rem;
+        }
+        .tire-age-bar .fill {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #4ade80 0%, #facc15 60%, #f87171 100%);
+        }
+        .tire-age-bar .marker {
+            position: absolute;
+            top: -4px;
+            width: 16px;
+            height: 16px;
+            background: #f8fafc;
+            border-radius: 50%;
+            transform: translateX(-50%);
+        }
+        .tire-age-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+        .learn-more {
+            color: #38bdf8;
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-top: 0.75rem;
+            display: inline-block;
+        }
+        .learn-more:hover { text-decoration: underline; }
+
+        /* Expanded info */
+        .expanded-info {
+            background: #1e293b;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            display: none;
+        }
+        .expanded-info.show { display: block; }
+        .expanded-info ul { margin: 0.5rem 0 0.5rem 1.5rem; }
+        .expanded-info li { margin: 0.25rem 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p style="margin-bottom: 1rem;"><a href="/">&larr; Back to Docs</a></p>
+
+        <h1>Living Health Record</h1>
+        <p class="subtitle">Vehicle health inspection format for Glovebox beta</p>
+
+        <h2>Core Inspection Items</h2>
+        <p style="color: #94a3b8; margin-bottom: 1rem;">14 items that matter most to vehicle owners, with high shop capture rates.</p>
+
+        <table class="spec-table">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Measurement</th>
+                    <th class="green">Green</th>
+                    <th class="yellow">Yellow</th>
+                    <th class="red">Red</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="section-header"><td colspan="5">Brakes</td></tr>
+                <tr>
+                    <td>Front Brake Pads</td>
+                    <td>mm thickness</td>
+                    <td class="green">&gt;5mm</td>
+                    <td class="yellow">3-5mm</td>
+                    <td class="red">&lt;3mm</td>
+                </tr>
+                <tr>
+                    <td>Rear Brake Pads</td>
+                    <td>mm thickness</td>
+                    <td class="green">&gt;5mm</td>
+                    <td class="yellow">3-5mm</td>
+                    <td class="red">&lt;3mm</td>
+                </tr>
+
+                <tr class="section-header"><td colspan="5">Tires</td></tr>
+                <tr>
+                    <td>Tire Tread (LF, RF, LR, RR)</td>
+                    <td>32nds inch</td>
+                    <td class="green">&gt;6/32"</td>
+                    <td class="yellow">4-6/32"</td>
+                    <td class="red">&lt;4/32"</td>
+                </tr>
+                <tr>
+                    <td>Tire Pressure (LF, RF, LR, RR)</td>
+                    <td>PSI</td>
+                    <td class="green">at spec</td>
+                    <td class="yellow">&plusmn;5 PSI</td>
+                    <td class="red">&gt;10 off</td>
+                </tr>
+                <tr>
+                    <td>Tire Age (LF, RF, LR, RR)</td>
+                    <td>years (from DOT)</td>
+                    <td class="green">&lt;6 yrs</td>
+                    <td class="yellow">6-8 yrs</td>
+                    <td class="red">&gt;8 yrs</td>
+                </tr>
+
+                <tr class="section-header"><td colspan="5">Fluids</td></tr>
+                <tr>
+                    <td>Engine Oil</td>
+                    <td>level + condition</td>
+                    <td class="green">full / clean</td>
+                    <td class="yellow">low or dirty</td>
+                    <td class="red">low &amp; dirty</td>
+                </tr>
+                <tr>
+                    <td>Brake Fluid</td>
+                    <td>level + condition</td>
+                    <td class="green">full / clear</td>
+                    <td class="yellow">low or dark</td>
+                    <td class="red">low &amp; dark</td>
+                </tr>
+                <tr>
+                    <td>Coolant</td>
+                    <td>level + condition</td>
+                    <td class="green">full / good</td>
+                    <td class="yellow">low</td>
+                    <td class="red">contaminated</td>
+                </tr>
+                <tr>
+                    <td>Transmission Fluid</td>
+                    <td>level + condition</td>
+                    <td class="green">full / clean</td>
+                    <td class="yellow">low or dirty</td>
+                    <td class="red">low &amp; burnt</td>
+                </tr>
+
+                <tr class="section-header"><td colspan="5">Filters</td></tr>
+                <tr>
+                    <td>Engine Air Filter</td>
+                    <td>condition</td>
+                    <td class="green">clean</td>
+                    <td class="yellow">dirty</td>
+                    <td class="red">clogged</td>
+                </tr>
+                <tr>
+                    <td>Cabin Air Filter</td>
+                    <td>condition</td>
+                    <td class="green">clean</td>
+                    <td class="yellow">dirty</td>
+                    <td class="red">clogged</td>
+                </tr>
+
+                <tr class="section-header"><td colspan="5">Battery</td></tr>
+                <tr>
+                    <td>Battery Voltage</td>
+                    <td>volts</td>
+                    <td class="green">&gt;12.4V</td>
+                    <td class="yellow">12.0-12.4V</td>
+                    <td class="red">&lt;12.0V</td>
+                </tr>
+                <tr>
+                    <td>Battery CCA</td>
+                    <td>% of rated</td>
+                    <td class="green">&gt;80%</td>
+                    <td class="yellow">50-80%</td>
+                    <td class="red">&lt;50%</td>
+                </tr>
+                <tr>
+                    <td>Battery Age</td>
+                    <td>months</td>
+                    <td class="green">&lt;48 mo</td>
+                    <td class="yellow">48-60 mo</td>
+                    <td class="red">&gt;60 mo</td>
+                </tr>
+
+                <tr class="section-header"><td colspan="5">Safety &amp; Visibility</td></tr>
+                <tr>
+                    <td>Wiper Blades</td>
+                    <td>condition</td>
+                    <td class="green">good</td>
+                    <td class="yellow">streaking</td>
+                    <td class="red">torn / missing</td>
+                </tr>
+                <tr>
+                    <td>Lights</td>
+                    <td>working status</td>
+                    <td class="green">all work</td>
+                    <td class="yellow">1 out</td>
+                    <td class="red">multiple out</td>
+                </tr>
+                <tr>
+                    <td>Belts &amp; Hoses</td>
+                    <td>condition</td>
+                    <td class="green">good</td>
+                    <td class="yellow">cracked</td>
+                    <td class="red">leaking</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Example Display</h2>
+
+        <div class="example-card">
+            <div class="example-header">
+                <div class="vehicle-info">
+                    <h4>2019 Honda Accord</h4>
+                    <p>Last inspected: Jan 15, 2026 at 47,823 mi</p>
+                </div>
+                <div class="health-badge health-fair">Fair</div>
+            </div>
+
+            <div class="inspection-grid">
+                <div class="inspection-section">
+                    <h5>Brakes</h5>
+                    <div class="inspection-item">
+                        <span class="label">Front Pads</span>
+                        <span class="value green">7mm</span>
+                    </div>
+                    <div class="inspection-item">
+                        <span class="label">Rear Pads</span>
+                        <span class="value yellow">4mm</span>
+                    </div>
+                </div>
+
+                <div class="inspection-section">
+                    <h5>Tires - Tread</h5>
+                    <div class="tire-grid">
+                        <div class="tire-item">
+                            <div class="pos">LF</div>
+                            <div class="val green">7/32"</div>
+                        </div>
+                        <div class="tire-item">
+                            <div class="pos">RF</div>
+                            <div class="val green">6/32"</div>
+                        </div>
+                        <div class="tire-item">
+                            <div class="pos">LR</div>
+                            <div class="val yellow">5/32"</div>
+                        </div>
+                        <div class="tire-item">
+                            <div class="pos">RR</div>
+                            <div class="val yellow">5/32"</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="inspection-section">
+                    <h5>Tires - Pressure</h5>
+                    <div class="tire-grid">
+                        <div class="tire-item">
+                            <div class="pos">LF</div>
+                            <div class="val green">32 PSI</div>
+                        </div>
+                        <div class="tire-item">
+                            <div class="pos">RF</div>
+                            <div class="val green">33 PSI</div>
+                        </div>
+                        <div class="tire-item">
+                            <div class="pos">LR</div>
+                            <div class="val green">32 PSI</div>
+                        </div>
+                        <div class="tire-item">
+                            <div class="pos">RR</div>
+                            <div class="val green">32 PSI</div>
+                        </div>
+                    </div>
+                    <p style="color: #64748b; font-size: 0.75rem; margin-top: 0.5rem; text-align: center;">Recommended: 32 PSI</p>
+                </div>
+
+                <div class="inspection-section">
+                    <h5>Fluids</h5>
+                    <div class="inspection-item">
+                        <span class="label">Engine Oil</span>
+                        <span class="value green">Full / Clean</span>
+                    </div>
+                    <div class="inspection-item">
+                        <span class="label">Brake Fluid</span>
+                        <span class="value green">Full / Clear</span>
+                    </div>
+                    <div class="inspection-item">
+                        <span class="label">Coolant</span>
+                        <span class="value green">Full</span>
+                    </div>
+                    <div class="inspection-item">
+                        <span class="label">Transmission</span>
+                        <span class="value green">Full / Clean</span>
+                    </div>
+                </div>
+
+                <div class="inspection-section">
+                    <h5>Filters</h5>
+                    <div class="inspection-item">
+                        <span class="label">Engine Air</span>
+                        <span class="value yellow">Dirty</span>
+                    </div>
+                    <div class="inspection-item">
+                        <span class="label">Cabin Air</span>
+                        <span class="value red">Clogged</span>
+                    </div>
+                </div>
+
+                <div class="inspection-section">
+                    <h5>Battery</h5>
+                    <div class="inspection-item">
+                        <span class="label">Voltage</span>
+                        <span class="value green">12.6V</span>
+                    </div>
+                    <div class="inspection-item">
+                        <span class="label">CCA</span>
+                        <span class="value green">92%</span>
+                    </div>
+                    <div class="inspection-item">
+                        <span class="label">Age</span>
+                        <span class="value green">36 months</span>
+                    </div>
+                </div>
+
+                <div class="inspection-section">
+                    <h5>Safety</h5>
+                    <div class="inspection-item">
+                        <span class="label">Wiper Blades</span>
+                        <span class="value green">Good</span>
+                    </div>
+                    <div class="inspection-item">
+                        <span class="label">Lights</span>
+                        <span class="value green">All Working</span>
+                    </div>
+                    <div class="inspection-item">
+                        <span class="label">Belts & Hoses</span>
+                        <span class="value green">Good</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>Tire Age Display</h2>
+        <p style="color: #94a3b8; margin-bottom: 1rem;">DOT date codes converted to human-readable format with educational context.</p>
+
+        <div class="example-card">
+            <h5 style="color: #94a3b8; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem;">Tire Age - Left Front</h5>
+
+            <div class="tire-age-display">
+                <div class="tire-age-header">
+                    <div>
+                        <div class="age yellow">6 years old</div>
+                        <div style="color: #94a3b8; font-size: 0.9rem;">Manufactured: June 2019</div>
+                    </div>
+                    <div class="dot">DOT: 2419</div>
+                </div>
+
+                <div class="tire-age-bar">
+                    <div class="fill" style="width: 100%;"></div>
+                    <div class="marker" style="left: 60%;"></div>
+                </div>
+                <div class="tire-age-labels">
+                    <span>New</span>
+                    <span>6 yrs</span>
+                    <span>10 yrs</span>
+                </div>
+
+                <span class="learn-more" onclick="toggleInfo()">Learn more about tire age</span>
+
+                <div class="expanded-info" id="tireInfo">
+                    <h4 style="color: #f8fafc; margin-bottom: 0.5rem;">Understanding Tire Age</h4>
+                    <p>The DOT code on your tire sidewall includes a 4-digit date code. "2419" means week 24 of 2019.</p>
+
+                    <p style="margin-top: 0.75rem;"><strong style="color: #cbd5e1;">Industry Reference:</strong></p>
+                    <p>According to the National Highway Traffic Safety Administration (NHTSA) and most tire manufacturers, tires degrade over time due to environmental factors even when not in use. Industry guidelines generally note:</p>
+                    <ul>
+                        <li>Tires should be inspected annually after 5 years of service</li>
+                        <li>6-10 years is the typical service life range cited by manufacturers</li>
+                        <li>Actual tire condition depends on wear, storage, and climate factors</li>
+                    </ul>
+                    <p style="margin-top: 0.75rem;">Your shop can assess your tire's actual condition and provide guidance specific to your situation.</p>
+                </div>
+            </div>
+        </div>
+
+        <h2>Design Principles</h2>
+
+        <div class="info-box">
+            <h4>No Direct Recommendations</h4>
+            <p>We state facts and cite industry sources. Actual service recommendations come from the vehicle owner's shop.</p>
+            <p class="cite">"Your shop can assess your tire's actual condition and advise based on wear, storage, and climate."</p>
+        </div>
+
+        <div class="info-box">
+            <h4>Green / Yellow / Red Status</h4>
+            <p>Industry-standard color coding that consumers already understand from digital vehicle inspections (DVI).</p>
+            <p class="cite">Color thresholds based on manufacturer specs and industry guidelines (NHTSA, tire/brake manufacturers).</p>
+        </div>
+
+        <div class="info-box">
+            <h4>High-Value Items Only</h4>
+            <p>14 items that cover safety concerns (brakes, tires, lights) and common maintenance (fluids, filters, battery). These are what shops check on every visit and what owners care about most.</p>
+        </div>
+
+        <h2>Data Schema</h2>
+        <pre style="background: #1e293b; padding: 1rem; border-radius: 8px; overflow-x: auto; font-size: 0.85rem; color: #94a3b8;">
+{
+  "vin": "1HGCV1F34KA012345",
+  "lastInspectionDate": "2026-01-15",
+  "odometerAtInspection": 47823,
+  "inspectingShop": "Main Street Auto",
+
+  "brakes": {
+    "frontPads": { "mm": 7, "status": "good" },
+    "rearPads": { "mm": 4, "status": "monitor" }
+  },
+
+  "tires": {
+    "lf": { "tread32nds": 7, "pressurePsi": 32, "dotCode": "2419", "ageYears": 6 },
+    "rf": { "tread32nds": 6, "pressurePsi": 33, "dotCode": "2419", "ageYears": 6 },
+    "lr": { "tread32nds": 5, "pressurePsi": 32, "dotCode": "2419", "ageYears": 6 },
+    "rr": { "tread32nds": 5, "pressurePsi": 32, "dotCode": "2419", "ageYears": 6 },
+    "recommendedPsi": 32
+  },
+
+  "fluids": {
+    "oil": { "level": "full", "condition": "clean" },
+    "brake": { "level": "full", "condition": "clear" },
+    "coolant": { "level": "full", "condition": "good" },
+    "transmission": { "level": "full", "condition": "clean" }
+  },
+
+  "filters": {
+    "engineAir": { "status": "dirty" },
+    "cabinAir": { "status": "clogged" }
+  },
+
+  "battery": {
+    "voltage": 12.6,
+    "ccaPercent": 92,
+    "ageMonths": 36
+  },
+
+  "safety": {
+    "wiperBlades": { "status": "good" },
+    "lights": { "allWorking": true, "failures": [] },
+    "beltsHoses": { "status": "good" }
+  },
+
+  "overallHealth": "fair",
+  "attentionItems": [
+    { "item": "Cabin Air Filter", "status": "replace" },
+    { "item": "Engine Air Filter", "status": "monitor" },
+    { "item": "Rear Brake Pads", "status": "monitor" }
+  ]
+}
+        </pre>
+
+        <p style="color: #64748b; margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #334155; font-size: 0.85rem;">
+            Living Health Record Spec v1.0 - Piston Labs / Glovebox Beta<br>
+            Created: February 2026
+        </p>
+    </div>
+
+    <script>
+        function toggleInfo() {
+            const info = document.getElementById('tireInfo');
+            info.classList.toggle('show');
+        }
+    </script>
+</body>
+</html>
