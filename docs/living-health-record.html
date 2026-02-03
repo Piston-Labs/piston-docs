@@ -311,6 +311,107 @@
             color: #475569;
         }
 
+        /* No Data State */
+        .category-row.no-data {
+            opacity: 0.5;
+        }
+        .category-row.no-data .category-name {
+            color: #64748b;
+        }
+        .category-status.no-data {
+            color: #475569;
+            font-style: italic;
+        }
+        .no-data-message {
+            padding: 1rem;
+            color: #475569;
+            font-size: 0.85rem;
+            font-style: italic;
+            text-align: center;
+        }
+
+        /* Demo Toggle */
+        .demo-toggle {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: #1e293b;
+            border-radius: 8px;
+        }
+        .demo-toggle button {
+            padding: 0.5rem 1rem;
+            border: 1px solid #334155;
+            background: #0f172a;
+            color: #94a3b8;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .demo-toggle button:hover {
+            background: #1e293b;
+            color: #f8fafc;
+        }
+        .demo-toggle button.active {
+            background: #38bdf8;
+            color: #0f172a;
+            border-color: #38bdf8;
+        }
+        .demo-toggle-label {
+            color: #64748b;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            margin-right: 0.5rem;
+        }
+
+        /* Decision Box */
+        .decision-box {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 2px solid #f59e0b;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        .decision-box h4 {
+            color: #f59e0b;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .decision-box h4::before {
+            content: "?";
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: #f59e0b;
+            color: #0f172a;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        .decision-option {
+            background: #0f172a;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 3px solid #334155;
+        }
+        .decision-option h5 {
+            color: #f8fafc;
+            margin-bottom: 0.5rem;
+        }
+        .decision-option p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        .decision-option .pros { color: #4ade80; }
+        .decision-option .cons { color: #f87171; }
+
         /* Product Spec Section */
         .product-spec {
             background: #1e293b;
@@ -357,7 +458,7 @@
         <p class="subtitle">Vehicle health inspection format for Glovebox beta</p>
 
         <h2>Core Inspection Items</h2>
-        <p style="color: #94a3b8; margin-bottom: 1rem;">26 items that matter most to vehicle owners, with high shop capture rates.</p>
+        <p style="color: #94a3b8; margin-bottom: 1rem;">27 items that matter most to vehicle owners, with high shop capture rates.</p>
 
         <table class="spec-table">
             <thead>
@@ -508,6 +609,13 @@
                     <td class="red">Service Required</td>
                 </tr>
                 <tr>
+                    <td>Radiator/Cooling System</td>
+                    <td>status</td>
+                    <td class="green">OK</td>
+                    <td class="yellow">Monitor</td>
+                    <td class="red">Service Required</td>
+                </tr>
+                <tr>
                     <td>Other (Under Hood)</td>
                     <td>status + notes</td>
                     <td class="green">OK</td>
@@ -586,6 +694,12 @@
 
         <h2>Interactive Display (Prototype)</h2>
         <p style="color: #94a3b8; margin-bottom: 1rem;">Click categories to expand, click items to see technician notes. This demonstrates the progressive disclosure pattern.</p>
+
+        <div class="demo-toggle">
+            <span class="demo-toggle-label">Data Mode:</span>
+            <button id="btn-full" class="active" onclick="setDataMode('full')">Full Inspection</button>
+            <button id="btn-partial" onclick="setDataMode('partial')">Partial Data</button>
+        </div>
 
         <div class="example-card">
             <div class="example-header">
@@ -837,6 +951,17 @@
                             <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
                         </div>
                     </div>
+                    <div class="item-row" onclick="toggleItem(event, 'underhood-radiator')">
+                        <span class="item-name">Radiator/Cooling</span>
+                        <span class="item-value green">OK</span>
+                    </div>
+                    <div class="item-detail" id="detail-underhood-radiator">
+                        <div class="tech-notes">
+                            <div class="tech-notes-header">Technician Notes</div>
+                            <p>Radiator fins in good condition, no damage or blockage. Cap holds pressure. No leaks at tanks or seams. Fan operates correctly.</p>
+                            <div class="tech-notes-meta">Inspected by: Mike T. at Main Street Auto</div>
+                        </div>
+                    </div>
                     <div class="item-row" onclick="toggleItem(event, 'underhood-other')">
                         <span class="item-name">Other</span>
                         <span class="item-value yellow">Monitor</span>
@@ -1071,6 +1196,7 @@
     "belts": { "status": "ok" },
     "hoses": { "status": "ok" },
     "leaks": { "status": "ok" },
+    "radiator": { "status": "ok" },
     "other": { "status": "monitor", "notes": ["missing bolt on air box"] }
   },
 
@@ -1210,6 +1336,52 @@
             </ul>
         </div>
 
+        <h2>Design Decision: Handling Missing Data</h2>
+        <p style="color: #94a3b8; margin-bottom: 1rem;">When we only have inspection data for some items (e.g., brakes and tires but not fluids), how should we display the health record? Use the toggle above to see both approaches in action.</p>
+
+        <div class="decision-box">
+            <h4>Decision Needed: Show Empty Categories?</h4>
+
+            <div class="decision-option">
+                <h5>Option A: Only Show What We Have</h5>
+                <p>If we only have brake and tire data, only show Brakes and Tires categories. Hide everything else.</p>
+                <p class="pros">+ Clean, focused display</p>
+                <p class="pros">+ No confusing "Unknown" or "Not inspected" states</p>
+                <p class="pros">+ Builds confidence in what IS shown</p>
+                <p class="cons">- User doesn't know what COULD be shown</p>
+                <p class="cons">- "Did they check my battery?" - no way to know</p>
+                <p class="cons">- Loses the "complete picture" mental model</p>
+            </div>
+
+            <div class="decision-option">
+                <h5>Option B: Show Everything with "Not Inspected"</h5>
+                <p>Always show all 8 categories. Categories without data show "Not inspected" (grayed out, collapsed).</p>
+                <p class="pros">+ Transparent about what wasn't checked</p>
+                <p class="pros">+ User knows the full scope of possible inspections</p>
+                <p class="pros">+ Encourages shops to capture more data over time</p>
+                <p class="cons">- Screen full of "Not inspected" looks incomplete</p>
+                <p class="cons">- May undermine confidence ("why is so much missing?")</p>
+                <p class="cons">- More visual noise for partial inspections</p>
+            </div>
+
+            <div class="decision-option">
+                <h5>Option C: Hybrid - Collapsed Empty Categories</h5>
+                <p>Show all categories, but auto-expand only those WITH data. Empty categories are collapsed and de-emphasized. User can tap to see "what could be here."</p>
+                <p class="pros">+ Focus on what we have (expanded) while showing scope (collapsed)</p>
+                <p class="pros">+ User can explore empty categories if curious</p>
+                <p class="pros">+ Graceful progression as more data comes in</p>
+                <p class="cons">- Slightly more complex to implement</p>
+                <p class="cons">- May still feel "incomplete" to some users</p>
+            </div>
+
+            <div style="margin-top: 1.5rem; padding: 1rem; background: #1e293b; border-radius: 8px;">
+                <p style="color: #f8fafc; margin-bottom: 0.5rem;"><strong>Recommendation:</strong> Option C (Hybrid)</p>
+                <p style="color: #94a3b8; font-size: 0.9rem;">This balances transparency with focus. Categories with data expand automatically and draw the eye. Empty categories are visible but de-emphasized, communicating "we can show more as shops capture it" without overwhelming the user with unknowns.</p>
+            </div>
+
+            <p style="color: #64748b; font-size: 0.85rem; margin-top: 1rem; font-style: italic;">Ryan: Toggle "Partial Data" mode above to see Option C in action. Let us know which approach you prefer for beta.</p>
+        </div>
+
         <p style="color: #64748b; margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #334155; font-size: 0.85rem;">
             Living Health Record Spec v1.0 - Piston Labs / Glovebox Beta<br>
             Created: February 2026
@@ -1233,6 +1405,52 @@
             event.stopPropagation(); // Prevent category toggle
             const detail = document.getElementById('detail-' + item);
             detail.classList.toggle('open');
+        }
+
+        // Data mode toggle for demonstrating partial vs full data
+        let currentMode = 'full';
+
+        // Categories that have data in partial mode (simulating brakes + tires only)
+        const partialDataCategories = ['brakes', 'tires'];
+
+        function setDataMode(mode) {
+            currentMode = mode;
+
+            // Update button states
+            document.getElementById('btn-full').classList.toggle('active', mode === 'full');
+            document.getElementById('btn-partial').classList.toggle('active', mode === 'partial');
+
+            // Get all category rows
+            const categories = ['brakes', 'fluids', 'filters', 'battery', 'tires', 'underhood', 'undercarriage', 'visibility'];
+
+            categories.forEach(cat => {
+                const row = document.querySelector(`[onclick="toggleCategory('${cat}')"]`);
+                const items = document.getElementById('items-' + cat);
+                const chevron = document.getElementById('chevron-' + cat);
+                const statusSpan = row.querySelector('.category-status');
+
+                if (mode === 'partial' && !partialDataCategories.includes(cat)) {
+                    // No data state
+                    row.classList.add('no-data');
+                    statusSpan.classList.add('no-data');
+                    statusSpan.dataset.originalText = statusSpan.textContent;
+                    statusSpan.textContent = 'Not inspected';
+                    items.classList.remove('open');
+                    chevron.classList.remove('open');
+                } else {
+                    // Has data
+                    row.classList.remove('no-data');
+                    statusSpan.classList.remove('no-data');
+                    if (statusSpan.dataset.originalText) {
+                        statusSpan.textContent = statusSpan.dataset.originalText;
+                    }
+                    // Auto-expand categories with data in partial mode
+                    if (mode === 'partial' && partialDataCategories.includes(cat)) {
+                        items.classList.add('open');
+                        chevron.classList.add('open');
+                    }
+                }
+            });
         }
     </script>
 </body>

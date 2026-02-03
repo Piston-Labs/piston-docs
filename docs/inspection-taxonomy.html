@@ -99,7 +99,7 @@
   "fluids": { "oil|brake|coolant|transmission|powerSteering": { "status": string } },
   "filters": { "engineAir|cabinAir": { "status": string } },
   "battery": { "voltage": number, "ccaPercent": number, "ageMonths": number },
-  "underHood": { "belts|hoses|leaks": { "status": string }, "other": { "status": string, "notes": [] } },
+  "underHood": { "belts|hoses|leaks|radiator": { "status": string }, "other": { "status": string, "notes": [] } },
   "undercarriage": { "suspension|steering|driveshaft|axles|exhaust|brakeHoses": { "status": string }, "other": { "status": string, "notes": [] } },
   "visibility": { "wiperBlades|lights": { "status": string } }
 }
@@ -1055,6 +1055,12 @@ Type: "status" | "quantitative" | "status_with_notes"
                 <h4>Leaks <span class="type">STATUS</span> <span class="id">INS-LEAK</span></h4>
                 <div class="field">Schema: <code>underHood.leaks.status</code></div>
 
+                <div style="background: #0f172a; padding: 0.75rem; border-radius: 6px; margin: 0.75rem 0; font-size: 0.85rem;">
+                    <strong style="color: #f59e0b;">Severity Spectrum:</strong>
+                    <span style="color: #94a3b8;">Seep → Weep → Leak → Active Leak</span>
+                    <p style="color: #64748b; margin-top: 0.5rem; font-size: 0.8rem;">Seepage = moisture/staining, no active drip. Weeping = slow fluid migration. Leak = active dripping. Major leak = rapid fluid loss.</p>
+                </div>
+
                 <div class="aliases">
                     <div class="aliases-label">Aliases</div>
                     <div class="alias-list">
@@ -1063,8 +1069,12 @@ Type: "status" | "quantitative" | "status_with_notes"
                         <span class="alias">oil leak</span>
                         <span class="alias">coolant leak</span>
                         <span class="alias">trans leak</span>
-                        <span class="alias">seepage</span>
-                        <span class="alias">drips</span>
+                        <span class="alias">valve cover leak</span>
+                        <span class="alias">rear main seal</span>
+                        <span class="alias">front main seal</span>
+                        <span class="alias">oil pan leak</span>
+                        <span class="alias">gasket leak</span>
+                        <span class="alias">seal leak</span>
                     </div>
                 </div>
 
@@ -1073,33 +1083,134 @@ Type: "status" | "quantitative" | "status_with_notes"
                         <span class="status-label green">OK</span>
                         <div class="status-phrases">
                             <span class="phrase">no leaks</span>
-                            <span class="phrase">good</span>
-                            <span class="phrase">ok</span>
-                            <span class="phrase">pass</span>
                             <span class="phrase">dry</span>
+                            <span class="phrase">bone dry</span>
+                            <span class="phrase">no moisture</span>
+                            <span class="phrase">clean</span>
+                            <span class="phrase">no evidence of leaks</span>
                             <span class="phrase">none noted</span>
                         </div>
                     </div>
                     <div class="status-row">
                         <span class="status-label yellow">Monitor</span>
                         <div class="status-phrases">
+                            <span class="phrase">seep</span>
                             <span class="phrase">seepage</span>
-                            <span class="phrase">minor leak</span>
-                            <span class="phrase">slight seep</span>
+                            <span class="phrase">seeping</span>
+                            <span class="phrase">weep</span>
                             <span class="phrase">weeping</span>
                             <span class="phrase">damp</span>
-                            <span class="phrase">small leak</span>
+                            <span class="phrase">moisture</span>
+                            <span class="phrase">staining</span>
+                            <span class="phrase">oil stain</span>
+                            <span class="phrase">residue</span>
+                            <span class="phrase">oily film</span>
+                            <span class="phrase">sweating</span>
+                            <span class="phrase">not dripping</span>
+                            <span class="phrase">no active drip</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label red">Service Required</span>
+                        <div class="status-phrases">
+                            <span class="phrase">leak</span>
+                            <span class="phrase">leaking</span>
+                            <span class="phrase">active leak</span>
+                            <span class="phrase">drip</span>
+                            <span class="phrase">dripping</span>
+                            <span class="phrase">drops</span>
+                            <span class="phrase">running</span>
+                            <span class="phrase">major leak</span>
+                            <span class="phrase">heavy leak</span>
+                            <span class="phrase">puddle</span>
+                            <span class="phrase">pooling</span>
+                            <span class="phrase">wet</span>
+                            <span class="phrase">soaked</span>
+                            <span class="phrase">rapid fluid loss</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item-card status-based">
+                <h4>Radiator/Cooling System <span class="type">STATUS</span> <span class="id">INS-RADIATOR</span></h4>
+                <div class="field">Schema: <code>underHood.radiator</code> → <code>{ status }</code></div>
+
+                <div class="aliases">
+                    <div class="aliases-label">Aliases</div>
+                    <div class="alias-list">
+                        <span class="alias">radiator</span>
+                        <span class="alias">cooling system</span>
+                        <span class="alias">water pump</span>
+                        <span class="alias">water pump bearing</span>
+                        <span class="alias">water pump seal</span>
+                        <span class="alias">water pump weep hole</span>
+                        <span class="alias">thermostat</span>
+                        <span class="alias">t-stat</span>
+                        <span class="alias">thermostat housing</span>
+                        <span class="alias">cooling fan</span>
+                        <span class="alias">radiator fan</span>
+                        <span class="alias">electric fan</span>
+                        <span class="alias">fan clutch</span>
+                        <span class="alias">fan shroud</span>
+                        <span class="alias">fan motor</span>
+                        <span class="alias">condenser fan</span>
+                        <span class="alias">auxiliary fan</span>
+                        <span class="alias">fan relay</span>
+                        <span class="alias">coolant temp sensor</span>
+                        <span class="alias">heater core</span>
+                        <span class="alias">heater valve</span>
+                        <span class="alias">coolant crossover</span>
+                        <span class="alias">coolant pipe</span>
+                        <span class="alias">thermostat gasket</span>
+                    </div>
+                </div>
+
+                <div class="status-mappings">
+                    <div class="status-row">
+                        <span class="status-label green">OK</span>
+                        <div class="status-phrases">
+                            <span class="phrase">good</span>
+                            <span class="phrase">ok</span>
+                            <span class="phrase">pass</span>
+                            <span class="phrase">no leaks</span>
+                            <span class="phrase">fins clear</span>
+                            <span class="phrase">cap holds pressure</span>
+                            <span class="phrase">pump quiet</span>
+                            <span class="phrase">no play</span>
+                            <span class="phrase">no weep</span>
+                            <span class="phrase">opens at temp</span>
+                            <span class="phrase">functioning</span>
+                        </div>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label yellow">Monitor</span>
+                        <div class="status-phrases">
+                            <span class="phrase">minor damage</span>
+                            <span class="phrase">bent fins</span>
+                            <span class="phrase">debris</span>
+                            <span class="phrase">weep hole damp</span>
+                            <span class="phrase">slight play</span>
+                            <span class="phrase">slow to warm</span>
+                            <span class="phrase">fan slow</span>
+                            <span class="phrase">minor corrosion</span>
                         </div>
                     </div>
                     <div class="status-row">
                         <span class="status-label red">Service Required</span>
                         <div class="status-phrases">
                             <span class="phrase">leaking</span>
-                            <span class="phrase">major leak</span>
-                            <span class="phrase">dripping</span>
-                            <span class="phrase">active leak</span>
-                            <span class="phrase">puddle</span>
-                            <span class="phrase">heavy leak</span>
+                            <span class="phrase">cracked</span>
+                            <span class="phrase">pump leaking</span>
+                            <span class="phrase">pump noisy</span>
+                            <span class="phrase">bearing failed</span>
+                            <span class="phrase">seized</span>
+                            <span class="phrase">stuck open</span>
+                            <span class="phrase">stuck closed</span>
+                            <span class="phrase">fan motor bad</span>
+                            <span class="phrase">relay failed</span>
+                            <span class="phrase">runs hot</span>
+                            <span class="phrase">coolant loss</span>
                         </div>
                     </div>
                 </div>

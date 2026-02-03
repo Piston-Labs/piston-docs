@@ -60,13 +60,32 @@
         "metal to metal",
         "metal on metal",
         "grinding",
+        "scraping",
+        "metal sound",
         "unsafe",
         "failed",
         "immediate attention",
         "requires service",
         "condemned",
-        "dangerous"
+        "dangerous",
+        "spongy pedal",
+        "soft pedal",
+        "pedal to floor",
+        "brake fade",
+        "fading",
+        "no brakes",
+        "pulsating",
+        "pulsation",
+        "warped rotor",
+        "rotor warped",
+        "deeply grooved",
+        "rotor below spec"
       ]
+    },
+    "rotorPhrases": {
+      "ok": ["rotors good", "rotors ok", "smooth rotors", "rotors within spec"],
+      "monitor": ["scored", "grooved", "light scoring", "minor grooves", "surface scoring", "light rust"],
+      "service_required": ["deeply grooved", "warped", "below spec", "below minimum", "needs rotors", "replace rotors", "rotor pulsation"]
     },
     "thresholds": {
       "ok": { "min": 5 },
@@ -136,9 +155,21 @@
         "metal to metal",
         "metal on metal",
         "grinding",
+        "scraping",
+        "metal sound",
         "unsafe",
-        "failed"
+        "failed",
+        "pulsating",
+        "pulsation",
+        "warped rotor",
+        "deeply grooved",
+        "rotor below spec"
       ]
+    },
+    "rotorPhrases": {
+      "ok": ["rotors good", "rotors ok", "smooth rotors", "rotors within spec"],
+      "monitor": ["scored", "grooved", "light scoring", "minor grooves", "surface scoring"],
+      "service_required": ["deeply grooved", "warped", "below spec", "needs rotors", "replace rotors"]
     },
     "thresholds": {
       "ok": { "min": 5 },
@@ -175,7 +206,8 @@
         "like new",
         "adequate",
         "sufficient",
-        "deep tread"
+        "deep tread",
+        "no damage"
       ],
       "monitor": [
         "half worn",
@@ -184,7 +216,13 @@
         "fair",
         "worn",
         "wearing",
-        "moderate wear"
+        "moderate wear",
+        "slight cupping",
+        "minor feathering",
+        "scuff",
+        "curb rash",
+        "minor abrasion",
+        "light cracking"
       ],
       "service_required": [
         "bald",
@@ -195,7 +233,23 @@
         "below minimum",
         "unsafe",
         "no tread",
-        "smooth"
+        "smooth",
+        "bulge",
+        "bubble",
+        "sidewall bulge",
+        "sidewall bubble",
+        "sidewall damage",
+        "cord showing",
+        "cords exposed",
+        "exposed cords",
+        "wire showing",
+        "severe cupping",
+        "chopped",
+        "one-sided wear",
+        "inner edge worn",
+        "outer edge worn",
+        "separated",
+        "tread separation"
       ]
     },
     "thresholds": {
@@ -230,9 +284,9 @@
       "front right tread"
     ],
     "statusPhrases": {
-      "ok": ["good", "ok", "pass", "plenty of tread", "like new", "adequate"],
-      "monitor": ["half worn", "50%", "getting low", "fair", "worn", "wearing"],
-      "service_required": ["bald", "needs tires", "replace", "worn out", "at wear bars", "unsafe"]
+      "ok": ["good", "ok", "pass", "plenty of tread", "like new", "adequate", "no damage"],
+      "monitor": ["half worn", "50%", "getting low", "fair", "worn", "wearing", "slight cupping", "minor feathering", "scuff", "curb rash", "light cracking"],
+      "service_required": ["bald", "needs tires", "replace", "worn out", "at wear bars", "unsafe", "bulge", "bubble", "sidewall damage", "cord showing", "cords exposed", "severe cupping", "chopped", "tread separation"]
     },
     "thresholds": {
       "ok": { "min": 6 },
@@ -261,9 +315,9 @@
       "rear left tread"
     ],
     "statusPhrases": {
-      "ok": ["good", "ok", "pass", "plenty of tread", "like new", "adequate"],
-      "monitor": ["half worn", "50%", "getting low", "fair", "worn", "wearing"],
-      "service_required": ["bald", "needs tires", "replace", "worn out", "at wear bars", "unsafe"]
+      "ok": ["good", "ok", "pass", "plenty of tread", "like new", "adequate", "no damage"],
+      "monitor": ["half worn", "50%", "getting low", "fair", "worn", "wearing", "slight cupping", "minor feathering", "scuff", "curb rash", "light cracking"],
+      "service_required": ["bald", "needs tires", "replace", "worn out", "at wear bars", "unsafe", "bulge", "bubble", "sidewall damage", "cord showing", "cords exposed", "severe cupping", "chopped", "tread separation"]
     },
     "thresholds": {
       "ok": { "min": 6 },
@@ -291,9 +345,9 @@
       "rear right tread"
     ],
     "statusPhrases": {
-      "ok": ["good", "ok", "pass", "plenty of tread", "like new", "adequate"],
-      "monitor": ["half worn", "50%", "getting low", "fair", "worn", "wearing"],
-      "service_required": ["bald", "needs tires", "replace", "worn out", "at wear bars", "unsafe"]
+      "ok": ["good", "ok", "pass", "plenty of tread", "like new", "adequate", "no damage"],
+      "monitor": ["half worn", "50%", "getting low", "fair", "worn", "wearing", "slight cupping", "minor feathering", "scuff", "curb rash", "light cracking"],
+      "service_required": ["bald", "needs tires", "replace", "worn out", "at wear bars", "unsafe", "bulge", "bubble", "sidewall damage", "cord showing", "cords exposed", "severe cupping", "chopped", "tread separation"]
     },
     "thresholds": {
       "ok": { "min": 6 },
@@ -319,9 +373,9 @@
       "front left PSI"
     ],
     "statusPhrases": {
-      "ok": ["ok", "good", "correct", "set to spec", "adjusted", "proper", "at spec"],
-      "monitor": ["slightly low", "slightly high", "adjusted", "topped off", "inflated"],
-      "service_required": ["very low", "flat", "losing air", "leak", "overinflated", "dangerously low"]
+      "ok": ["ok", "good", "correct", "set to spec", "adjusted", "proper", "at spec", "TPMS ok"],
+      "monitor": ["slightly low", "slightly high", "adjusted", "topped off", "inflated", "TPMS reset", "needed air"],
+      "service_required": ["very low", "flat", "losing air", "leak", "overinflated", "dangerously low", "TPMS light on", "TPMS fault", "sensor fault", "slow leak", "puncture", "nail in tire", "screw in tire"]
     }
   },
   {
@@ -342,9 +396,9 @@
       "front right PSI"
     ],
     "statusPhrases": {
-      "ok": ["ok", "good", "correct", "set to spec", "adjusted", "proper"],
-      "monitor": ["slightly low", "slightly high", "adjusted", "topped off"],
-      "service_required": ["very low", "flat", "losing air", "leak", "overinflated"]
+      "ok": ["ok", "good", "correct", "set to spec", "adjusted", "proper", "TPMS ok"],
+      "monitor": ["slightly low", "slightly high", "adjusted", "topped off", "needed air"],
+      "service_required": ["very low", "flat", "losing air", "leak", "overinflated", "TPMS light on", "slow leak", "puncture", "nail in tire"]
     }
   },
   {
@@ -365,9 +419,9 @@
       "rear left PSI"
     ],
     "statusPhrases": {
-      "ok": ["ok", "good", "correct", "set to spec", "adjusted", "proper"],
-      "monitor": ["slightly low", "slightly high", "adjusted", "topped off"],
-      "service_required": ["very low", "flat", "losing air", "leak", "overinflated"]
+      "ok": ["ok", "good", "correct", "set to spec", "adjusted", "proper", "TPMS ok"],
+      "monitor": ["slightly low", "slightly high", "adjusted", "topped off", "needed air"],
+      "service_required": ["very low", "flat", "losing air", "leak", "overinflated", "TPMS light on", "slow leak", "puncture", "nail in tire"]
     }
   },
   {
@@ -387,9 +441,9 @@
       "rear right PSI"
     ],
     "statusPhrases": {
-      "ok": ["ok", "good", "correct", "set to spec", "adjusted", "proper"],
-      "monitor": ["slightly low", "slightly high", "adjusted", "topped off"],
-      "service_required": ["very low", "flat", "losing air", "leak", "overinflated"]
+      "ok": ["ok", "good", "correct", "set to spec", "adjusted", "proper", "TPMS ok"],
+      "monitor": ["slightly low", "slightly high", "adjusted", "topped off", "needed air"],
+      "service_required": ["very low", "flat", "losing air", "leak", "overinflated", "TPMS light on", "slow leak", "puncture", "nail in tire"]
     }
   },
   {
@@ -929,7 +983,9 @@
         "fully charged",
         "strong",
         "healthy",
-        "adequate"
+        "adequate",
+        "terminals clean",
+        "no corrosion"
       ],
       "monitor": [
         "low charge",
@@ -937,7 +993,13 @@
         "fair",
         "marginal",
         "weak charge",
-        "slightly low"
+        "slightly low",
+        "slight corrosion",
+        "minor corrosion",
+        "film on terminals",
+        "buildup",
+        "dirty terminals",
+        "slow crank"
       ],
       "service_required": [
         "weak",
@@ -947,7 +1009,22 @@
         "won't hold charge",
         "failed",
         "discharged",
-        "no charge"
+        "no charge",
+        "heavy corrosion",
+        "corroded terminals",
+        "corroded",
+        "no contact",
+        "loose terminal",
+        "swollen",
+        "bulging",
+        "bulging case",
+        "cracked case",
+        "leaking acid",
+        "acid leak",
+        "no crank",
+        "clicking",
+        "won't start",
+        "no start"
       ]
     },
     "thresholds": {
@@ -1074,6 +1151,7 @@
       "multi-rib belt",
       "poly-V belt"
     ],
+    "severityNotes": "Chirping = minor (cold start, moisture) vs Squealing = major (slipping, tension issue). Surface cracks = monitor, deep cracks/chunks = replace.",
     "statusPhrases": {
       "ok": [
         "good",
@@ -1084,7 +1162,9 @@
         "proper tension",
         "adequate",
         "new",
-        "no wear"
+        "no wear",
+        "quiet",
+        "no noise"
       ],
       "monitor": [
         "cracked",
@@ -1096,19 +1176,36 @@
         "surface cracks",
         "slight wear",
         "age cracks",
-        "checking"
+        "checking",
+        "chirp",
+        "chirping",
+        "cold start squeak",
+        "slight noise",
+        "surface wear",
+        "rib wear",
+        "minor glazing"
       ],
       "service_required": [
         "needs replacement",
         "replace",
+        "squeal",
         "squealing",
+        "squeaks",
+        "constant noise",
+        "belt noise",
+        "loud squeal",
         "loose",
         "chunks missing",
+        "missing ribs",
+        "rib separation",
         "separating",
+        "delaminating",
         "shredding",
         "broken",
         "slipping",
-        "failed"
+        "failed",
+        "about to break",
+        "fraying badly"
       ]
     }
   },
@@ -1228,8 +1325,15 @@
       "drips",
       "engine leaks",
       "undercarriage leaks",
-      "visible leaks"
+      "visible leaks",
+      "valve cover leak",
+      "rear main seal",
+      "front main seal",
+      "oil pan leak",
+      "gasket leak",
+      "seal leak"
     ],
+    "severityNotes": "Seep < Weep < Leak < Active Leak. Seepage is moisture/staining without active fluid movement. Weeping shows slow fluid migration. Leak indicates active dripping. Major/active leak means rapid fluid loss.",
     "statusPhrases": {
       "ok": [
         "no leaks",
@@ -1239,27 +1343,164 @@
         "dry",
         "none noted",
         "none found",
-        "no visible leaks"
+        "no visible leaks",
+        "no evidence of leaks",
+        "clean",
+        "no moisture",
+        "bone dry"
       ],
       "monitor": [
+        "seep",
         "seepage",
-        "minor leak",
+        "seeping",
         "slight seep",
+        "minor seep",
+        "oil seep",
+        "weep",
         "weeping",
+        "weep hole damp",
         "damp",
-        "small leak",
+        "moisture",
+        "slight moisture",
+        "staining",
+        "oil stain",
+        "residue",
+        "film",
+        "oily film",
+        "sweating",
+        "misting",
         "trace",
-        "slight moisture"
+        "very minor",
+        "cosmetic only",
+        "not dripping",
+        "no active drip"
+      ],
+      "service_required": [
+        "leak",
+        "leaking",
+        "leaks",
+        "active leak",
+        "actively leaking",
+        "drip",
+        "dripping",
+        "drips",
+        "drops",
+        "running",
+        "flowing",
+        "major leak",
+        "heavy leak",
+        "significant leak",
+        "severe leak",
+        "puddle",
+        "pooling",
+        "wet",
+        "soaked",
+        "saturated",
+        "spraying",
+        "gushing",
+        "rapid fluid loss",
+        "losing fluid",
+        "requires immediate attention"
+      ]
+    }
+  },
+  {
+    "id": "INS-RADIATOR",
+    "category": "underHood",
+    "schemaPath": "underHood.radiator.status",
+    "name": "Radiator/Cooling System",
+    "type": "status",
+    "aliases": [
+      "radiator",
+      "cooling system",
+      "radiator condition",
+      "radiator fins",
+      "radiator cap",
+      "coolant system",
+      "radiator tank",
+      "overflow tank",
+      "expansion tank",
+      "water pump",
+      "water pump bearing",
+      "water pump seal",
+      "water pump weep hole",
+      "thermostat",
+      "t-stat",
+      "thermostat housing",
+      "cooling fan",
+      "radiator fan",
+      "electric fan",
+      "fan clutch",
+      "fan shroud",
+      "fan motor",
+      "condenser fan",
+      "auxiliary fan",
+      "fan relay",
+      "coolant temp sensor",
+      "temp sensor",
+      "heater core",
+      "heater valve",
+      "coolant crossover",
+      "coolant pipe",
+      "coolant outlet",
+      "water outlet",
+      "thermostat gasket"
+    ],
+    "statusPhrases": {
+      "ok": [
+        "good",
+        "ok",
+        "pass",
+        "no leaks",
+        "fins clear",
+        "cap holds pressure",
+        "adequate",
+        "no damage",
+        "fan operational",
+        "pump quiet",
+        "no play",
+        "no weep",
+        "opens at temp",
+        "cycles correctly",
+        "functioning"
+      ],
+      "monitor": [
+        "minor damage",
+        "bent fins",
+        "debris",
+        "fair",
+        "aging",
+        "slight seep",
+        "discolored",
+        "cap weak",
+        "weep hole damp",
+        "slight play",
+        "slow to warm",
+        "fan slow",
+        "minor corrosion"
       ],
       "service_required": [
         "leaking",
-        "major leak",
-        "dripping",
-        "active leak",
-        "puddle",
-        "heavy leak",
-        "significant",
-        "severe"
+        "cracked",
+        "damaged",
+        "clogged",
+        "replace",
+        "fan inop",
+        "fan not working",
+        "overheating",
+        "cap failed",
+        "tank cracked",
+        "pump leaking",
+        "pump noisy",
+        "bearing failed",
+        "seized",
+        "stuck open",
+        "stuck closed",
+        "not opening",
+        "fan motor bad",
+        "relay failed",
+        "runs hot",
+        "coolant loss"
       ]
     }
   },
@@ -1352,7 +1593,9 @@
         "no leaks",
         "adequate",
         "no noise",
-        "no issues"
+        "no issues",
+        "rides smooth",
+        "controlled"
       ],
       "monitor": [
         "worn",
@@ -1362,19 +1605,37 @@
         "aging",
         "slight noise",
         "slight play",
-        "beginning to wear"
+        "beginning to wear",
+        "creak",
+        "slight squeak",
+        "slight bounce",
+        "soft ride",
+        "slight lean",
+        "minor seep"
       ],
       "service_required": [
         "worn out",
         "replace",
         "leaking",
         "loose",
+        "clunk",
         "clunking",
+        "bang",
+        "knock",
+        "knock over bumps",
         "failed",
         "excessive play",
         "broken",
         "torn",
-        "collapsed"
+        "collapsed",
+        "bottoming out",
+        "bottoms out",
+        "bouncy",
+        "no damping",
+        "excessive body roll",
+        "nose dive",
+        "sways",
+        "unsafe"
       ]
     }
   },
@@ -1406,7 +1667,9 @@
         "no play",
         "responsive",
         "adequate",
-        "no issues"
+        "no issues",
+        "tracks straight",
+        "no pull"
       ],
       "monitor": [
         "some play",
@@ -1414,7 +1677,11 @@
         "fair",
         "minor wear",
         "slight looseness",
-        "slight play"
+        "slight play",
+        "slight pull",
+        "minor drift",
+        "slightly stiff",
+        "minor vibration"
       ],
       "service_required": [
         "loose",
@@ -1424,7 +1691,19 @@
         "sloppy",
         "wandering",
         "dangerous",
-        "failed"
+        "failed",
+        "pulls hard",
+        "pulls left",
+        "pulls right",
+        "hard to keep straight",
+        "hard to turn",
+        "binds",
+        "sticks",
+        "shakes",
+        "vibration at speed",
+        "shimmy",
+        "death wobble",
+        "steering wheel vibration"
       ]
     }
   },
@@ -1546,6 +1825,7 @@
       "exhaust hangers",
       "exhaust clamps"
     ],
+    "severityNotes": "Tick/slight tick = minor exhaust leak (monitor). Loud/roar/drone = significant leak or damage (service). Any smell in cabin = immediate safety concern.",
     "statusPhrases": {
       "ok": [
         "good",
@@ -1556,7 +1836,8 @@
         "secure",
         "adequate",
         "no rust",
-        "solid"
+        "solid",
+        "no smell"
       ],
       "monitor": [
         "minor rust",
@@ -1565,21 +1846,39 @@
         "aging",
         "slight discoloration",
         "small hole",
-        "minor leak"
+        "minor leak",
+        "tick",
+        "slight tick",
+        "ticking",
+        "exhaust tick",
+        "manifold tick"
       ],
       "service_required": [
         "leaking",
         "loud",
+        "roar",
+        "drone",
+        "droning",
         "hole",
         "rusted through",
         "hanging",
         "loose",
+        "dragging",
         "replace",
         "rotted",
         "broken hanger",
+        "missing hanger",
         "exhaust smell",
+        "exhaust smell in cabin",
+        "fumes",
+        "fumes in cabin",
+        "smell inside",
         "carbon monoxide",
-        "failed"
+        "CO risk",
+        "health hazard",
+        "failed",
+        "blowing",
+        "cracked manifold"
       ]
     }
   },
@@ -1722,7 +2021,9 @@
         "operational",
         "functional",
         "all operational",
-        "no issues"
+        "no issues",
+        "bright",
+        "clear lenses"
       ],
       "monitor": [
         "dim",
@@ -1732,7 +2033,15 @@
         "oxidized",
         "hazy lenses",
         "faded",
-        "weak"
+        "weak",
+        "intermittent",
+        "flickering",
+        "flickers",
+        "sometimes works",
+        "works sometimes",
+        "loose connection",
+        "needs adjustment",
+        "misaimed"
       ],
       "service_required": [
         "out",
@@ -1743,7 +2052,14 @@
         "bulb out",
         "broken",
         "cracked lens",
-        "inoperative"
+        "inoperative",
+        "dead",
+        "doesn't work",
+        "won't turn on",
+        "melted",
+        "water inside",
+        "moisture inside",
+        "shattered"
       ]
     }
   }
