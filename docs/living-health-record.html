@@ -266,31 +266,31 @@
                 <tr class="section-header"><td colspan="5">Fluids</td></tr>
                 <tr>
                     <td>Engine Oil</td>
-                    <td>level + condition</td>
-                    <td class="green">full / clean</td>
-                    <td class="yellow">low or dirty</td>
-                    <td class="red">low &amp; dirty</td>
+                    <td>status</td>
+                    <td class="green">OK</td>
+                    <td class="yellow">Needs Attention</td>
+                    <td class="red">Service Required</td>
                 </tr>
                 <tr>
                     <td>Brake Fluid</td>
-                    <td>level + condition</td>
-                    <td class="green">full / clear</td>
-                    <td class="yellow">low or dark</td>
-                    <td class="red">low &amp; dark</td>
+                    <td>status</td>
+                    <td class="green">OK</td>
+                    <td class="yellow">Needs Attention</td>
+                    <td class="red">Service Required</td>
                 </tr>
                 <tr>
                     <td>Coolant</td>
-                    <td>level + condition</td>
-                    <td class="green">full / good</td>
-                    <td class="yellow">low</td>
-                    <td class="red">contaminated</td>
+                    <td>status</td>
+                    <td class="green">OK</td>
+                    <td class="yellow">Needs Attention</td>
+                    <td class="red">Service Required</td>
                 </tr>
                 <tr>
                     <td>Transmission Fluid</td>
-                    <td>level + condition</td>
-                    <td class="green">full / clean</td>
-                    <td class="yellow">low or dirty</td>
-                    <td class="red">low &amp; burnt</td>
+                    <td>status</td>
+                    <td class="green">OK</td>
+                    <td class="yellow">Needs Attention</td>
+                    <td class="red">Service Required</td>
                 </tr>
 
                 <tr class="section-header"><td colspan="5">Filters</td></tr>
@@ -430,19 +430,19 @@
                     <h5>Fluids</h5>
                     <div class="inspection-item">
                         <span class="label">Engine Oil</span>
-                        <span class="value green">Full / Clean</span>
+                        <span class="value green">OK</span>
                     </div>
                     <div class="inspection-item">
                         <span class="label">Brake Fluid</span>
-                        <span class="value green">Full / Clear</span>
+                        <span class="value green">OK</span>
                     </div>
                     <div class="inspection-item">
                         <span class="label">Coolant</span>
-                        <span class="value green">Full</span>
+                        <span class="value yellow">Needs Attention</span>
                     </div>
                     <div class="inspection-item">
                         <span class="label">Transmission</span>
-                        <span class="value green">Full / Clean</span>
+                        <span class="value green">OK</span>
                     </div>
                 </div>
 
@@ -576,10 +576,10 @@
   },
 
   "fluids": {
-    "oil": { "level": "full", "condition": "clean" },
-    "brake": { "level": "full", "condition": "clear" },
-    "coolant": { "level": "full", "condition": "good" },
-    "transmission": { "level": "full", "condition": "clean" }
+    "oil": { "status": "ok" },
+    "brake": { "status": "ok" },
+    "coolant": { "status": "needs_attention" },
+    "transmission": { "status": "ok" }
   },
 
   "filters": {
@@ -602,6 +602,7 @@
   "overallHealth": "fair",
   "attentionItems": [
     { "item": "Cabin Air Filter", "status": "replace" },
+    { "item": "Coolant", "status": "monitor" },
     { "item": "Engine Air Filter", "status": "monitor" },
     { "item": "Rear Brake Pads", "status": "monitor" }
   ]
